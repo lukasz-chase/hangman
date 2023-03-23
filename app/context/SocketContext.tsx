@@ -50,7 +50,8 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const socket = io("http://localhost:8080");
+    // const socket = io("http://localhost:8080");
+    const socket = io("https://hangman-server-stl0.onrender.com/");
     setSocket(socket);
     socket.on("room:get", (payload: any) => {
       setRoom(payload);
