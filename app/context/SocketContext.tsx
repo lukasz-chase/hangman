@@ -9,9 +9,15 @@ const SocketContext = createContext({
   room: {
     roomId: "",
     playersLimit: 0,
-    wordToGuess: "",
+    wordToGuess: {
+      word: "",
+      translation: "",
+      original: "",
+    },
     vacant: false,
     private: false,
+    language: "english",
+    author: "asd",
     roundTime: 0,
     players: [{ id: "asd", name: "alfred", guessedLetters: ["a"], score: 0 }],
     inGame: false,
@@ -25,9 +31,15 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
   const [room, setRoom] = useState<Room>({
     roomId: "",
     playersLimit: 0,
-    wordToGuess: "",
+    wordToGuess: {
+      word: "",
+      translation: "",
+      original: "",
+    },
     vacant: false,
     private: false,
+    language: "english",
+    author: "asd",
     roundTime: 0,
     players: [{ id: "asd", name: "alfred", guessedLetters: ["a"], score: 0 }],
     inGame: false,

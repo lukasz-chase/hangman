@@ -8,7 +8,7 @@ type Props = {
 
 const Lobby = ({ params: { id: lobbyId } }: Props) => {
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
+    <div className="h-screen flexCenter flex-col">
       <h1 className="p-5">Welcome to {lobbyId} lobby</h1>
       <LobbyDisplay roomId={lobbyId} />
     </div>

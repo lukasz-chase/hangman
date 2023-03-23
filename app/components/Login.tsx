@@ -26,7 +26,7 @@ function Login() {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center gap-5 justify-center text-center">
+    <div className="h-screen flexCenter flex-col gap-5 text-center">
       <button onClick={() => signIn()} className="signButton">
         Sign in with google
       </button>

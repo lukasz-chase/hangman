@@ -10,9 +10,15 @@ type JoinRoomProps = {
   roomId: string;
   playersLimit: number;
   players: Player[];
+  language: string;
 };
 
-const JoinRoom = ({ roomId, playersLimit, players }: JoinRoomProps) => {
+const JoinRoom = ({
+  roomId,
+  playersLimit,
+  players,
+  language,
+}: JoinRoomProps) => {
   const { data: session } = useSession();
   const { isLogged, user }: { isLogged: boolean; user: GuestUser } =
     useContext(UserContext);
@@ -38,7 +44,10 @@ const JoinRoom = ({ roomId, playersLimit, players }: JoinRoomProps) => {
       }
     >
       <div className="flex justify-between">
-        <span className="text-lg text-lime-500">{roomName}</span>
+        <div className="flex flex-col">
+          <span className="text-lg text-lime-500">{roomName}</span>
+          <span className="text-sm text-black">word is in {language}</span>
+        </div>
         <span
           className={`${
             players.length === playersLimit ? "text-red-400" : "text-black"

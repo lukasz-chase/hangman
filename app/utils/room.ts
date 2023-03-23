@@ -1,6 +1,5 @@
 import { toast } from "react-hot-toast";
 import { Player, Room, roomPayload } from "../types/socket";
-import { fetchWords } from "../api";
 
 type JoinRoomProps = {
   players: Player[];
@@ -31,8 +30,11 @@ export const joinRoom = ({
     "room:join",
     { roomId, name, id: playerId },
     (err: any, room: any) => {
-      if (err) return toast.error(err);
-      router.replace(`/lobby/${roomId}`);
+      console.log(err);
+      if (err) {
+        router.replace(`/`);
+        return toast.error(err.error);
+      }
     }
   );
 };
@@ -42,14 +44,6 @@ export const createRoom = async (
   socket: any,
   router: any
 ) => {
-  const validWords = await fetchWords();
-  const wordsToGuess = room.wordToGuess.trim().split(" ");
-  const correctWords = wordsToGuess.every((word) =>
-    validWords.includes(word.toLowerCase())
-  );
-
-  if (!correctWords)
-    return toast.error("this word doesnt exist in english dictionary");
   socket.emit("room:create", room, (err: any, roomId: string) => {
     socket.emit("room:getById", roomId);
     router.replace(`/lobby/${roomId}`);
@@ -77,6 +71,12 @@ export const leaveHandler: any = ({
   const room: Room = rooms.find((room: any) => room.roomId === roomId)!;
   room.players = room!.players.filter((player) => player.id !== playerId);
   socket.emit("room:update", room);
-  socket.emit("room:playerLeft", { room, name: playerName });
+  socket.emit("room:playerLeft", {
+    roomId,
+    name: playerName,
+  });
+  if (room.players.length === 0 || room.creator === playerId)
+    socket.emit("room:leave", roomId);
+
   router.replace("/");
 };

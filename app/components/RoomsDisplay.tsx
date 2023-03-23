@@ -25,6 +25,7 @@ const RoomsDisplay = () => {
       socket.off("getRooms", setRoomsHandler);
     };
   }, [socket]);
+  console.log(rooms);
   return (
     <div>
       {rooms.length > 0 && <h1>Join a public lobby</h1>}
@@ -35,6 +36,7 @@ const RoomsDisplay = () => {
             roomId={room.roomId}
             players={room.players}
             playersLimit={room.playersLimit}
+            language={room.language}
           />
         ))}
       </div>

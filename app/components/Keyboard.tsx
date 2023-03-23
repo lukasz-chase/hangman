@@ -56,7 +56,7 @@ export function Keyboard({
 }: KeyboardProps) {
   const setGuessedLetters = (letter: string) => {
     player.guessedLetters = [...player.guessedLetters, letter];
-    player.score = room.wordToGuess.includes(letter)
+    player.score = room.wordToGuess.word.includes(letter)
       ? player.score + 10
       : player.score;
     socket.emit("room:update", room);
@@ -86,23 +86,26 @@ export function Keyboard({
     };
   }, [guessedLetters]);
   return (
-    <div className="grid grid-cols-fluid gap-1 max-w-3xl">
+    <div className="grid grid-cols-fluid gap-1 w-screen lg:max-w-3xl">
       {KEYS.map((key) => {
         const isActive = activeLetters.includes(key);
         const isInactive = inactiveLetters.includes(key);
         return (
           <button
-            className={`w-full border-2 bg-none ratio-square text-lg uppercase p-2 text-bold cursor-pointer bg-white text-black  hover:bg-slate-400 
+            className={`w-full border-2 bg-none ratio-square text-sm md:text-lg uppercase p-2 text-bold cursor-pointer  text-black  hover:bg-slate-400 
             ${
-              isActive &&
-              "bg-lime-500 hover:bg-lime-500 text-white hover:cursor-not-allowed"
+              isActive
+                ? "bg-lime-500 hover:bg-lime-500 text-white hover:cursor-not-allowed"
+                : "bg-white"
             }
             ${
               isInactive && "opacity-30 hover:bg-white hover:cursor-not-allowed"
             }
             `}
             onClick={() => addGuessedLetter(key)}
-            disabled={isInactive || isActive || disabled}
+            disabled={
+              isInactive || isActive || disabled || room.roundTime === 0
+            }
             key={key}
           >
             {key}

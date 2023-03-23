@@ -11,7 +11,7 @@ interface Props {
 
 const LayoutWrapper = ({ children }: Props) => {
   const { data: session } = useSession();
-  const { isLogged }: { isLogged: boolean } = useContext(UserContext);
+  const { isLogged = false }: { isLogged: boolean } = useContext(UserContext);
   return (
     <div>
       {session || isLogged ? (

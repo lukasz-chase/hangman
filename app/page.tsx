@@ -3,8 +3,8 @@ import RoomsDisplay from "./components/RoomsDisplay";
 
 export default function Home() {
   return (
-    <main className="h-screen flex flex-col justify-center items-center gap-5">
-      <Button link="/room">Create a lobby</Button>
+    <main className="h-screen  flex-col flexCenter gap-5">
+      <Button link="/game">Create a game</Button>
       <RoomsDisplay />
     </main>
   );
