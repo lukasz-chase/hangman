@@ -56,7 +56,7 @@ const PlayersDisplay = () => {
       >
         <span>Time left</span>
         <span className="countdown font-mono text-6xl">
-          <span ref={countdownRef} style={{ "--value": room.roundTime }}></span>
+          <span ref={countdownRef}></span>
         </span>
       </div>
       <div className="bg-white min-w-56 flex flex-col rounded-md">
