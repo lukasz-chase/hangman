@@ -39,11 +39,7 @@ export const joinRoom = ({
   );
 };
 
-export const createRoom = async (
-  room: roomPayload,
-  socket: any,
-  router: any
-) => {
+export const createRoom = (room: roomPayload, socket: any, router: any) => {
   socket.emit("room:create", room, (err: any, roomId: string) => {
     socket.emit("room:getById", roomId);
     router.replace(`/lobby/${roomId}`);

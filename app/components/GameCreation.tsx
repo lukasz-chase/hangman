@@ -1,7 +1,8 @@
 "use client";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
+import { toast } from "react-hot-toast";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
 import {
@@ -33,7 +34,19 @@ const RoomCreation = () => {
       id: isLogged ? user.id : session?.user?.id,
     },
   });
+  const roomClosed = () => {
+    toast.error("room has closed");
+    router.replace("/");
+  };
+  useEffect(() => {
+    if (Object.keys(socket).length > 0) {
+      socket.on("roomHasClosed", roomClosed);
 
+      return () => {
+        socket.off("roomHasClosed", roomClosed);
+      };
+    }
+  }, []);
   const handleChange = (e: any) =>
     setRoom({ ...room, [e.target.name]: e.target.value });
 
@@ -84,7 +97,7 @@ const RoomCreation = () => {
               className="select select-bordered w-full max-w-xs"
             >
               {options.map(({ name, value }) => (
-                <option className="cursor-pointer p-5" value={value}>
+                <option key={name} className="cursor-pointer p-5" value={value}>
                   {name}
                 </option>
               ))}

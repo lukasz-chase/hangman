@@ -66,7 +66,7 @@ const Hangman = () => {
         wordToGuess={wordToGuess.word}
       />
       {gameHasEnded && (
-        <h1 className="uppercase p-5">
+        <h1 className="uppercase p-5 text-xs md:text-md lg-text-lg">
           The word was <b>{wordToGuess.original}</b>{" "}
           {language !== "english" && `which means ${wordToGuess.translation}`}
         </h1>

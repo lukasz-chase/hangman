@@ -44,21 +44,25 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     setRoom(room);
   };
 
+  const roomClosed = () => {
+    toast.error("room has closed");
+    router.replace("/");
+  };
+
   useEffect(() => {
     if (Object.keys(socket).length > 0) {
       socket.emit("room:getById", roomId);
-
       socket.on("startTheGame", () => router.replace(`/game/${roomId}`));
-      socket.on("roomHasClosed", () => router.replace("/"));
       socket.on("room:getById", setRoomHandler);
       socket.on("room:playerJoined", playerJoinedHandler);
       socket.on("room:playerDisconnected", playerDisconnectedHandler);
+      socket.on("roomHasClosed", roomClosed);
 
       return () => {
         socket.off("room:getById", setRoomHandler);
         socket.off("room:playerJoined", playerJoinedHandler);
         socket.off("room:playerDisconnected", playerDisconnectedHandler);
-        socket.off("roomHasClosed", () => router.replace("/"));
+        socket.off("roomHasClosed", roomClosed);
         socket.off("startTheGame", (callback: any) => callback());
       };
     }
@@ -97,7 +101,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
 
   return (
     <div className="flexCenter flex-col">
-      <div className="flexCenter flex-col md:flex-row gap-2 md:gap-5 md:h-36 uppercase bg-white text-black">
+      <div className="flexCenter flex-col md:flex-row gap-2 md:gap-5  uppercase bg-white text-black">
         <div className=" w-full md:w-64 md:h-full border-b-2 md:border-r-2 md:border-b-0 border-black ">
           <h1 className="bg-black border-l-2 border-t-2 border-white text-white color-white p-2 text-center">
             Players {room.players.length}/{room.playersLimit}
@@ -116,7 +120,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
             </div>
           ))}
         </div>
-        <div className="flexCenter flex-col p-2 h-24 gap-3 md:p-5  text-xs md:text-md lg:text-lg">
+        <div className="flexCenter flex-col p-2 h-32 md:min-h-16 gap-3 md:p-5  text-xs md:text-md lg:text-lg">
           <span>
             Word language: <b className="text-cyan-500">{room.language}</b>
           </span>

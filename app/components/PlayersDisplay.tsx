@@ -25,7 +25,6 @@ const PlayersDisplay = () => {
   useEffect(() => {
     if (!gameHasEnded) {
       countdownInterval = setInterval(() => {
-        console.log("interval");
         if (room.roundTime === 0) {
           socket.emit("room:update", room);
           clearInterval(countdownInterval);
@@ -46,12 +45,12 @@ const PlayersDisplay = () => {
       clearInterval(countdownInterval);
     }
   }, [gameHasEnded]);
-
+  console.log(room.roundTime);
   return (
     <div className="h-screen flexCenter flex-col flex-2">
       <div
-        className={`flex-col flexCenter ${
-          room.roundTime < 90 && room.roundTime > 0 ? "flex" : "flex"
+        className={`flex-col justify-center items-center ${
+          room.roundTime <= 90 && room.roundTime > 0 ? "flex" : "hidden"
         }`}
       >
         <span>Time left</span>
