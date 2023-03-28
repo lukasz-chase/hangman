@@ -24,6 +24,7 @@ const RoomCreation = () => {
   const { socket, router }: { socket: any; router: any } =
     useContext(SocketContext);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [room, setRoom] = useState<roomPayload>({
     privateRoom: false,
     playersLimit: 1,
@@ -105,10 +106,10 @@ const RoomCreation = () => {
           </label>
         ))}
         <button
-          onClick={() => createRoom(room, socket, router)}
+          onClick={() => createRoom(room, socket, router, setIsLoading)}
           className="btn"
         >
-          Create a Lobby
+          {isLoading ? "Loading" : "Create a Lobby"}
         </button>
       </div>
     </div>

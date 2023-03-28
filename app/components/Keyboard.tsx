@@ -91,25 +91,24 @@ export function Keyboard({
         const isActive = activeLetters.includes(key);
         const isInactive = inactiveLetters.includes(key);
         return (
-          <button
-            className={`w-full border-2 bg-none ratio-square text-sm md:text-lg uppercase p-2 text-bold cursor-pointer  text-black  hover:bg-slate-400 
-            ${
-              isActive
-                ? "bg-lime-500 hover:bg-lime-500 text-white hover:cursor-not-allowed"
-                : "bg-white"
-            }
-            ${
-              isInactive && "opacity-30 hover:bg-white hover:cursor-not-allowed"
-            }
+          <kbd
+            className={`kbd md:kbd-md lg:kbd-lg w-full border-2 ratio-square p-2 cursor-pointer text-black 
+            ${isActive && "bg-lime-500  text-white hover:cursor-not-allowed"}
+            ${isInactive && "bg-red-400 text-white hover:cursor-not-allowed"}
+            ${!isInactive && !isActive && "bg-white hover:bg-slate-400"}
             `}
-            onClick={() => addGuessedLetter(key)}
-            disabled={
-              isInactive || isActive || disabled || room.roundTime === 0
-            }
             key={key}
           >
-            {key}
-          </button>
+            <button
+              className="uppercase text-bold"
+              onClick={() => addGuessedLetter(key)}
+              disabled={
+                isInactive || isActive || disabled || room.roundTime === 0
+              }
+            >
+              {key}
+            </button>
+          </kbd>
         );
       })}
     </div>

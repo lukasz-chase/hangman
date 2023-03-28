@@ -15,6 +15,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const { socket, router }: { socket: any; router: any } =
     useContext(SocketContext);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [room, setRoom] = useState<Room>({
     players: [],
     playersLimit: 1,
@@ -43,6 +44,10 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const setRoomHandler = (room: Room) => {
     setRoom(room);
   };
+  const startTheGameHandler = () => {
+    router.replace(`/game/${roomId}`);
+    setIsLoading(false);
+  };
 
   const roomClosed = () => {
     toast.error("room has closed");
@@ -52,7 +57,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   useEffect(() => {
     if (Object.keys(socket).length > 0) {
       socket.emit("room:getById", roomId);
-      socket.on("startTheGame", () => router.replace(`/game/${roomId}`));
+      socket.on("startTheGame", startTheGameHandler);
       socket.on("room:getById", setRoomHandler);
       socket.on("room:playerJoined", playerJoinedHandler);
       socket.on("room:playerDisconnected", playerDisconnectedHandler);
@@ -63,7 +68,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
         socket.off("room:playerJoined", playerJoinedHandler);
         socket.off("room:playerDisconnected", playerDisconnectedHandler);
         socket.off("roomHasClosed", roomClosed);
-        socket.off("startTheGame", (callback: any) => callback());
+        socket.off("startTheGame", startTheGameHandler);
       };
     }
   }, [socket]);
@@ -84,7 +89,8 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     }
   }, [socket]);
 
-  const roomUrl = `http://localhost:3000/lobby/${roomId}`;
+  // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
+  const roomUrl = `https://hangman-server-stl0.onrender.com/lobby/${roomId}`;
 
   const copyUrl = () => {
     navigator.clipboard.writeText(roomUrl);
@@ -94,6 +100,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const isAuthor = room.creator === playerId;
 
   const startTheGame = () => {
+    setIsLoading(true);
     room.inGame = true;
     socket.emit("room:update", room);
     socket.emit("startTheGame", roomId);
@@ -140,7 +147,11 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
         }`}
         onClick={startTheGame}
       >
-        {isAuthor ? "Play" : "WAITING FOR HOST TO START THE GAME"}
+        {isLoading ? (
+          "Loading"
+        ) : (
+          <div>{isAuthor ? "Play" : "WAITING FOR HOST TO START THE GAME"}</div>
+        )}
       </button>
     </div>
   );

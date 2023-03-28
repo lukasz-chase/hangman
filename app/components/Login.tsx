@@ -26,7 +26,11 @@ function Login() {
   };
 
   return (
-    <div className="h-screen flexCenter flex-col gap-5 text-center">
+    <div className="h-screen flexCenter flex-col gap-5 text-center text-white">
+      <h1 className="text-xl">
+        Welcome to <b>Hangman</b> online
+      </h1>
+      <h2>Learn new words by playing</h2>
       <button onClick={() => signIn()} className="signButton">
         Sign in with google
       </button>

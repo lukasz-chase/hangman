@@ -39,10 +39,17 @@ export const joinRoom = ({
   );
 };
 
-export const createRoom = (room: roomPayload, socket: any, router: any) => {
+export const createRoom = (
+  room: roomPayload,
+  socket: any,
+  router: any,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  setIsLoading(true);
   socket.emit("room:create", room, (err: any, roomId: string) => {
     socket.emit("room:getById", roomId);
     router.replace(`/lobby/${roomId}`);
+    setIsLoading(false);
   });
 };
 
