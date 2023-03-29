@@ -2,10 +2,10 @@
 import React, { useEffect, useState, ReactNode, createContext } from "react";
 import { io } from "socket.io-client";
 import { useRouter } from "next/navigation";
-import { Room } from "../types/socket";
+import { Room, Socket } from "../types/socket";
 
 const SocketContext = createContext({
-  socket: {},
+  socket: null as Socket | null,
   room: {
     roomId: "",
     playersLimit: 0,
@@ -46,16 +46,24 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
     creator: "",
   });
 
-  const [socket, setSocket] = useState<any>({});
+  const [socket, setSocket] = useState<Socket | null>(null);
   const router = useRouter();
-
+  const setRoomHandler = (payload: any) => {
+    setRoom(payload);
+  };
+  const errorHandler = () => {
+    router.replace("/");
+  };
   useEffect(() => {
-    // const socket = io("http://localhost:8080");
-    const socket = io("https://hangman-server-stl0.onrender.com/");
+    console.log(process.env);
+    const socket = io("http://localhost:8080");
     setSocket(socket);
-    socket.on("room:get", (payload: any) => {
-      setRoom(payload);
-    });
+    socket.on("room:get", setRoomHandler);
+    socket.on("error", errorHandler);
+    return () => {
+      socket.off("room:get", setRoomHandler);
+      socket.off("error", errorHandler);
+    };
   }, []);
   return (
     <SocketContext.Provider

@@ -3,7 +3,7 @@ import React, { ReactNode, useContext } from "react";
 import { Toaster } from "react-hot-toast";
 import Login from "./Login";
 import { useSession } from "next-auth/react";
-import { UserContext, UserContextProvider } from "../context/UserContext";
+import { UserContext } from "../context/UserContext";
 
 interface Props {
   children: ReactNode;

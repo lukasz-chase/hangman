@@ -1,19 +1,22 @@
 "use client";
 import { useSession } from "next-auth/react";
 import React, { useContext, useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
-import { GuestUser } from "../types/authTypes";
+import type { socketContextTypes, userContextTypes } from "../types/context";
 import { Room } from "../types/socket";
+import {
+  copyUrl,
+  playerDisconnectedHandler,
+  playerJoinedHandler,
+  roomClosed,
+} from "../utils/lobby";
 import { joinRoom } from "../utils/room";
 
 const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
-  const { isLogged, user }: { isLogged: boolean; user: GuestUser } =
-    useContext(UserContext);
-  const { socket, router }: { socket: any; router: any } =
-    useContext(SocketContext);
+  const { isLogged, user }: userContextTypes = useContext(UserContext);
+  const { socket, router }: socketContextTypes = useContext(SocketContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [room, setRoom] = useState<Room>({
@@ -33,50 +36,50 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     inGame: false,
     creator: "",
   });
-
-  const playerJoinedHandler = (name: string) => {
-    toast.success(`${name} has joined`);
-  };
-  const playerDisconnectedHandler = (name: string) => {
-    toast.error(`${name} has left`);
-  };
+  const playerId = isLogged ? user.id : session?.user.id;
+  const name = isLogged ? user.name : session?.user?.name;
+  const roomUrl = `http://localhost:3000/lobby/${roomId}`;
+  // const roomUrl = `https://hangman-server-stl0.onrender.com/lobby/${roomId}`;
+  const isAuthor = room.creator === playerId;
 
   const setRoomHandler = (room: Room) => {
     setRoom(room);
   };
+
   const startTheGameHandler = () => {
     router.replace(`/game/${roomId}`);
     setIsLoading(false);
   };
 
-  const roomClosed = () => {
-    toast.error("room has closed");
-    router.replace("/");
+  const startTheGame = () => {
+    setIsLoading(true);
+    room.inGame = true;
+    socket!.emit("room:update", room);
+    socket!.emit("startTheGame", roomId);
   };
+  const roomHasClosed = () => roomClosed(router);
 
   useEffect(() => {
-    if (Object.keys(socket).length > 0) {
+    if (socket) {
       socket.emit("room:getById", roomId);
       socket.on("startTheGame", startTheGameHandler);
       socket.on("room:getById", setRoomHandler);
       socket.on("room:playerJoined", playerJoinedHandler);
       socket.on("room:playerDisconnected", playerDisconnectedHandler);
-      socket.on("roomHasClosed", roomClosed);
+      socket.on("roomHasClosed", roomHasClosed);
 
       return () => {
         socket.off("room:getById", setRoomHandler);
         socket.off("room:playerJoined", playerJoinedHandler);
         socket.off("room:playerDisconnected", playerDisconnectedHandler);
-        socket.off("roomHasClosed", roomClosed);
+        socket.off("roomHasClosed", roomHasClosed);
         socket.off("startTheGame", startTheGameHandler);
       };
     }
   }, [socket]);
 
-  const playerId = isLogged ? user.id : session?.user.id;
-  const name = isLogged ? user.name : session?.user?.name;
   useEffect(() => {
-    if (Object.keys(socket).length > 0) {
+    if (socket) {
       joinRoom({
         players: room.players,
         playersLimit: room.playersLimit,
@@ -89,26 +92,9 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     }
   }, [socket]);
 
-  // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
-  const roomUrl = `https://hangman-server-stl0.onrender.com/lobby/${roomId}`;
-
-  const copyUrl = () => {
-    navigator.clipboard.writeText(roomUrl);
-    toast.success("Link copied");
-  };
-
-  const isAuthor = room.creator === playerId;
-
-  const startTheGame = () => {
-    setIsLoading(true);
-    room.inGame = true;
-    socket.emit("room:update", room);
-    socket.emit("startTheGame", roomId);
-  };
-
   return (
     <div className="flexCenter flex-col">
-      <div className="flexCenter flex-col md:flex-row gap-2 md:gap-5  uppercase bg-white text-black">
+      <div className="flexCenter flex-col md:flex-row gap-2 md:gap-5 min-h-[300px]  uppercase bg-white text-black">
         <div className=" w-full md:w-64 md:h-full border-b-2 md:border-r-2 md:border-b-0 border-black ">
           <h1 className="bg-black border-l-2 border-t-2 border-white text-white color-white p-2 text-center">
             Players {room.players.length}/{room.playersLimit}
@@ -127,13 +113,17 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
             </div>
           ))}
         </div>
-        <div className="flexCenter flex-col p-2 h-32 md:min-h-16 gap-3 md:p-5  text-xs md:text-md lg:text-lg">
+        <div className="flexCenter flex-col p-2 h-full min-w-full md:min-w-[400px] lg:min-w-[600px] gap-3 md:p-5  text-xs md:text-md lg:text-lg">
           <span>
             Word language: <b className="text-cyan-500">{room.language}</b>
           </span>
-          <span>{roomUrl}</span>
+          <span>
+            Round time:{" "}
+            <b className="text-cyan-500 lowercase">{room.roundTime}s</b>
+          </span>
+          <span className="text-xs md:text-md">{roomUrl}</span>
           <button
-            onClick={copyUrl}
+            onClick={() => copyUrl(roomUrl)}
             className="w-36 border-2 border-black uppercase hover:bg-black hover:text-white"
           >
             copy url

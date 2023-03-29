@@ -2,18 +2,14 @@
 import { signOut, useSession } from "next-auth/react";
 import React, { useContext } from "react";
 import { UserContext } from "../context/UserContext";
-import { GuestUser } from "../types/authTypes";
+import type { userContextTypes } from "../types/context";
 import LeaveButton from "./LeaveButton";
 
 const Nav = () => {
   const { data: session } = useSession();
-  const {
-    isLogged,
-    user,
-    setIsLogged,
-    setUser,
-  }: { isLogged: boolean; user: GuestUser; setIsLogged: any; setUser: any } =
+  const { isLogged, user, setIsLogged, setUser }: userContextTypes =
     useContext(UserContext);
+
   const signOutHandler = () => {
     if (isLogged) {
       setIsLogged(false);
@@ -24,7 +20,7 @@ const Nav = () => {
   };
 
   return (
-    <div className="absolute top-0 left-0 flex justify-evenly items-center w-full text-white">
+    <div className="absolute top-0 left-0 flex justify-between items-center w-[98%] text-white">
       <h1 className="p-5 text-xl uppercase">
         <LeaveButton />
       </h1>

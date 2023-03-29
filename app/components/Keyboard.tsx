@@ -1,35 +1,7 @@
 "use client";
 import { useCallback, useEffect } from "react";
+import { keys } from "../descriptions/Hangman";
 import { Player } from "../types/socket";
-
-const KEYS = [
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-];
 
 type KeyboardProps = {
   disabled?: boolean;
@@ -87,28 +59,24 @@ export function Keyboard({
   }, [guessedLetters]);
   return (
     <div className="grid grid-cols-fluid gap-1 w-screen lg:max-w-3xl">
-      {KEYS.map((key) => {
+      {keys.map((key) => {
         const isActive = activeLetters.includes(key);
         const isInactive = inactiveLetters.includes(key);
         return (
-          <kbd
-            className={`kbd md:kbd-md lg:kbd-lg w-full border-2 ratio-square p-2 cursor-pointer text-black 
+          <button
+            className={`kbd md:kbd-md uppercase text-bold lg:kbd-lg w-full border-2 ratio-square p-2 cursor-pointer text-black 
             ${isActive && "bg-lime-500  text-white hover:cursor-not-allowed"}
             ${isInactive && "bg-red-400 text-white hover:cursor-not-allowed"}
             ${!isInactive && !isActive && "bg-white hover:bg-slate-400"}
             `}
             key={key}
+            onClick={() => addGuessedLetter(key)}
+            disabled={
+              isInactive || isActive || disabled || room.roundTime === 0
+            }
           >
-            <button
-              className="uppercase text-bold"
-              onClick={() => addGuessedLetter(key)}
-              disabled={
-                isInactive || isActive || disabled || room.roundTime === 0
-              }
-            >
-              {key}
-            </button>
-          </kbd>
+            {key}
+          </button>
         );
       })}
     </div>

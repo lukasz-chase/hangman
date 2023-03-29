@@ -1,12 +1,13 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { SocketContext } from "../context/SocketContext";
+import { socketContextTypes } from "../types/context";
 import { Room } from "../types/socket";
-import JoinRoom from "./JoinRoom";
+import JoinLobby from "./JoinLobby";
 
 const RoomsDisplay = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
-  const { socket }: { socket: any } = useContext(SocketContext);
+  const { socket }: socketContextTypes = useContext(SocketContext);
 
   const setRoomsHandler = (socketRooms: Room[]) => {
     setRooms([]); // Clear the rooms state
@@ -18,20 +19,21 @@ const RoomsDisplay = () => {
   };
 
   useEffect(() => {
-    if (Object.keys(socket).length === 0) return;
-    socket.emit("getRooms");
-    socket.on("getRooms", setRoomsHandler);
-    return () => {
-      socket.off("getRooms", setRoomsHandler);
-    };
+    if (socket) {
+      socket.emit("getRooms");
+      socket.on("getRooms", setRoomsHandler);
+      return () => {
+        socket.off("getRooms", setRoomsHandler);
+      };
+    }
   }, [socket]);
-  console.log(rooms);
+
   return (
     <div>
       {rooms.length > 0 && <h1>Join a public lobby</h1>}
       <div className="flex gap-2 flex-col items-center">
         {rooms.map((room) => (
-          <JoinRoom
+          <JoinLobby
             key={room.roomId}
             roomId={room.roomId}
             players={room.players}

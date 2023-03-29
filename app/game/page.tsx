@@ -3,8 +3,7 @@ import GameCreation from "../components/GameCreation";
 
 const Room = () => {
   return (
-    <div className="h-screen flexCenter flex-col">
-      <h1>Create game</h1>
+    <div className="h-screen flexCenter">
       <GameCreation />
     </div>
   );

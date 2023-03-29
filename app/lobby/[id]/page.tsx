@@ -1,4 +1,4 @@
-import LobbyDisplay from "@/app/components/LobbyDisplay";
+import LobbyDetails from "@/app/components/LobbyDetails";
 
 type Props = {
   params: {
@@ -10,7 +10,7 @@ const Lobby = ({ params: { id: lobbyId } }: Props) => {
   return (
     <div className="h-screen flexCenter flex-col">
       <h1 className="p-5">Welcome to {lobbyId} lobby</h1>
-      <LobbyDisplay roomId={lobbyId} />
+      <LobbyDetails roomId={lobbyId} />
     </div>
   );
 };

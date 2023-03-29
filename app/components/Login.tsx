@@ -1,18 +1,18 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import short from "short-uuid";
 import { UserContext } from "../context/UserContext";
 import avatar1 from "../../assets/avatar-1.png";
 import avatar2 from "../../assets/avatar-2.png";
 import avatar3 from "../../assets/avatar-3.png";
 import avatar4 from "../../assets/avatar-4.png";
+import type { userContextTypes } from "../types/context";
 
 export const gameNames = ["Alfred", "Wizard", "Dragon", "Robert", "King"];
 
 function Login() {
-  const { setUser, setIsLogged }: { setUser: any; setIsLogged: any } =
-    useContext(UserContext);
+  const { setUser, setIsLogged }: userContextTypes = useContext(UserContext);
   const avatars = [avatar1, avatar2, avatar3, avatar4];
   const name = gameNames[Math.floor(Math.random() * gameNames.length)];
   const guestUser = {

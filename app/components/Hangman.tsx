@@ -5,25 +5,23 @@ import { useContext } from "react";
 import { HangmanDrawing } from "./HangmanDrawings";
 import { HangmanWord } from "./HangmanWord";
 import { Keyboard } from "./Keyboard";
-import { Room } from "../types/socket";
 import { toast } from "react-hot-toast";
 import { UserContext } from "../context/UserContext";
 import { useSession } from "next-auth/react";
-import { GuestUser } from "../types/authTypes";
 import {
   checkIncorrectLetters,
   checkIsWinner,
   hasGameEnded,
 } from "../utils/game";
+import type { socketContextTypes, userContextTypes } from "../types/context";
 
 const Hangman = () => {
   const { data: session } = useSession();
-  const { isLogged, user }: { isLogged: boolean; user: GuestUser } =
-    useContext(UserContext);
-  const { socket, room, router }: { socket: any; room: Room; router: any } =
+  const { isLogged, user }: userContextTypes = useContext(UserContext);
+  const { socket, room, router }: socketContextTypes =
     useContext(SocketContext);
-  socket.on("playerDisconnected", (id: string) => {
-    toast.error(`player ${id} has disconected`);
+  socket!.on("playerDisconnected", (id: string) => {
+    toast.error(`player ${id} has disconnected`);
   });
 
   if (Object.keys(room).length === 0) router.replace("/");
@@ -52,11 +50,11 @@ const Hangman = () => {
     return player.score > acc.score ? player : acc;
   }, players[0]);
   return (
-    <div className="flexCenter flex-col">
+    <div className="flexCenter flex-col mt-10">
       {gameHasEnded && (
         <div className="text-white uppercase md:text-2xl text-center">
-          <h1>Game has ended</h1>
-          <h1 className="text-lime-500 my-4">{winner?.name} has won</h1>
+          <h1 className="md:text-xl">Game has ended</h1>
+          <h1 className="text-lime-500 mb-4">{winner?.name} has won</h1>
         </div>
       )}
       <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
@@ -66,8 +64,8 @@ const Hangman = () => {
         wordToGuess={wordToGuess.word}
       />
       {gameHasEnded && (
-        <h1 className="uppercase p-5 text-xs md:text-md lg-text-lg">
-          The word was <b>{wordToGuess.original}</b>{" "}
+        <h1 className="uppercase p-5 text-white text-xs md:text-md lg:text-xl">
+          The word was <b className="text-cyan-500">{wordToGuess.original}</b>
           {language !== "english" && `which means ${wordToGuess.translation}`}
         </h1>
       )}

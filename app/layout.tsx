@@ -5,8 +5,6 @@ import LayoutWrapper from "./components/LayoutWrapper";
 import { SessionProvider } from "./components/SessionProvider";
 import { Montserrat, Roboto_Mono } from "next/font/google";
 import { UserContextProvider } from "./context/UserContext";
-// import { getServerSession } from "next-auth";
-// import { AuthOptions } from "@/pages/api/auth/[...nextauth]";
 
 export const metadata = {
   title: "Hangman",
@@ -30,7 +28,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const session = await getServerSession(AuthOptions);
   return (
     <html lang="en">
       <UserContextProvider>

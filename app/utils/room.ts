@@ -35,6 +35,7 @@ export const joinRoom = ({
         router.replace(`/`);
         return toast.error(err.error);
       }
+      router.replace(`/lobby/${roomId}`);
     }
   );
 };

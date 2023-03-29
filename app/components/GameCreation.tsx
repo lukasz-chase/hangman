@@ -2,7 +2,6 @@
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { toast } from "react-hot-toast";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
 import {
@@ -13,16 +12,15 @@ import {
   selectInput,
   selectType,
 } from "../descriptions/RoomInputs";
-import { GuestUser } from "../types/authTypes";
-import { roomPayload } from "../types/socket";
+import type { socketContextTypes, userContextTypes } from "../types/context";
+import type { roomPayload } from "../types/socket";
+import { roomClosed } from "../utils/lobby";
 import { createRoom } from "../utils/room";
 
 const RoomCreation = () => {
   const { data: session } = useSession();
-  const { isLogged, user }: { isLogged: boolean; user: GuestUser } =
-    useContext(UserContext);
-  const { socket, router }: { socket: any; router: any } =
-    useContext(SocketContext);
+  const { isLogged, user }: userContextTypes = useContext(UserContext);
+  const { socket, router }: socketContextTypes = useContext(SocketContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [room, setRoom] = useState<roomPayload>({
@@ -35,28 +33,26 @@ const RoomCreation = () => {
       id: isLogged ? user.id : session?.user?.id,
     },
   });
-  const roomClosed = () => {
-    toast.error("room has closed");
-    router.replace("/");
-  };
+  const roomHasClosed = () => roomClosed(router);
   useEffect(() => {
-    if (Object.keys(socket).length > 0) {
-      socket.on("roomHasClosed", roomClosed);
+    if (socket) {
+      socket.on("roomHasClosed", roomHasClosed);
 
       return () => {
-        socket.off("roomHasClosed", roomClosed);
+        socket.off("roomHasClosed", roomHasClosed);
       };
     }
   }, []);
+
   const handleChange = (e: any) =>
     setRoom({ ...room, [e.target.name]: e.target.value });
 
   return (
     <div>
-      <div className="form-control flex flex-col gap-5">
+      <div className="form-control flex flex-col gap-5 text-white">
         {checkboxes.map(({ label, name }: checkboxType) => (
           <label key={name} className="label cursor-pointer">
-            <span className="label-text">{label}</span>
+            <span className="label-text text-white">{label}</span>
             <input
               type="checkbox"
               checked={room[name]}
@@ -89,7 +85,7 @@ const RoomCreation = () => {
         {selectInput.map(({ label, name, options }: selectType) => (
           <label
             key={name}
-            className="label cursor-pointer flexCenter flex-col"
+            className="label cursor-pointer flexCenter flex-col text-white"
           >
             <span className="label-text">{label}</span>
             <select
@@ -107,7 +103,7 @@ const RoomCreation = () => {
         ))}
         <button
           onClick={() => createRoom(room, socket, router, setIsLoading)}
-          className="btn"
+          className="btn text-white"
         >
           {isLoading ? "Loading" : "Create a Lobby"}
         </button>
