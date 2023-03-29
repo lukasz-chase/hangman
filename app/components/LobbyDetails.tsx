@@ -1,6 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
 import type { socketContextTypes, userContextTypes } from "../types/context";
@@ -35,6 +36,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     },
     inGame: false,
     creator: "",
+    customWord: false,
   });
   const playerId = isLogged ? user.id : session?.user.id;
   const name = isLogged ? user.name : session?.user?.name;
@@ -52,6 +54,9 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   };
 
   const startTheGame = () => {
+    if (room.customWord && room.players.length === 1) {
+      return toast.error("you can't play by yourself with custom word");
+    }
     setIsLoading(true);
     room.inGame = true;
     socket!.emit("room:update", room);
@@ -108,23 +113,29 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
             >
               <span>{player.name}</span>
               {room.creator === player.id && (
-                <span className="text-lime-500"> Host</span>
+                <span className="text-primary"> Host</span>
               )}
             </div>
           ))}
         </div>
         <div className="flexCenter flex-col p-2 h-full min-w-full md:min-w-[400px] lg:min-w-[600px] gap-3 md:p-5  text-xs md:text-md lg:text-lg">
+          <div className="flex-col flexCenter">
+            <span>
+              Word language: <b className="text-info">{room.language}</b>
+            </span>
+            {room.customWord && (
+              <span className="text-sm lowercase">
+                Word has been chosen by host
+              </span>
+            )}
+          </div>
           <span>
-            Word language: <b className="text-cyan-500">{room.language}</b>
-          </span>
-          <span>
-            Round time:{" "}
-            <b className="text-cyan-500 lowercase">{room.roundTime}s</b>
+            Round time: <b className="text-info lowercase">{room.roundTime}s</b>
           </span>
           <span className="text-xs md:text-md">{roomUrl}</span>
           <button
             onClick={() => copyUrl(roomUrl)}
-            className="w-36 border-2 border-black uppercase hover:bg-black hover:text-white"
+            className="btn btn-info w-36 uppercase"
           >
             copy url
           </button>
@@ -133,7 +144,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
       <button
         disabled={!isAuthor}
         className={`w-full md:border-2 p-2 md:p-5 tracking-widest text-md md:text-xl xl:text-2xl bg-black uppercase ${
-          isAuthor && "hover:text-lime-500 cursor-pointer"
+          isAuthor && "hover:text-success cursor-pointer"
         }`}
         onClick={startTheGame}
       >

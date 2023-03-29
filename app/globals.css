@@ -4,7 +4,7 @@
 
 @layer components {
   .signButton {
-    @apply text-black bg-slate-200 hover:bg-white shadow-lg hover:shadow-black font-bold text-3xl w-96 p-5 border-2 transition-all duration-300 uppercase  rounded-full;
+    @apply text-black bg-slate-200 hover:bg-white shadow-lg hover:shadow-black font-bold text-lg md:text-3xl w-64 md:w-96 p-5 border-2 transition-all duration-300 uppercase  rounded-full;
   }
   .flexCenter {
     @apply flex items-center justify-center;

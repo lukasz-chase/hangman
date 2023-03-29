@@ -1,41 +1,46 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useContext } from "react";
-import short from "short-uuid";
 import { UserContext } from "../context/UserContext";
-import avatar1 from "../../assets/avatar-1.png";
-import avatar2 from "../../assets/avatar-2.png";
-import avatar3 from "../../assets/avatar-3.png";
-import avatar4 from "../../assets/avatar-4.png";
+import logo from "@/assets/logo.png";
 import type { userContextTypes } from "../types/context";
-
-export const gameNames = ["Alfred", "Wizard", "Dragon", "Robert", "King"];
+import Image from "next/image";
+import { guestUser } from "../utils/login";
 
 function Login() {
   const { setUser, setIsLogged }: userContextTypes = useContext(UserContext);
-  const avatars = [avatar1, avatar2, avatar3, avatar4];
-  const name = gameNames[Math.floor(Math.random() * gameNames.length)];
-  const guestUser = {
-    id: short().generate(),
-    name,
-    avatar: avatars[Math.floor(Math.random() * avatars.length)],
-  };
+
   const guestLogIn = () => {
     setUser(guestUser);
     setIsLogged(true);
   };
 
   return (
-    <div className="h-screen flexCenter flex-col gap-5 text-center text-white">
-      <h1 className="text-xl">
-        Welcome to <b>Hangman</b> online
-      </h1>
-      <h2>Learn new words by playing</h2>
-      <button onClick={() => signIn()} className="signButton">
-        Sign in with google
+    <div className="h-screen flexCenter flex-col gap-5 text-center text-white text-lg">
+      <Image
+        height="200"
+        width="200"
+        src={logo}
+        alt="hangman"
+        className="rounded-md"
+      />
+      <div>
+        <h1>
+          Welcome to <b className="text-sky-500">Hangman</b> online
+        </h1>
+        <h2 className="text-sm">Learn new words by playing</h2>
+        <h3>
+          <b className="text-lime-500">Sign in</b> to continue
+        </h3>
+      </div>
+      <button onClick={() => signIn("google")} className="signButton">
+        google
+      </button>
+      <button onClick={() => signIn("facebook")} className="signButton">
+        facebook
       </button>
       <button className="signButton" onClick={guestLogIn}>
-        Sign in as guest
+        guest
       </button>
     </div>
   );

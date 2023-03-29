@@ -32,6 +32,12 @@ const RoomCreation = () => {
       name: isLogged ? user.name : session?.user?.name,
       id: isLogged ? user.id : session?.user?.id,
     },
+    customWord: false,
+    word: {
+      word: "",
+      translation: "",
+      original: "",
+    },
   });
   const roomHasClosed = () => roomClosed(router);
   useEffect(() => {
@@ -50,18 +56,6 @@ const RoomCreation = () => {
   return (
     <div>
       <div className="form-control flex flex-col gap-5 text-white">
-        {checkboxes.map(({ label, name }: checkboxType) => (
-          <label key={name} className="label cursor-pointer">
-            <span className="label-text text-white">{label}</span>
-            <input
-              type="checkbox"
-              checked={room[name]}
-              name={name}
-              className="checkbox"
-              onChange={(e) => setRoom({ ...room, [name]: e.target.checked })}
-            />
-          </label>
-        ))}
         {rangeInputs.map(({ label, name, max, min, options }: rangeType) => (
           <div key={name}>
             <h2>{label}</h2>
@@ -71,7 +65,7 @@ const RoomCreation = () => {
               max={max}
               name={name}
               value={room[name]}
-              className="range"
+              className="range range-accent"
               step="1"
               onChange={(e) => handleChange(e)}
             />
@@ -81,6 +75,18 @@ const RoomCreation = () => {
               ))}
             </div>
           </div>
+        ))}
+        {checkboxes.map(({ label, name }: checkboxType) => (
+          <label key={name} className="label cursor-pointer">
+            <span className="label-text text-white">{label}</span>
+            <input
+              type="checkbox"
+              checked={room[name]}
+              name={name}
+              className="checkbox checkbox-accent"
+              onChange={(e) => setRoom({ ...room, [name]: e.target.checked })}
+            />
+          </label>
         ))}
         {selectInput.map(({ label, name, options }: selectType) => (
           <label
@@ -101,9 +107,44 @@ const RoomCreation = () => {
             </select>
           </label>
         ))}
+        {room.customWord && (
+          <div className="form-control w-full max-w-xs">
+            <input
+              type="text"
+              placeholder="Word to guess"
+              className="input input-bordered w-full max-w-xs"
+              value={room.word.word}
+              onChange={(e) =>
+                setRoom({
+                  ...room,
+                  word: { ...room.word, word: e.target.value },
+                })
+              }
+            />
+          </div>
+        )}
+        {room.customWord && room.language !== "english" && (
+          <div className="form-control w-full max-w-xs">
+            <label className="label pt-0">
+              <span className="label-text">Translation to english</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Translation"
+              className="input input-bordered w-full max-w-xs"
+              value={room.word.translation}
+              onChange={(e) =>
+                setRoom({
+                  ...room,
+                  word: { ...room.word, translation: e.target.value },
+                })
+              }
+            />
+          </div>
+        )}
         <button
           onClick={() => createRoom(room, socket, router, setIsLoading)}
-          className="btn text-white"
+          className="btn btn-primary  text-white"
         >
           {isLoading ? "Loading" : "Create a Lobby"}
         </button>

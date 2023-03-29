@@ -22,6 +22,7 @@ const SocketContext = createContext({
     players: [{ id: "asd", name: "alfred", guessedLetters: ["a"], score: 0 }],
     inGame: false,
     creator: "",
+    customWord: false,
   },
   setRoom: (room: any) => {},
   router: {},
@@ -44,6 +45,7 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
     players: [{ id: "asd", name: "alfred", guessedLetters: ["a"], score: 0 }],
     inGame: false,
     creator: "",
+    customWord: false,
   });
 
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -55,8 +57,8 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
     router.replace("/");
   };
   useEffect(() => {
-    console.log(process.env);
     const socket = io("http://localhost:8080");
+    // const socket = io("https://hangman-server-stl0.onrender.com/");
     setSocket(socket);
     socket.on("room:get", setRoomHandler);
     socket.on("error", errorHandler);

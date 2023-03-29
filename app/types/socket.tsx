@@ -27,6 +27,7 @@ export type Room = {
   creator: string;
   inGame: boolean;
   players: Player[];
+  customWord: boolean;
 };
 
 export type roomPayload = {
@@ -35,6 +36,12 @@ export type roomPayload = {
   [key: string]: any;
   language: string;
   roundTime: number;
+  customWord: boolean;
+  word: {
+    word: string;
+    translation: string;
+    original: string;
+  };;
   author: {
     name: string;
     id: string;

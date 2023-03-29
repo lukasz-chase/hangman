@@ -46,6 +46,18 @@ export const createRoom = (
   router: any,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+  if (room.customWord) {
+    const regex = /^[a-zA-Z]+$/;
+    if (room.word.word.length < 2)
+      return toast.error("Word has to be at least 2 letters long");
+    if (room.language !== "english" && !room.word.translation)
+      return toast.error("You need to provide translation");
+    if (!regex.test(room.word.word))
+      return toast.error("word can only contain letters from a-z");
+    if (room.playersLimit === 1)
+      return toast.error("you can't play by yourself with custom word");
+    room.word.original = room.word.word;
+  }
   setIsLoading(true);
   socket.emit("room:create", room, (err: any, roomId: string) => {
     socket.emit("room:getById", roomId);
@@ -79,6 +91,7 @@ export const leaveHandler: any = ({
     roomId,
     name: playerName,
   });
+
   if (room.players.length === 0 || room.creator === playerId)
     socket.emit("room:leave", roomId);
 

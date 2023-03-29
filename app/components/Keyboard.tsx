@@ -65,9 +65,20 @@ export function Keyboard({
         return (
           <button
             className={`kbd md:kbd-md uppercase text-bold lg:kbd-lg w-full border-2 ratio-square p-2 cursor-pointer text-black 
+            ${
+              !isInactive &&
+              !isActive &&
+              !disabled &&
+              "bg-white hover:bg-slate-400"
+            }
+            ${
+              disabled &&
+              !isActive &&
+              !isInactive &&
+              "bg-slate-600 hover:cursor-not-allowed"
+            }
             ${isActive && "bg-lime-500  text-white hover:cursor-not-allowed"}
             ${isInactive && "bg-red-400 text-white hover:cursor-not-allowed"}
-            ${!isInactive && !isActive && "bg-white hover:bg-slate-400"}
             `}
             key={key}
             onClick={() => addGuessedLetter(key)}

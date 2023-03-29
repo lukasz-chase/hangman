@@ -2,6 +2,10 @@ export type checkboxType = {
   label: string;
   name: string;
 };
+export type inputType = {
+  label: string;
+  name: string;
+};
 export type rangeType = {
   label: string;
   name: string;
@@ -23,6 +27,10 @@ export const checkboxes: checkboxType[] = [
     label: "Private",
     name: "privateRoom",
   },
+  {
+    label: "Custom word",
+    name: "customWord",
+  },
 ];
 export const rangeInputs: rangeType[] = [
   {
@@ -40,6 +48,7 @@ export const rangeInputs: rangeType[] = [
     options: [1, 2, 3],
   },
 ];
+
 export const selectInput: selectType[] = [
   {
     label: "Choose language for word to guess",

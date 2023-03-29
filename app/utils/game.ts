@@ -10,17 +10,24 @@ export const hasGameEnded = ({
   roundTime,
   players,
   wordToGuess,
+  authorId,
+  customWord,
 }: {
   roundTime: number;
   players: Player[];
   wordToGuess: string;
+  authorId: string;
+  customWord: boolean;
 }) => {
   const gameHasEnded = roundTime === 0;
-
-  const didPlayersEnd = players.every(
+  const playersMod = customWord
+    ? players.filter((player) => player.id !== authorId)
+    : players;
+  const didPlayersEnd = playersMod.every(
     (player) =>
       checkIsWinner(player.guessedLetters, wordToGuess) ||
       checkIncorrectLetters(player.guessedLetters, wordToGuess).length >= 6
   );
+
   return gameHasEnded || didPlayersEnd;
 };

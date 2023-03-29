@@ -1,11 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { SocketContext } from "@/app/context/SocketContext";
 import { useContext } from "react";
 import { HangmanDrawing } from "./HangmanDrawings";
 import { HangmanWord } from "./HangmanWord";
 import { Keyboard } from "./Keyboard";
-import { toast } from "react-hot-toast";
 import { UserContext } from "../context/UserContext";
 import { useSession } from "next-auth/react";
 import {
@@ -14,16 +13,30 @@ import {
   hasGameEnded,
 } from "../utils/game";
 import type { socketContextTypes, userContextTypes } from "../types/context";
+import { playerDisconnectedHandler, roomClosed } from "../utils/lobby";
 
 const Hangman = () => {
   const { data: session } = useSession();
   const { isLogged, user }: userContextTypes = useContext(UserContext);
   const { socket, room, router }: socketContextTypes =
     useContext(SocketContext);
-  socket!.on("playerDisconnected", (id: string) => {
-    toast.error(`player ${id} has disconnected`);
-  });
 
+  const roomHasClosed = () => {
+    console.log("asd");
+    roomClosed(router);
+  };
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("roomHasClosed", roomHasClosed);
+      socket.on("room:playerDisconnected", playerDisconnectedHandler);
+
+      return () => {
+        socket.off("roomHasClosed", roomHasClosed);
+        socket.off("room:playerDisconnected", playerDisconnectedHandler);
+      };
+    }
+  }, [socket]);
   if (Object.keys(room).length === 0) router.replace("/");
   const { wordToGuess, players, language } = room;
   const playerId = isLogged ? user.id : session?.user.id;
@@ -40,10 +53,14 @@ const Hangman = () => {
   const isLoser = incorrectLetters.length >= 6;
 
   const isWinner = checkIsWinner(guessedLetters!, wordToGuess.word);
+  const isAuthor = playerId === room.creator;
+
   const gameHasEnded = hasGameEnded({
     roundTime: room.roundTime,
     players,
     wordToGuess: wordToGuess.word,
+    authorId: room.creator,
+    customWord: room.customWord,
   });
 
   const winner = players.reduce((acc, player) => {
@@ -65,13 +82,13 @@ const Hangman = () => {
       />
       {gameHasEnded && (
         <h1 className="uppercase p-5 text-white text-xs md:text-md lg:text-xl">
-          The word was <b className="text-cyan-500">{wordToGuess.original}</b>
+          The word was <b className="text-cyan-500">{wordToGuess.original} </b>
           {language !== "english" && `which means ${wordToGuess.translation}`}
         </h1>
       )}
       <div>
         <Keyboard
-          disabled={isWinner || isLoser}
+          disabled={isWinner || isLoser || (room.customWord && isAuthor)}
           activeLetters={guessedLetters!.filter((letter: string) =>
             wordToGuess.word.includes(letter)
           )}

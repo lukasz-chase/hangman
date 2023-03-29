@@ -27,6 +27,8 @@ const PlayersDisplay = () => {
     roundTime: roundTime,
     players: players,
     wordToGuess: wordToGuess.word,
+    authorId: room.creator,
+    customWord: room.customWord,
   });
 
   let countdownInterval: any;

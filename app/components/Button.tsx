@@ -10,7 +10,7 @@ type ButtonTypes = {
 const Button = ({ children, link }: ButtonTypes) => {
   return (
     <Link
-      className="p-2 md:p-5 text-sm md:text-xl uppercase border-2  bg-white text-black rounded-md shadow-md transition-all duration-100 ease-in-out border-white hover:border-lime-500"
+      className="btn btn-accent text-sm md:text-xl uppercase shadow-md text-center"
       href={link}
     >
       {children}
