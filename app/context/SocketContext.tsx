@@ -26,7 +26,6 @@ const SocketContext = createContext({
   },
   setRoom: (room: any) => {},
   router: {},
-  socketUrl: "https://hangman-server-stl0.onrender.com/",
 });
 
 const SocketContextProvider = ({ children }: { children: ReactNode }) => {
@@ -76,7 +75,6 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
         room,
         setRoom,
         router,
-        socketUrl,
       }}
     >
       {children}

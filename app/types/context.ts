@@ -11,5 +11,4 @@ export type socketContextTypes = {
   socket: Socket | null;
   room: Room;
   router: any;
-  socketUrl: string;
 };
