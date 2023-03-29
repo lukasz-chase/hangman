@@ -17,7 +17,8 @@ import { joinRoom } from "../utils/room";
 const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
   const { isLogged, user }: userContextTypes = useContext(UserContext);
-  const { socket, router }: socketContextTypes = useContext(SocketContext);
+  const { socket, router, socketUrl }: socketContextTypes =
+    useContext(SocketContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [room, setRoom] = useState<Room>({
@@ -40,8 +41,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   });
   const playerId = isLogged ? user.id : session?.user.id;
   const name = isLogged ? user.name : session?.user?.name;
-  const roomUrl = `http://localhost:3000/lobby/${roomId}`;
-  // const roomUrl = `https://hangman-server-stl0.onrender.com/lobby/${roomId}`;
+  const roomUrl = `${socketUrl}/lobby/${roomId}`;
   const isAuthor = room.creator === playerId;
 
   const setRoomHandler = (room: Room) => {
