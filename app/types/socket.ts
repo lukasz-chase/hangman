@@ -41,7 +41,7 @@ export type roomPayload = {
     word: string;
     translation: string;
     original: string;
-  };;
+  };
   author: {
     name: string;
     id: string;
