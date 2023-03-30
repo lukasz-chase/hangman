@@ -23,14 +23,23 @@ const SocketContext = createContext({
     inGame: false,
     creator: "",
     customWord: false,
+    messages: [
+      {
+        playerName: "asd",
+        playerId: "dfgdf",
+        message: "",
+        createdAt: "12:19",
+        playerAvatar: "",
+      },
+    ],
   },
   setRoom: (room: any) => {},
   router: {},
 });
 
 const SocketContextProvider = ({ children }: { children: ReactNode }) => {
-  const socketUrl = "https://hangman-server-stl0.onrender.com/";
-  // const socketUrl = 'http://localhost:8080'
+  // const socketUrl = "https://hangman-server-stl0.onrender.com/";
+  const socketUrl = "http://localhost:8080";
   const [room, setRoom] = useState<Room>({
     roomId: "",
     playersLimit: 0,
@@ -48,6 +57,15 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
     inGame: false,
     creator: "",
     customWord: false,
+    messages: [
+      {
+        playerName: "asd",
+        playerId: "dfgdf",
+        message: "",
+        createdAt: "12:19",
+        playerAvatar: "",
+      },
+    ],
   });
 
   const [socket, setSocket] = useState<Socket | null>(null);

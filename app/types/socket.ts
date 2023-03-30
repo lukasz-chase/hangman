@@ -11,6 +11,14 @@ export type Player = {
   name: string;
 };
 
+export type Message = {
+  playerName: string;
+  playerAvatar: string;
+  playerId: string;
+  message: string;
+  createdAt: string;
+};
+
 export type Room = {
   roomId: string;
   playersLimit: number;
@@ -28,6 +36,7 @@ export type Room = {
   inGame: boolean;
   players: Player[];
   customWord: boolean;
+  messages: Message[];
 };
 
 export type roomPayload = {

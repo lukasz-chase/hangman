@@ -12,3 +12,8 @@ export type socketContextTypes = {
   room: Room;
   router: any;
 };
+
+export type gameContextTypes = {
+  setIsChatFocused: (isFocused: boolean) => void;
+  isChatFocused: boolean;
+};

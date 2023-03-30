@@ -22,7 +22,6 @@ const Hangman = () => {
     useContext(SocketContext);
 
   const roomHasClosed = () => {
-    console.log("asd");
     roomClosed(router);
   };
 
@@ -66,8 +65,9 @@ const Hangman = () => {
   const winner = players.reduce((acc, player) => {
     return player.score > acc.score ? player : acc;
   }, players[0]);
+
   return (
-    <div className="flexCenter flex-col mt-10">
+    <div className="flexCenter flex-col mt-10 flex-1">
       {gameHasEnded && (
         <div className="text-white uppercase md:text-2xl text-center">
           <h1 className="md:text-xl">Game has ended</h1>

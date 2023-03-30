@@ -13,6 +13,7 @@ import {
   roomClosed,
 } from "../utils/lobby";
 import { joinRoom } from "../utils/room";
+import Chat from "./Chat";
 
 const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
@@ -37,9 +38,12 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     inGame: false,
     creator: "",
     customWord: false,
+    messages: [],
   });
   const playerId = isLogged ? user.id : session?.user.id;
   const name = isLogged ? user.name : session?.user?.name;
+  const playerAvatar = isLogged ? user.avatar : session?.user?.avatar;
+
   const roomUrl = `https://hangman-git-main-luki7522-gmailcom.vercel.app/lobby/${roomId}`;
   // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
   const isAuthor = room.creator === playerId;
@@ -98,62 +102,75 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   }, [socket]);
 
   return (
-    <div className="flexCenter flex-col">
-      <div className="flexCenter flex-col md:flex-row gap-2 md:gap-5 min-h-[300px]  uppercase bg-white text-black">
-        <div className=" w-full md:w-64 md:h-full border-b-2 md:border-r-2 md:border-b-0 border-black ">
-          <h1 className="bg-black border-l-2 border-t-2 border-white text-white color-white p-2 text-center">
-            Players {room.players.length}/{room.playersLimit}
-          </h1>
-          {room.players.map((player, index) => (
-            <div
-              key={player.id}
-              className={`p-2 md:p-5 text-black flex justify-between ${
-                index + 1 !== room.players.length && "border-b-2 border-black"
-              } `}
-            >
-              <span>{player.name}</span>
-              {room.creator === player.id && (
-                <span className="text-primary"> Host</span>
+    <div className="flex gap-5 flex-col md:flex-row min-h-[300px]">
+      <div className="flexCenter flex-col">
+        <div className="flexCenter flex-col md:flex-row gap-2 md:gap-5 min-h-[300px]  uppercase bg-white text-black">
+          <div className=" w-full md:w-64 md:h-full border-b-2 md:border-r-2 md:border-b-0 border-black ">
+            <h1 className="bg-black border-l-2 border-t-2 border-white text-white color-white p-2 text-center">
+              Players {room.players.length}/{room.playersLimit}
+            </h1>
+            {room.players.map((player, index) => (
+              <div
+                key={player.id}
+                className={`p-2 md:p-5 text-black flex justify-between ${
+                  index + 1 !== room.players.length && "border-b-2 border-black"
+                } `}
+              >
+                <span>{player.name}</span>
+                {room.creator === player.id && (
+                  <span className="text-primary"> Host</span>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="flexCenter flex-col p-2 h-full min-w-full md:min-w-[400px] lg:min-w-[600px] gap-3 md:p-5  text-xs md:text-md lg:text-lg">
+            <div className="flex-col flexCenter">
+              <span>
+                Word language: <b className="text-info">{room.language}</b>
+              </span>
+              {room.customWord && (
+                <span className="text-sm lowercase">
+                  Word has been chosen by host
+                </span>
               )}
             </div>
-          ))}
-        </div>
-        <div className="flexCenter flex-col p-2 h-full min-w-full md:min-w-[400px] lg:min-w-[600px] gap-3 md:p-5  text-xs md:text-md lg:text-lg">
-          <div className="flex-col flexCenter">
             <span>
-              Word language: <b className="text-info">{room.language}</b>
+              Round time:{" "}
+              <b className="text-info lowercase">{room.roundTime}s</b>
             </span>
-            {room.customWord && (
-              <span className="text-sm lowercase">
-                Word has been chosen by host
-              </span>
-            )}
+            <span className="text-xs md:text-md">{roomUrl}</span>
+            <button
+              onClick={() => copyUrl(roomUrl)}
+              className="btn btn-info w-36 uppercase"
+            >
+              copy url
+            </button>
           </div>
-          <span>
-            Round time: <b className="text-info lowercase">{room.roundTime}s</b>
-          </span>
-          <span className="text-xs md:text-md">{roomUrl}</span>
-          <button
-            onClick={() => copyUrl(roomUrl)}
-            className="btn btn-info w-36 uppercase"
-          >
-            copy url
-          </button>
         </div>
+        <button
+          disabled={!isAuthor}
+          className={`w-full md:border-2 p-2 md:p-5 tracking-widest text-md md:text-xl xl:text-2xl bg-black uppercase ${
+            isAuthor && "hover:text-success cursor-pointer"
+          }`}
+          onClick={startTheGame}
+        >
+          {isLoading ? (
+            "Loading"
+          ) : (
+            <div>
+              {isAuthor ? "Play" : "WAITING FOR HOST TO START THE GAME"}
+            </div>
+          )}
+        </button>
       </div>
-      <button
-        disabled={!isAuthor}
-        className={`w-full md:border-2 p-2 md:p-5 tracking-widest text-md md:text-xl xl:text-2xl bg-black uppercase ${
-          isAuthor && "hover:text-success cursor-pointer"
-        }`}
-        onClick={startTheGame}
-      >
-        {isLoading ? (
-          "Loading"
-        ) : (
-          <div>{isAuthor ? "Play" : "WAITING FOR HOST TO START THE GAME"}</div>
-        )}
-      </button>
+      <Chat
+        messages={room.messages}
+        playerId={playerId}
+        playerName={name}
+        roomId={roomId}
+        socket={socket}
+        playerAvatar={playerAvatar}
+      />
     </div>
   );
 };

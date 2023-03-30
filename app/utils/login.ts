@@ -1,11 +1,10 @@
 import short from "short-uuid";
-
-import avatar1 from "@/assets/avatar-1.png";
-import avatar2 from "@/assets/avatar-2.png";
-import avatar3 from "@/assets/avatar-3.png";
-import avatar4 from "@/assets/avatar-4.png";
-
-const avatars = [avatar1, avatar2, avatar3, avatar4];
+const avatars = [
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191676/deb7gmlw3iyq4r41kjlx.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191675/bfr0ynxpd8hv8jyxxvir.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191675/hwbuzvi3blxi16xuxl3l.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191675/wtym4a2k0vt0xmxdzmzp.png",
+];
 
 const gameNames = ["Alfred", "Wizard", "Dragon", "Robert", "King"];
 

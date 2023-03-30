@@ -32,7 +32,7 @@ const Nav = () => {
         >
           <img
             className="h-5 w-5 hidden md:block lg:h-8 lg:w-8 rounded-full"
-            src={session ? session.user?.image! : user.avatar.src}
+            src={session ? session.user?.image! : user.avatar}
             alt="Profile picture"
           />
           <p className="block md:hidden">Sign out</p>

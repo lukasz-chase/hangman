@@ -1,5 +1,6 @@
 "use client";
-import { useCallback, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
+import { GameContext } from "../context/GameContext";
 import { keys } from "../descriptions/Hangman";
 import { Player } from "../types/socket";
 
@@ -26,6 +27,7 @@ export function Keyboard({
   guessedLetters,
   player,
 }: KeyboardProps) {
+  const { isChatFocused }: { isChatFocused: boolean } = useContext(GameContext);
   const setGuessedLetters = (letter: string) => {
     player.guessedLetters = [...player.guessedLetters, letter];
     player.score = room.wordToGuess.word.includes(letter)
@@ -45,6 +47,9 @@ export function Keyboard({
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const key = e.key;
+      if (isChatFocused) {
+        return;
+      }
       if (!key.match(/^[a-z]$/)) return;
 
       e.preventDefault();
@@ -56,7 +61,7 @@ export function Keyboard({
     return () => {
       document.removeEventListener("keypress", handler);
     };
-  }, [guessedLetters]);
+  }, [guessedLetters, isChatFocused]);
   return (
     <div className="grid grid-cols-fluid gap-1 w-screen lg:max-w-3xl">
       {keys.map((key) => {

@@ -30,7 +30,6 @@ export const joinRoom = ({
     "room:join",
     { roomId, name, id: playerId },
     (err: any, room: any) => {
-      console.log(err);
       if (err) {
         router.replace(`/`);
         return toast.error(err.error);
