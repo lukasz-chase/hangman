@@ -6,19 +6,21 @@ import { UserContext } from "../context/UserContext";
 import { SocketContext } from "../context/SocketContext";
 import type { socketContextTypes, userContextTypes } from "../types/context";
 
-type JoinRoomProps = {
+type JoinLobbyProps = {
   roomId: string;
   playersLimit: number;
   players: Player[];
   language: string;
+  customWord: boolean;
 };
 
-const JoinRoom = ({
+const JoinLobby = ({
   roomId,
   playersLimit,
   players,
   language,
-}: JoinRoomProps) => {
+  customWord,
+}: JoinLobbyProps) => {
   const { data: session } = useSession();
   const { isLogged, user }: userContextTypes = useContext(UserContext);
   const { socket, router }: socketContextTypes = useContext(SocketContext);
@@ -59,12 +61,17 @@ const JoinRoom = ({
         </span>
       </div>
       <div className="flex flex-col">
+        {customWord && (
+          <span className="text-xs lowercase text-black">
+            Word chosen by host
+          </span>
+        )}
         <span className="text-sm text-black">
-          word is in <b className="text-lime-500">{language}</b>
+          word is in <b className="text-primary">{language}</b>
         </span>
       </div>
     </div>
   );
 };
 
-export default JoinRoom;
+export default JoinLobby;

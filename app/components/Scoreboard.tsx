@@ -77,7 +77,7 @@ const Scoreboard = () => {
   }, [gameHasEnded]);
 
   return (
-    <div className="">
+    <div className="md:mr-20">
       <div className="flexCenter flex-col flex-2 min-w-full md:min-w-0 p-5">
         <div
           ref={countdownWrapperRef}

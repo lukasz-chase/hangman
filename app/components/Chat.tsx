@@ -72,7 +72,11 @@ const Chat = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
-        <button className="btn" onClick={handleMessage}>
+        <button
+          disabled={!message.message}
+          className="btn btn-primary"
+          onClick={handleMessage}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

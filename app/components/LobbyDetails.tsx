@@ -102,7 +102,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   }, [socket]);
 
   return (
-    <div className="flex gap-5 flex-col md:flex-row min-h-[300px]">
+    <div className="flexCenter xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
       <div className="flexCenter flex-col">
         <div className="flexCenter flex-col md:flex-row gap-2 md:gap-5 min-h-[300px]  uppercase bg-white text-black">
           <div className=" w-full md:w-64 md:h-full border-b-2 md:border-r-2 md:border-b-0 border-black ">

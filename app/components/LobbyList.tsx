@@ -39,6 +39,7 @@ const RoomsDisplay = () => {
             players={room.players}
             playersLimit={room.playersLimit}
             language={room.language}
+            customWord={room.customWord}
           />
         ))}
       </div>

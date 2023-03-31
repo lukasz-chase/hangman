@@ -63,13 +63,13 @@ export function Keyboard({
     };
   }, [guessedLetters, isChatFocused]);
   return (
-    <div className="grid grid-cols-fluid gap-1 w-screen lg:max-w-3xl">
+    <div className="grid grid-cols-fluid gap-1 w-[95vw] md:max-w-3xl p-4">
       {keys.map((key) => {
         const isActive = activeLetters.includes(key);
         const isInactive = inactiveLetters.includes(key);
         return (
           <button
-            className={`kbd md:kbd-md uppercase text-bold lg:kbd-lg w-full border-2 ratio-square p-2 cursor-pointer text-black 
+            className={`kbd lg:kbd-md uppercase text-bold xl:kbd-lg w-full border-2 ratio-square p-2 cursor-pointer text-black 
             ${
               !isInactive &&
               !isActive &&

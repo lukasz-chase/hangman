@@ -71,7 +71,11 @@ const Hangman = () => {
       {gameHasEnded && (
         <div className="text-white uppercase md:text-2xl text-center">
           <h1 className="md:text-xl">Game has ended</h1>
-          <h1 className="text-lime-500 mb-4">{winner?.name} has won</h1>
+          <h1 className="text-accent mb-4">
+            {winner?.name === player?.name
+              ? "you won"
+              : `${winner?.name} has won`}
+          </h1>
         </div>
       )}
       <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
