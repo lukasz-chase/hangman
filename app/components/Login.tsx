@@ -7,7 +7,7 @@ import type { userContextTypes } from "../types/context";
 import Image from "next/image";
 import { guestUser } from "../utils/login";
 
-function Login() {
+const Login = () => {
   const { setUser, setIsLogged }: userContextTypes = useContext(UserContext);
 
   const guestLogIn = () => {
@@ -33,17 +33,29 @@ function Login() {
           <b className="text-lime-500">Sign in</b> to continue
         </h3>
       </div>
-      <button onClick={() => signIn("google")} className="signButton">
+      <button
+        aria-label="google sign in"
+        onClick={() => signIn("google")}
+        className="signButton"
+      >
         google
       </button>
-      <button onClick={() => signIn("facebook")} className="signButton">
+      <button
+        aria-label="google sign in"
+        onClick={() => signIn("facebook")}
+        className="signButton"
+      >
         facebook
       </button>
-      <button className="signButton" onClick={guestLogIn}>
+      <button
+        aria-label="google sign in"
+        className="signButton"
+        onClick={guestLogIn}
+      >
         guest
       </button>
     </div>
   );
-}
+};
 
 export default Login;

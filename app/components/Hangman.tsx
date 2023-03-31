@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { SocketContext } from "@/app/context/SocketContext";
 import { useContext } from "react";
 import { HangmanDrawing } from "./HangmanDrawings";
@@ -17,7 +17,7 @@ import { playerDisconnectedHandler, roomClosed } from "../utils/lobby";
 
 const Hangman = () => {
   const { data: session } = useSession();
-  const { isLogged, user }: userContextTypes = useContext(UserContext);
+  const { user }: userContextTypes = useContext(UserContext);
   const { socket, room, router }: socketContextTypes =
     useContext(SocketContext);
 
@@ -38,7 +38,7 @@ const Hangman = () => {
   }, [socket]);
   if (Object.keys(room).length === 0) router.replace("/");
   const { wordToGuess, players, language } = room;
-  const playerId = isLogged ? user.id : session?.user.id;
+  const playerId = user.id ?? session?.user.id;
   const player = players.find((player) => player.id === playerId);
 
   const guessedLetters = player?.guessedLetters || [];
@@ -72,9 +72,7 @@ const Hangman = () => {
         <div className="text-white uppercase md:text-2xl text-center">
           <h1 className="md:text-xl">Game has ended</h1>
           <h1 className="text-accent mb-4">
-            {winner?.name === player?.name
-              ? "you won"
-              : `${winner?.name} has won`}
+            {winner?.id === player?.id ? "you won" : `${winner?.name} has won`}
           </h1>
         </div>
       )}
@@ -96,7 +94,7 @@ const Hangman = () => {
           activeLetters={guessedLetters!.filter((letter: string) =>
             wordToGuess.word.includes(letter)
           )}
-          socket={socket}
+          socket={socket!}
           isLoser={isLoser}
           isWinner={isWinner}
           room={room}

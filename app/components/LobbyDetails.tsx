@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
@@ -40,9 +40,9 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     customWord: false,
     messages: [],
   });
-  const playerId = isLogged ? user.id : session?.user.id;
-  const name = isLogged ? user.name : session?.user?.name;
-  const playerAvatar = isLogged ? user.avatar : session?.user?.avatar;
+  const playerId = user.id ?? session?.user.id;
+  const name = user.name ?? session?.user?.name;
+  const playerAvatar = user.avatar ?? session?.user?.avatar;
 
   const roomUrl = `https://hangman-git-main-luki7522-gmailcom.vercel.app/lobby/${roomId}`;
   // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
@@ -149,6 +149,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
         </div>
         <button
           disabled={!isAuthor}
+          aria-label="start the game"
           className={`w-full md:border-2 p-2 md:p-5 tracking-widest text-md md:text-xl xl:text-2xl bg-black uppercase ${
             isAuthor && "hover:text-success cursor-pointer"
           }`}
@@ -168,7 +169,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
         playerId={playerId}
         playerName={name}
         roomId={roomId}
-        socket={socket}
+        socket={socket!}
         playerAvatar={playerAvatar}
       />
     </div>

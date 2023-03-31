@@ -18,7 +18,7 @@ export type User = {
 };
 
 export type GuestUser = {
-  id: number;
+  id: string;
   name: string;
-  avatar: StaticImageData;
+  avatar: string;
 };

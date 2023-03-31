@@ -1,13 +1,13 @@
 "use client";
-import React, { useState, ReactNode, createContext } from "react";
+import { useState, ReactNode, createContext } from "react";
 import { GuestUser } from "../types/authTypes";
-import avatar1 from "../../assets/avatar-1.png";
 
 const UserContext = createContext({
   user: {
-    id: 1,
+    id: "1",
     name: "Alfred",
-    avatar: avatar1,
+    avatar:
+      "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191676/deb7gmlw3iyq4r41kjlx.png",
   },
   isLogged: false,
   setUser: (user: GuestUser) => {},
@@ -16,9 +16,10 @@ const UserContext = createContext({
 
 const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<GuestUser>({
-    id: 1,
+    id: "1",
     name: "Alfred",
-    avatar: avatar1,
+    avatar:
+      "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191676/deb7gmlw3iyq4r41kjlx.png",
   });
   const [isLogged, setIsLogged] = useState<boolean>(false);
 

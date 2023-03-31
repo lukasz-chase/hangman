@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
@@ -19,7 +19,7 @@ import { createRoom } from "../utils/room";
 
 const RoomCreation = () => {
   const { data: session } = useSession();
-  const { isLogged, user }: userContextTypes = useContext(UserContext);
+  const { user }: userContextTypes = useContext(UserContext);
   const { socket, router }: socketContextTypes = useContext(SocketContext);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -29,8 +29,8 @@ const RoomCreation = () => {
     language: "english",
     roundTime: 1,
     author: {
-      name: isLogged ? user.name : session?.user?.name,
-      id: isLogged ? user.id : session?.user?.id,
+      name: user.name ?? session?.user?.name,
+      id: user.id ?? session?.user?.id,
     },
     customWord: false,
     word: {
@@ -39,7 +39,9 @@ const RoomCreation = () => {
       original: "",
     },
   });
+
   const roomHasClosed = () => roomClosed(router);
+
   useEffect(() => {
     if (socket) {
       socket.on("roomHasClosed", roomHasClosed);
@@ -50,8 +52,9 @@ const RoomCreation = () => {
     }
   }, []);
 
-  const handleChange = (e: any) =>
-    setRoom({ ...room, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => setRoom({ ...room, [e.target.name]: e.target.value });
 
   return (
     <div>
@@ -61,13 +64,14 @@ const RoomCreation = () => {
             <h2>{label}</h2>
             <input
               type="range"
+              aria-label={`input ${name}`}
               min={min}
               max={max}
               name={name}
               value={room[name]}
               className="range range-accent"
               step="1"
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
             />
             <div className="w-full flex justify-between text-xs px-2">
               {options.map((number) => (
@@ -82,6 +86,7 @@ const RoomCreation = () => {
             <input
               type="checkbox"
               checked={room[name]}
+              aria-label={`checkbox ${name}`}
               name={name}
               className="checkbox checkbox-accent"
               onChange={(e) => setRoom({ ...room, [name]: e.target.checked })}
@@ -89,28 +94,34 @@ const RoomCreation = () => {
           </label>
         ))}
         {selectInput.map(({ label, name, options }: selectType) => (
-          <label
-            key={name}
-            className="label cursor-pointer flexCenter flex-col text-white"
-          >
-            <span className="label-text">{label}</span>
-            <select
-              name={name}
-              onChange={(e) => setRoom({ ...room, [name]: e.target.value })}
-              className="select select-bordered w-full max-w-xs"
-            >
-              {options.map(({ name, value }) => (
-                <option key={name} className="cursor-pointer p-5" value={value}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div key={name} className="form-control w-full max-w-xs">
+            <label className="label cursor-pointer flexCenter flex-col text-white">
+              <span className="label-text">{label}</span>
+              <select
+                name={name}
+                aria-label={`select ${name}`}
+                onChange={(e) => setRoom({ ...room, [name]: e.target.value })}
+                className="select select-bordered w-full max-w-xs"
+              >
+                {options.map(({ name, value }) => (
+                  <option
+                    key={name}
+                    aria-label={`option ${name}`}
+                    className="cursor-pointer p-5"
+                    value={value}
+                  >
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         ))}
         {room.customWord && (
           <div className="form-control w-full max-w-xs">
             <input
               type="text"
+              aria-label={`input custom word`}
               placeholder="Word to guess"
               className="input input-bordered w-full max-w-xs"
               value={room.word.word}
@@ -130,6 +141,7 @@ const RoomCreation = () => {
             </label>
             <input
               type="text"
+              aria-label={`input custom word translation`}
               placeholder="Translation"
               className="input input-bordered w-full max-w-xs"
               value={room.word.translation}
@@ -143,6 +155,7 @@ const RoomCreation = () => {
           </div>
         )}
         <button
+          aria-label={`create a lobby`}
           onClick={() => createRoom(room, socket, router, setIsLoading)}
           className="btn btn-primary  text-white"
         >

@@ -24,11 +24,7 @@ const robotoMono = Roboto_Mono({
   variable: "--font-robotoMono",
 });
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <UserContextProvider>
@@ -51,4 +47,4 @@ export default async function RootLayout({
       </UserContextProvider>
     </html>
   );
-}
+};

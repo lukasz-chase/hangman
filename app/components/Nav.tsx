@@ -1,6 +1,6 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import type { userContextTypes } from "../types/context";
 import LeaveButton from "./LeaveButton";
@@ -26,13 +26,14 @@ const Nav = () => {
       </h1>
       {(session || isLogged) && (
         <div
+          aria-label="sign out"
           onClick={() => signOutHandler()}
           className="md:tooltip md:tooltip-bottom hover:tooltip-open cursor-pointer"
           data-tip="Sign out"
         >
           <img
             className="h-5 w-5 hidden md:block lg:h-8 lg:w-8 rounded-full"
-            src={session ? session.user?.image! : user.avatar}
+            src={session?.user?.image! ?? user.avatar}
             alt="Profile picture"
           />
           <p className="block md:hidden">Sign out</p>

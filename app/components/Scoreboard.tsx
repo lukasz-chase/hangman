@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import React, { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
 import type { socketContextTypes, userContextTypes } from "../types/context";
@@ -14,12 +14,12 @@ const RED_TIME = 20;
 
 const Scoreboard = () => {
   const { data: session } = useSession();
-  const { isLogged, user }: userContextTypes = useContext(UserContext);
+  const { user }: userContextTypes = useContext(UserContext);
   const { socket, room }: socketContextTypes = useContext(SocketContext);
 
-  const playerId = isLogged ? user.id : session?.user.id;
-  const name = isLogged ? user.name : session?.user?.name;
-  const playerAvatar = isLogged ? user.avatar : session?.user?.avatar;
+  const playerId = user.id ?? session?.user.id;
+  const name = user.name ?? session?.user?.name;
+  const playerAvatar = user.avatar ?? session?.user?.avatar;
 
   const countdownRef = useRef<HTMLElement | null>(null);
   const countdownWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -42,19 +42,26 @@ const Scoreboard = () => {
   };
   const setTimeoutUI = (roundTime: number) => {
     countdownRef.current!.style.setProperty("--value", `${roundTime}`);
-    if (roundTime <= 90 && roundTime > 0) {
-      countdownWrapperRef.current!.classList.remove("hidden");
-      countdownWrapperRef.current!.classList.add("flex");
-    } else {
-      countdownWrapperRef.current!.classList.add("hidden");
-    }
-    if (roundTime <= LIME_TIME && roundTime > WHITE_TIME) {
-      countdownRef.current!.classList.add("text-lime-500");
-    } else if (roundTime < WHITE_TIME && roundTime > RED_TIME) {
-      countdownRef.current!.classList.add("text-white");
-    } else if (roundTime < RED_TIME && roundTime > 0) {
-      countdownRef.current!.classList.add("text-red-500");
-    }
+    countdownWrapperRef.current!.classList.toggle(
+      "hidden",
+      roundTime > 90 || roundTime <= 0
+    );
+    countdownWrapperRef.current!.classList.toggle(
+      "flex",
+      roundTime > 0 && roundTime <= 90
+    );
+    countdownRef.current!.classList.toggle(
+      "text-lime-500",
+      roundTime <= LIME_TIME && roundTime > WHITE_TIME
+    );
+    countdownRef.current!.classList.toggle(
+      "text-white",
+      roundTime < WHITE_TIME && roundTime > RED_TIME
+    );
+    countdownRef.current!.classList.toggle(
+      "text-red-500",
+      roundTime < RED_TIME && roundTime > 0
+    );
   };
   useEffect(() => {
     if (!gameHasEnded) {
@@ -110,7 +117,7 @@ const Scoreboard = () => {
         playerId={playerId}
         playerName={name}
         roomId={room.roomId}
-        socket={socket}
+        socket={socket!}
         playerAvatar={playerAvatar}
       />
     </div>

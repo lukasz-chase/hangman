@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, ReactNode, createContext } from "react";
+import { useState, ReactNode, createContext } from "react";
 
 const GameContext = createContext({
   isChatFocused: false,

@@ -44,7 +44,7 @@ export const machineParts = [
   {
     name: "middle part",
     className:
-      "h-[200px] w-[8px] md:h-[400px] md:w-[10px] bg-black ml-[60px] md:ml-[120px]",
+      "h-[200px] w-[8px] md:h-[300px] md:w-[10px] bg-black ml-[60px] md:ml-[120px]",
   },
   {
     name: "bottom part",
