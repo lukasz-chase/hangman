@@ -6,8 +6,6 @@ import Nav from "./components/Nav";
 import LayoutWrapper from "./components/LayoutWrapper";
 import { SessionProvider } from "./components/SessionProvider";
 import { Montserrat, Roboto_Mono } from "next/font/google";
-import { getServerSession } from "next-auth";
-import { AuthOptions } from "@/pages/api/auth/[...nextauth]";
 
 export const metadata = {
   title: "Hangman",
@@ -27,14 +25,13 @@ const robotoMono = Roboto_Mono({
 });
 
 export default async ({ children }: { children: React.ReactNode }) => {
-  const session = await getServerSession(AuthOptions);
   return (
     <html lang="en">
       <UserContextProvider>
         <SocketContextProvider>
           <GameContextProvider>
             <body>
-              <SessionProvider session={session}>
+              <SessionProvider>
                 <LayoutWrapper>
                   <div
                     className={`${montserrat.variable} ${robotoMono.variable}  font-montserrat`}

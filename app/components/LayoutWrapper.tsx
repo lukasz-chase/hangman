@@ -10,8 +10,15 @@ interface Props {
 }
 
 const LayoutWrapper = ({ children }: Props) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const { isLogged = false }: { isLogged: boolean } = useContext(UserContext);
+  if (status === "loading") {
+    return (
+      <div className="h-screen w-screen flexCenter">
+        <progress className="progress progress-accent w-56"></progress>
+      </div>
+    );
+  }
   return (
     <div>
       {session || isLogged ? (
