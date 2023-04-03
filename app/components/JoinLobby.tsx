@@ -20,8 +20,8 @@ const JoinLobby = memo(
     const { user }: userContextTypes = useContext(UserContext);
     const { socket, router }: socketContextTypes = useContext(SocketContext);
 
-    const playerId = user.id ?? session?.user.id;
-    const name = user.name ?? session?.user?.name;
+    const playerId = session?.user.id ?? user.id;
+    const name = session?.user?.name ?? user.name;
 
     return (
       <div

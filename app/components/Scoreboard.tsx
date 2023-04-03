@@ -17,9 +17,9 @@ const Scoreboard = () => {
   const { user }: userContextTypes = useContext(UserContext);
   const { socket, room }: socketContextTypes = useContext(SocketContext);
 
-  const playerId = user.id ?? session?.user.id;
-  const name = user.name ?? session?.user?.name;
-  const playerAvatar = user.avatar ?? session?.user?.avatar;
+  const playerId = session?.user.id ?? user.id;
+  const name = session?.user?.name ?? user.name;
+  const playerAvatar = session?.user?.image ?? user.avatar;
 
   const countdownRef = useRef<HTMLElement | null>(null);
   const countdownWrapperRef = useRef<HTMLDivElement | null>(null);

@@ -14,8 +14,8 @@ const LeaveButton = () => {
   const { user }: userContextTypes = useContext(UserContext);
   const { socket, router }: socketContextTypes = useContext(SocketContext);
 
-  const playerId = user.id ?? session?.user.id;
-  const playerName = user.name ?? session?.user.name;
+  const playerId = session?.user.id ?? user.id;
+  const playerName = session?.user.name ?? user.name;
 
   const pathname = usePathname()!.split("/");
   const handleRooms = (rooms: any) => setRooms(rooms);

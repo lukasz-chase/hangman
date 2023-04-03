@@ -29,8 +29,8 @@ const RoomCreation = () => {
     language: "english",
     roundTime: 1,
     author: {
-      name: user.name ?? session?.user?.name,
-      id: user.id ?? session?.user?.id,
+      name: session?.user?.name ?? user.name,
+      id: session?.user?.id ?? user.id,
     },
     customWord: false,
     word: {

@@ -38,7 +38,7 @@ const Hangman = () => {
   }, [socket]);
   if (Object.keys(room).length === 0) router.replace("/");
   const { wordToGuess, players, language } = room;
-  const playerId = user.id ?? session?.user.id;
+  const playerId = session?.user.id ?? user.id;
   const player = players.find((player) => player.id === playerId);
 
   const guessedLetters = player?.guessedLetters || [];

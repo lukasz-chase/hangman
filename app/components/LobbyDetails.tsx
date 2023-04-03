@@ -40,9 +40,9 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     customWord: false,
     messages: [],
   });
-  const playerId = user.id ?? session?.user.id;
-  const name = user.name ?? session?.user?.name;
-  const playerAvatar = user.avatar ?? session?.user?.avatar;
+  const playerId = session?.user.id ?? user.id;
+  const name = session?.user?.name ?? user.name;
+  const playerAvatar = session?.user?.image ?? user.avatar;
 
   const roomUrl = `https://hangman-git-main-luki7522-gmailcom.vercel.app/lobby/${roomId}`;
   // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
