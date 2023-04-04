@@ -26,7 +26,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const name = session?.user?.name ?? user.name;
   const playerAvatar = session?.user?.image ?? user.avatar;
 
-  const roomUrl = `https://hangman-git-main-luki7522-gmailcom.vercel.app/lobby/${roomId}`;
+  const roomUrl = `https://hangman-learning.netlify.app//lobby/${roomId}`;
   // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
   const isAuthor = room?.creator === playerId;
 
