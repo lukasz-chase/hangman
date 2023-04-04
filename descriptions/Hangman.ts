@@ -2,12 +2,12 @@ export const bodyParts = [
   {
     name: "head",
     className:
-      "h-[30px] w-[30px] md:h-[50px] md:w-[50px] border-black rounded-full border-8 absolute top-[30px] md:top-[50px] right-[-10px] md:right-[-20px]",
+      "h-[40px] w-[40px] md:h-[50px] md:w-[50px] border-black rounded-full border-8 absolute top-[30px] md:top-[50px] right-[-15px] md:right-[-20px]",
   },
   {
     name: "body",
     className:
-      "h-[80px] w-[8px] md:h-[100px] md:w-[10px] bg-black absolute top-[60px] md:top-[100px] right-0",
+      "h-[80px] w-[8px] md:h-[100px] md:w-[10px] bg-black absolute top-[65px] md:top-[100px] right-0",
   },
   {
     name: "right arm",
@@ -22,7 +22,7 @@ export const bodyParts = [
   {
     name: "right leg",
     className:
-      "h-[8px] w-[60px] md:h-[10px] md:w-[100px] bg-black absolute top-[130px] right-[-55px] md:top-[190px] md:right-[-90px] rotate-[60deg] origin-bottom-left",
+      "h-[8px] w-[60px] md:h-[10px] md:w-[100px] bg-black absolute top-[130px] right-[-50px] md:top-[190px] md:right-[-90px] rotate-[60deg] origin-bottom-left",
   },
   {
     name: "left leg",
