@@ -32,7 +32,7 @@ const ChatInput = ({
     if (!message.message) return toast.error("Message cant be empty");
     const now = new Date();
     const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
+    const currentMinute = now.getMinutes().toString().padStart(2, "0");
     socket.emit(
       "message",
       { ...message, createdAt: `${currentHour}:${currentMinute}` },

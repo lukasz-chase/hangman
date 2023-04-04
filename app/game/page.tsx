@@ -1,4 +1,4 @@
-import GameCreation from "../components/GameCreation";
+import GameCreation from "@/components/GameCreation";
 
 const Room = () => {
   return (

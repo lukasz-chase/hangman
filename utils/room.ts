@@ -20,23 +20,21 @@ export const joinRoom = ({
   socket,
   router,
 }: JoinRoomProps) => {
-  const isPlayerInRoom = players.find((player: any) => player.id === playerId);
+  const isPlayerInRoom = players.find((player) => player.id === playerId);
 
-  if (isPlayerInRoom) return router.replace(`/lobby/${roomId}`);
+  if (isPlayerInRoom) {
+    toast.error("you are already in the room");
+    return router.replace(`/`);
+  }
 
   if (players.length >= playersLimit) return toast.error("room is full");
-
-  socket.emit(
-    "room:join",
-    { roomId, name, id: playerId },
-    (err: any, room: any) => {
-      if (err) {
-        router.replace(`/`);
-        return toast.error(err.error);
-      }
-      router.replace(`/lobby/${roomId}`);
+  socket.emit("room:join", { roomId, name, id: playerId }, (err: any) => {
+    if (err) {
+      router.replace(`/`);
+      return toast.error(err.error);
     }
-  );
+    router.replace(`/lobby/${roomId}`);
+  });
 };
 
 export const createRoom = (

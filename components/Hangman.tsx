@@ -1,6 +1,6 @@
 "use client";
-import { useEffect } from "react";
-import { SocketContext } from "@/app/context/SocketContext";
+import { useEffect, useState } from "react";
+import { SocketContext } from "@/context/SocketContext";
 import { useContext } from "react";
 import { HangmanDrawing } from "./HangmanDrawings";
 import { HangmanWord } from "./HangmanWord";
@@ -14,29 +14,75 @@ import {
 } from "../utils/game";
 import type { socketContextTypes, userContextTypes } from "../types/context";
 import { playerDisconnectedHandler, roomClosed } from "../utils/lobby";
+import { toast } from "react-hot-toast";
+import { Room } from "@/types/socket";
 
-const Hangman = () => {
+const Hangman = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
   const { user }: userContextTypes = useContext(UserContext);
-  const { socket, room, router }: socketContextTypes =
-    useContext(SocketContext);
+  const { socket, router }: socketContextTypes = useContext(SocketContext);
 
   const roomHasClosed = () => {
     roomClosed(router);
   };
+  const [roomIsFetched, setRoomIsFetched] = useState(false);
+  const [room, setRoom] = useState<Room>({
+    players: [],
+    playersLimit: 1,
+    private: false,
+    roomId: roomId,
+    roundTime: 60,
+    author: "asd",
+    vacant: false,
+    language: "english",
+    wordToGuess: {
+      word: "",
+      translation: "",
+      original: "",
+    },
+    inGame: false,
+    creator: "",
+    customWord: false,
+    messages: [],
+    playersInGame: [],
+  });
+  const setRoomHandler = (room: Room) => {
+    setRoom(room);
+    setRoomIsFetched(true);
+  };
 
   useEffect(() => {
     if (socket) {
+      socket.emit("room:getById", roomId);
+      socket.emit("room:playerJoinsGame", { roomId, id: playerId });
+      socket.on("room:getById", setRoomHandler);
       socket.on("roomHasClosed", roomHasClosed);
       socket.on("room:playerDisconnected", playerDisconnectedHandler);
 
       return () => {
+        socket.off("room:getById", setRoomHandler);
         socket.off("roomHasClosed", roomHasClosed);
         socket.off("room:playerDisconnected", playerDisconnectedHandler);
       };
     }
   }, [socket]);
-  if (Object.keys(room).length === 0) router.replace("/");
+  useEffect(() => {
+    if (roomIsFetched) {
+      const playerInGame = room.playersInGame.find((id) => id === playerId);
+      const unwantedPlayer = room.players.find(
+        (player) => player.id === playerId
+      );
+      if (!unwantedPlayer) {
+        toast.error("you can't join this game");
+        return router.replace("/");
+      }
+      if (playerInGame) {
+        toast.error("you are already in this game");
+        return router.replace("/");
+      }
+    }
+  }, [roomIsFetched]);
+
   const { wordToGuess, players, language } = room;
   const playerId = session?.user.id ?? user.id;
   const player = players.find((player) => player.id === playerId);

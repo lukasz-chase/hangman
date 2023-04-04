@@ -28,8 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/context/SocketContext.tsx",
-    "app/context/SocketContext.tsx"
+    "context/SocketContext.tsx",
+    "context/SocketContext.tsx"
   ],
   "exclude": ["node_modules"]
 }

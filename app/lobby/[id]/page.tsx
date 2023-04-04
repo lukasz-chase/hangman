@@ -1,4 +1,4 @@
-import LobbyDetails from "@/app/components/LobbyDetails";
+import LobbyDetails from "@/components/LobbyDetails";
 
 type Props = {
   params: {

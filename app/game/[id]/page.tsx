@@ -1,10 +1,16 @@
-import Hangman from "@/app/components/Hangman";
-import Scoreboard from "@/app/components/Scoreboard";
+import Hangman from "@/components/Hangman";
+import Scoreboard from "@/components/Scoreboard";
 
-const HangmanPage = () => {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+const HangmanPage = ({ params: { id: gameId } }: Props) => {
   return (
-    <div className="h-screen w-full mt-96 xl:mt-0 flex-col gap-5  xl:flex-row flexCenter">
-      <Hangman />
+    <div className="h-screen w-full mt-64 xl:mt-0 flex-col gap-5  xl:flex-row flexCenter">
+      <Hangman roomId={gameId} />
       <Scoreboard />
     </div>
   );

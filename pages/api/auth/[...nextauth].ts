@@ -3,7 +3,7 @@ import GithubProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/prisma/client";
-import { Session, User } from "@/app/types/authTypes";
+import { Session, User } from "@/types/authTypes";
 
 export const AuthOptions: any = {
   adapter: PrismaAdapter(prisma),
@@ -27,4 +27,5 @@ export const AuthOptions: any = {
     },
   },
 };
+
 export default NextAuth(AuthOptions);

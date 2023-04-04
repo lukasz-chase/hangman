@@ -1,5 +1,5 @@
-import Button from "./components/Button";
-import LobbyList from "./components/LobbyList";
+import Button from "@/components/Button";
+import LobbyList from "@/components/LobbyList";
 
 export default () => {
   return (

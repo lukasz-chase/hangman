@@ -19,7 +19,15 @@ const SocketContext = createContext({
     language: "english",
     author: "asd",
     roundTime: 0,
-    players: [{ id: "asd", name: "alfred", guessedLetters: ["a"], score: 0 }],
+    players: [
+      {
+        id: "asd",
+        name: "alfred",
+        guessedLetters: ["a"],
+        score: 0,
+        connectedToRoom: false,
+      },
+    ],
     inGame: false,
     creator: "",
     customWord: false,
@@ -32,6 +40,7 @@ const SocketContext = createContext({
         playerAvatar: "",
       },
     ],
+    playersInGame: [],
   },
   setRoom: (room: any) => {},
   router: {},
@@ -53,7 +62,15 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
     language: "english",
     author: "asd",
     roundTime: 0,
-    players: [{ id: "asd", name: "alfred", guessedLetters: ["a"], score: 0 }],
+    players: [
+      {
+        id: "asd",
+        name: "alfred",
+        guessedLetters: ["a"],
+        score: 0,
+        connectedToRoom: false,
+      },
+    ],
     inGame: false,
     creator: "",
     customWord: false,
@@ -66,6 +83,7 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
         playerAvatar: "",
       },
     ],
+    playersInGame: [],
   });
 
   const [socket, setSocket] = useState<Socket | null>(null);

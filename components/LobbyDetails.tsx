@@ -17,10 +17,11 @@ import Chat from "./Chat";
 
 const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
-  const { isLogged, user }: userContextTypes = useContext(UserContext);
+  const { user }: userContextTypes = useContext(UserContext);
   const { socket, router }: socketContextTypes = useContext(SocketContext);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [roomIsFetched, setRoomIsFetched] = useState(false);
   const [room, setRoom] = useState<Room>({
     players: [],
     playersLimit: 1,
@@ -39,6 +40,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     creator: "",
     customWord: false,
     messages: [],
+    playersInGame: [],
   });
   const playerId = session?.user.id ?? user.id;
   const name = session?.user?.name ?? user.name;
@@ -46,10 +48,11 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
 
   const roomUrl = `https://hangman-git-main-luki7522-gmailcom.vercel.app/lobby/${roomId}`;
   // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
-  const isAuthor = room.creator === playerId;
+  const isAuthor = room?.creator === playerId;
 
   const setRoomHandler = (room: Room) => {
     setRoom(room);
+    setRoomIsFetched(true);
   };
 
   const startTheGameHandler = () => {
@@ -88,7 +91,22 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   }, [socket]);
 
   useEffect(() => {
-    if (socket) {
+    if (socket && roomIsFetched) {
+      const isPlayerInRoom = room.players.find(
+        (player) => player.id === playerId
+      );
+      const playerIndex = room.players.findIndex(
+        (player) => player.id === playerId
+      );
+      if (isPlayerInRoom && !isPlayerInRoom.connectedToRoom) {
+        room.players[playerIndex].connectedToRoom = true;
+        socket.emit("room:update", room);
+        return;
+      } else if (isPlayerInRoom && isPlayerInRoom.connectedToRoom) {
+        toast.error("you are already in the room");
+        return router.replace(`/`);
+      }
+
       joinRoom({
         players: room.players,
         playersLimit: room.playersLimit,
@@ -99,8 +117,8 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
         roomId,
       });
     }
-  }, [socket]);
-
+  }, [socket, roomIsFetched]);
+  // if (!room && router) return router.replace("/");
   return (
     <div className="flexCenter xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
       <div className="flexCenter flex-col">
@@ -117,7 +135,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
                 } `}
               >
                 <span>{player.name}</span>
-                {room.creator === player.id && (
+                {room?.creator === player.id && (
                   <span className="text-primary"> Host</span>
                 )}
               </div>

@@ -9,6 +9,7 @@ export type Player = {
   guessedLetters: string[];
   score: number;
   name: string;
+  connectedToRoom: boolean;
 };
 
 export type Message = {
@@ -37,6 +38,7 @@ export type Room = {
   players: Player[];
   customWord: boolean;
   messages: Message[];
+  playersInGame: string[];
 };
 
 export type roomPayload = {
