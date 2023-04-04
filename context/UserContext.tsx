@@ -1,5 +1,5 @@
 "use client";
-import { useState, ReactNode, createContext } from "react";
+import { useState, ReactNode, createContext, useEffect } from "react";
 import { GuestUser } from "../types/authTypes";
 
 const UserContext = createContext({
@@ -22,7 +22,17 @@ const UserContextProvider = ({ children }: { children: ReactNode }) => {
       "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191676/deb7gmlw3iyq4r41kjlx.png",
   });
   const [isLogged, setIsLogged] = useState<boolean>(false);
-
+  useEffect(() => {
+    if (localStorage.getItem("guestUser")) {
+      const guestUser = JSON.parse(localStorage.getItem("guestUser")!);
+      setUser({
+        id: guestUser.id,
+        name: guestUser.name,
+        avatar: guestUser.avatar,
+      });
+      setIsLogged(true);
+    }
+  }, []);
   return (
     <UserContext.Provider
       value={{

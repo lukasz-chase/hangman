@@ -13,6 +13,7 @@ const Nav = () => {
   const signOutHandler = () => {
     if (isLogged) {
       setIsLogged(false);
+      localStorage.removeItem("guestUser");
       setUser({});
     } else {
       signOut();

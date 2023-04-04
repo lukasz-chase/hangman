@@ -12,6 +12,7 @@ const Login = () => {
 
   const guestLogIn = () => {
     setUser(guestUser);
+    localStorage.setItem("guestUser", JSON.stringify(guestUser));
     setIsLogged(true);
   };
 
