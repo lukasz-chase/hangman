@@ -16,7 +16,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen flexCenter flex-col gap-5 text-center text-white text-lg">
+    <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-white text-[4rem] lg:text-lg">
       <Image
         height="200"
         width="200"
@@ -28,7 +28,7 @@ const Login = () => {
         <h1>
           Welcome to <b className="text-sky-500">Hangman</b> online
         </h1>
-        <h2 className="text-sm">Learn new words by playing</h2>
+        <h2 className="text-[3rem] lg:text-2xl">Learn new words by playing</h2>
         <h3>
           <b className="text-lime-500">Sign in</b> to continue
         </h3>

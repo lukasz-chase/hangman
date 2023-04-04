@@ -2,7 +2,7 @@ import GameCreation from "@/components/GameCreation";
 
 const Room = () => {
   return (
-    <div className="h-screen flexCenter">
+    <div className="h-[100dvh] flexCenter">
       <GameCreation />
     </div>
   );
