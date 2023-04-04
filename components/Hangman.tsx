@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SocketContext } from "@/context/SocketContext";
 import { useContext } from "react";
 import { HangmanDrawing } from "./HangmanDrawings";
@@ -15,52 +15,26 @@ import {
 import type { socketContextTypes, userContextTypes } from "../types/context";
 import { playerDisconnectedHandler, roomClosed } from "../utils/lobby";
 import { toast } from "react-hot-toast";
-import { Room } from "@/types/socket";
 
 const Hangman = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
   const { user }: userContextTypes = useContext(UserContext);
-  const { socket, router }: socketContextTypes = useContext(SocketContext);
+  const { socket, router, roomIsFetched, room }: socketContextTypes =
+    useContext(SocketContext);
 
   const roomHasClosed = () => {
     roomClosed(router);
-  };
-  const [roomIsFetched, setRoomIsFetched] = useState(false);
-  const [room, setRoom] = useState<Room>({
-    players: [],
-    playersLimit: 1,
-    private: false,
-    roomId: roomId,
-    roundTime: 60,
-    author: "asd",
-    vacant: false,
-    language: "english",
-    wordToGuess: {
-      word: "",
-      translation: "",
-      original: "",
-    },
-    inGame: false,
-    creator: "",
-    customWord: false,
-    messages: [],
-    playersInGame: [],
-  });
-  const setRoomHandler = (room: Room) => {
-    setRoom(room);
-    setRoomIsFetched(true);
   };
 
   useEffect(() => {
     if (socket) {
       socket.emit("room:getById", roomId);
       socket.emit("room:playerJoinsGame", { roomId, id: playerId });
-      socket.on("room:getById", setRoomHandler);
+
       socket.on("roomHasClosed", roomHasClosed);
       socket.on("room:playerDisconnected", playerDisconnectedHandler);
 
       return () => {
-        socket.off("room:getById", setRoomHandler);
         socket.off("roomHasClosed", roomHasClosed);
         socket.off("room:playerDisconnected", playerDisconnectedHandler);
       };

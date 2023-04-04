@@ -5,7 +5,6 @@ import { toast } from "react-hot-toast";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
 import type { socketContextTypes, userContextTypes } from "../types/context";
-import { Room } from "../types/socket";
 import {
   copyUrl,
   playerDisconnectedHandler,
@@ -18,30 +17,11 @@ import Chat from "./Chat";
 const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
   const { user }: userContextTypes = useContext(UserContext);
-  const { socket, router }: socketContextTypes = useContext(SocketContext);
+  const { socket, router, room, roomIsFetched }: socketContextTypes =
+    useContext(SocketContext);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [roomIsFetched, setRoomIsFetched] = useState(false);
-  const [room, setRoom] = useState<Room>({
-    players: [],
-    playersLimit: 1,
-    private: false,
-    roomId: roomId,
-    roundTime: 60,
-    author: "asd",
-    vacant: false,
-    language: "english",
-    wordToGuess: {
-      word: "",
-      translation: "",
-      original: "",
-    },
-    inGame: false,
-    creator: "",
-    customWord: false,
-    messages: [],
-    playersInGame: [],
-  });
+
   const playerId = session?.user.id ?? user.id;
   const name = session?.user?.name ?? user.name;
   const playerAvatar = session?.user?.image ?? user.avatar;
@@ -49,11 +29,6 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const roomUrl = `https://hangman-git-main-luki7522-gmailcom.vercel.app/lobby/${roomId}`;
   // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
   const isAuthor = room?.creator === playerId;
-
-  const setRoomHandler = (room: Room) => {
-    setRoom(room);
-    setRoomIsFetched(true);
-  };
 
   const startTheGameHandler = () => {
     router.replace(`/game/${roomId}`);
@@ -75,13 +50,11 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     if (socket) {
       socket.emit("room:getById", roomId);
       socket.on("startTheGame", startTheGameHandler);
-      socket.on("room:getById", setRoomHandler);
       socket.on("room:playerJoined", playerJoinedHandler);
       socket.on("room:playerDisconnected", playerDisconnectedHandler);
       socket.on("roomHasClosed", roomHasClosed);
 
       return () => {
-        socket.off("room:getById", setRoomHandler);
         socket.off("room:playerJoined", playerJoinedHandler);
         socket.off("room:playerDisconnected", playerDisconnectedHandler);
         socket.off("roomHasClosed", roomHasClosed);
