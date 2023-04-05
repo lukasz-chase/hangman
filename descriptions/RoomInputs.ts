@@ -1,6 +1,8 @@
 export type checkboxType = {
   label: string;
   name: string;
+  disabledFn: (any: number) => boolean;
+  disabledLabel?: string;
 };
 export type inputType = {
   label: string;
@@ -26,10 +28,13 @@ export const checkboxes: checkboxType[] = [
   {
     label: "Private",
     name: "privateRoom",
+    disabledFn: () => false,
   },
   {
     label: "Custom word",
     name: "customWord",
+    disabledFn: (playersLength: number) => Number(playersLength) === 1,
+    disabledLabel: "You need at least 2 players to play with custom word",
   },
 ];
 export const rangeInputs: rangeType[] = [

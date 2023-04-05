@@ -58,7 +58,7 @@ const RoomCreation = () => {
 
   return (
     <div>
-      <div className="form-control flex flex-col gap-5 text-white">
+      <div className="form-control flex flex-col gap-5 text-white min-w-[300px]">
         {rangeInputs.map(({ label, name, max, min, options }: rangeType) => (
           <div key={name}>
             <h2>{label}</h2>
@@ -80,19 +80,29 @@ const RoomCreation = () => {
             </div>
           </div>
         ))}
-        {checkboxes.map(({ label, name }: checkboxType) => (
-          <label key={name} className="label cursor-pointer">
-            <span className="label-text text-white">{label}</span>
-            <input
-              type="checkbox"
-              checked={room[name]}
-              aria-label={`checkbox ${name}`}
-              name={name}
-              className="checkbox checkbox-accent"
-              onChange={(e) => setRoom({ ...room, [name]: e.target.checked })}
-            />
-          </label>
-        ))}
+        {checkboxes.map(
+          ({ label, name, disabledFn, disabledLabel }: checkboxType) => (
+            <div key={name}>
+              <label className="label cursor-pointer">
+                <span className="label-text text-white">{label}</span>
+                <input
+                  type="checkbox"
+                  checked={room[name]}
+                  aria-label={`checkbox ${name}`}
+                  disabled={disabledFn(room.playersLimit)}
+                  name={name}
+                  className="checkbox checkbox-accent"
+                  onChange={(e) =>
+                    setRoom({ ...room, [name]: e.target.checked })
+                  }
+                />
+              </label>
+              {disabledFn(room.playersLimit) && (
+                <span className="text-xs text-slate-400">{disabledLabel}</span>
+              )}
+            </div>
+          )
+        )}
         {selectInput.map(({ label, name, options }: selectType) => (
           <div key={name} className="form-control w-full max-w-xs">
             <label className="label cursor-pointer flexCenter flex-col text-white">
@@ -139,19 +149,40 @@ const RoomCreation = () => {
             <label className="label pt-0">
               <span className="label-text">Translation to english</span>
             </label>
-            <input
-              type="text"
-              aria-label={`input custom word translation`}
-              placeholder="Translation"
-              className="input input-bordered w-full max-w-xs"
-              value={room.word.translation}
-              onChange={(e) =>
-                setRoom({
-                  ...room,
-                  word: { ...room.word, translation: e.target.value },
-                })
-              }
-            />
+            <div className="flexCenter">
+              <input
+                type="text"
+                aria-label={`input custom word translation`}
+                placeholder="Translation"
+                className="input input-bordered w-full max-w-xs"
+                value={room.word.translation}
+                onChange={(e) =>
+                  setRoom({
+                    ...room,
+                    word: { ...room.word, translation: e.target.value },
+                  })
+                }
+              />
+              <div
+                className="md:tooltip md:tooltip-bottom hover:tooltip-open cursor-pointer"
+                data-tip="Provide translation for word to guess, it will be shown after the game is done so other players can learn what word they guessed means"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
         )}
         <button

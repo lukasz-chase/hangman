@@ -43,10 +43,15 @@ export const createRoom = (
   router: any,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+  if (Number(room.playersLimit) === 1 && room.customWord) {
+    return toast.error("You need at least 2 players to play with custom word");
+  }
   if (room.customWord) {
     const regex = /^[a-zA-Z]+$/;
     if (room.word.word.length < 2)
       return toast.error("Word has to be at least 2 letters long");
+    if (room.word.word.length > 45)
+      return toast.error("Word can't be longer than 45 letters");
     if (room.language !== "english" && !room.word.translation)
       return toast.error("You need to provide translation");
     if (!regex.test(room.word.word))
