@@ -4,19 +4,16 @@ import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import type { userContextTypes } from "../types/context";
 import LeaveButton from "./LeaveButton";
-import { useRouter } from "next/navigation";
 
 const Nav = () => {
   const { data: session } = useSession();
   const { isLogged, user, setIsLogged, setUser }: userContextTypes =
     useContext(UserContext);
-  const router = useRouter();
   const signOutHandler = () => {
     if (isLogged) {
-      setIsLogged(false);
       localStorage.removeItem("guestUser");
       setUser({});
-      router.replace("/");
+      setIsLogged(false);
     } else {
       signOut();
     }

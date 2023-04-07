@@ -1,10 +1,13 @@
 import GameCreation from "@/components/GameCreation";
+import Login from "@/components/Login";
 
 const Room = () => {
   return (
-    <div className="h-[100dvh] flexCenter">
-      <GameCreation />
-    </div>
+    <Login>
+      <div className="h-[100dvh] flexCenter">
+        <GameCreation />
+      </div>
+    </Login>
   );
 };
 

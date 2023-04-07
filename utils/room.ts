@@ -87,6 +87,7 @@ export const leaveHandler: any = ({
 }: leaveTypes) => {
   if (!roomId) return router.replace("/");
   const room: Room = rooms.find((room: any) => room.roomId === roomId)!;
+  if (!room) return router.replace("/");
   room.players = room!.players.filter((player) => player.id !== playerId);
   socket.emit("room:update", room);
   socket.emit("room:playerLeft", {
