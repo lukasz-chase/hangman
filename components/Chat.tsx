@@ -1,5 +1,5 @@
-import type { Message, Socket } from "../types/socket";
-import ChatInput from "./ChatInput";
+import type { Message, Socket } from "@/types/socket";
+import ChatInput from "@/components/DataInput/ChatInput";
 import Messages from "./Messages";
 
 type ChatTypes = {

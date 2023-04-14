@@ -22,6 +22,7 @@ const JoinLobby = memo(
 
     const playerId = session?.user.id ?? user.id;
     const name = session?.user?.name ?? user.name;
+    const playerAvatar = session?.user?.image ?? user.avatar;
 
     return (
       <div
@@ -33,6 +34,7 @@ const JoinLobby = memo(
             playersLimit,
             roomId,
             playerId,
+            playerAvatar,
             name,
             router,
             socket,

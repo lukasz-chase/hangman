@@ -21,7 +21,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
   const { user }: userContextTypes = useContext(UserContext);
   const { socket, router, roomIsFetched, room }: socketContextTypes =
     useContext(SocketContext);
-
+  const currentRound = room.rounds[room.currentRound];
   const roomHasClosed = () => {
     roomClosed(router);
   };
@@ -42,8 +42,10 @@ const Hangman = ({ roomId }: { roomId: string }) => {
   }, [socket]);
   useEffect(() => {
     if (roomIsFetched) {
-      const playerInGame = room.playersInGame.find((id) => id === playerId);
-      const unwantedPlayer = room.players.find(
+      const playerInGame = currentRound.playersInGame.find(
+        (id) => id === playerId
+      );
+      const unwantedPlayer = currentRound.players.find(
         (player) => player.id === playerId
       );
       if (!unwantedPlayer) {
@@ -57,7 +59,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     }
   }, [roomIsFetched]);
 
-  const { wordToGuess, players, language } = room;
+  const { wordToGuess, players, language } = currentRound;
   const playerId = session?.user.id ?? user.id;
   const player = players.find((player) => player.id === playerId);
 
@@ -79,12 +81,56 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     players,
     wordToGuess: wordToGuess.word,
     authorId: room.creator,
-    customWord: room.customWord,
+    customWord: currentRound.customWord,
   });
 
   const winner = players.reduce((acc, player) => {
     return player.score > acc.score ? player : acc;
   }, players[0]);
+  console.log(room);
+  useEffect(() => {
+    const anotherRound = room.roundsNumber > room.currentRound + 1;
+    if (gameHasEnded && anotherRound) {
+      room.rounds[room.currentRound] = {
+        ...currentRound,
+        roundWinner: winner.name,
+      };
+
+      const playersThatDidntChooseWord = currentRound.players.filter(
+        (player) => !player.hasChosenWord
+      );
+
+      if (playersThatDidntChooseWord.length === 0) {
+        currentRound.players.map((player) => (player.hasChosenWord = true));
+      }
+      const newPlayerToChoseWord =
+        playersThatDidntChooseWord[
+          Math.floor(Math.random() * playersThatDidntChooseWord.length)
+        ];
+      player!.guessedLetters = [];
+      room.currentRound++;
+      room.rounds[room.currentRound] = {
+        ...currentRound,
+        roundTime: room.roundTime * 60,
+        players: [player!],
+        wordToGuessChooser:
+          playersThatDidntChooseWord.length === 0
+            ? player!.id
+            : newPlayerToChoseWord.id,
+        roundWinner: "",
+        round: room.currentRound + 1,
+        playersInGame: [],
+        customWord: false,
+        wordToGuess: {
+          word: "1",
+          translation: "1",
+          original: "1",
+        },
+      };
+      socket?.emit("room:update", room);
+      router.replace(`/lobby/${roomId}`);
+    }
+  }, [gameHasEnded]);
 
   return (
     <div className="flexCenter flex-col mt-10 flex-1">
@@ -110,7 +156,9 @@ const Hangman = ({ roomId }: { roomId: string }) => {
       )}
       <div>
         <Keyboard
-          disabled={isWinner || isLoser || (room.customWord && isAuthor)}
+          disabled={
+            isWinner || isLoser || (currentRound.customWord && isAuthor)
+          }
           activeLetters={guessedLetters!.filter((letter: string) =>
             wordToGuess.word.includes(letter)
           )}

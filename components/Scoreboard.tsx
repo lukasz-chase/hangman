@@ -15,7 +15,8 @@ const RED_TIME = 20;
 const Scoreboard = () => {
   const { data: session } = useSession();
   const { user }: userContextTypes = useContext(UserContext);
-  const { socket, room }: socketContextTypes = useContext(SocketContext);
+  const { socket, room, currentRound }: socketContextTypes =
+    useContext(SocketContext);
 
   const playerId = session?.user.id ?? user.id;
   const name = session?.user?.name ?? user.name;
@@ -23,15 +24,16 @@ const Scoreboard = () => {
 
   const countdownRef = useRef<HTMLElement | null>(null);
   const countdownWrapperRef = useRef<HTMLDivElement | null>(null);
-
-  const { players, roundTime, wordToGuess } = room;
+  const { players, wordToGuess, customWord } = currentRound;
+  const { roundTime } = currentRound;
+  const { creator } = room;
 
   const gameHasEnded = hasGameEnded({
     roundTime: roundTime,
     players: players,
     wordToGuess: wordToGuess.word,
-    authorId: room.creator,
-    customWord: room.customWord,
+    authorId: creator,
+    customWord: customWord,
   });
 
   let countdownInterval: any;
@@ -66,9 +68,9 @@ const Scoreboard = () => {
   useEffect(() => {
     if (!gameHasEnded) {
       countdownInterval = setInterval(() => {
-        if (room.roundTime === 0) timeHasRunOut();
-        room.roundTime--;
-        setTimeoutUI(room.roundTime);
+        if (currentRound.roundTime === 0) timeHasRunOut();
+        currentRound.roundTime--;
+        setTimeoutUI(currentRound.roundTime);
       }, COUNTDOWN_INTERVAL);
     }
 

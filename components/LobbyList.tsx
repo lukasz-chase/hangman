@@ -37,16 +37,19 @@ const RoomsDisplay = () => {
         <>
           {rooms.length > 0 && <h1>Join a public lobby</h1>}
           <div className="flex gap-2 flex-col items-center">
-            {rooms.map((room) => (
-              <JoinLobby
-                key={room.roomId}
-                roomId={room.roomId}
-                players={room.players}
-                playersLimit={room.playersLimit}
-                language={room.language}
-                customWord={room.customWord}
-              />
-            ))}
+            {rooms.map((room) => {
+              const currentRound = room.rounds[room.currentRound];
+              return (
+                <JoinLobby
+                  key={room.roomId}
+                  roomId={room.roomId}
+                  players={currentRound.players}
+                  playersLimit={room.playersLimit}
+                  language={currentRound.language}
+                  customWord={currentRound.customWord}
+                />
+              );
+            })}
           </div>
         </>
       )}

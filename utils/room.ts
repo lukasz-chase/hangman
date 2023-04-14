@@ -6,6 +6,7 @@ type JoinRoomProps = {
   roomId: string;
   playersLimit: number;
   playerId: string;
+  playerAvatar: string;
   name: string;
   socket: any;
   router: any;
@@ -16,19 +17,20 @@ export const joinRoom = ({
   roomId,
   playersLimit,
   playerId,
+  playerAvatar,
   name,
   socket,
   router,
 }: JoinRoomProps) => {
   const isPlayerInRoom = players.find((player) => player.id === playerId);
-
-  if (isPlayerInRoom) {
-    toast.error("you are already in the room");
-    return router.replace(`/`);
-  }
+  // if (isPlayerInRoom) {
+  //   toast.error("you are already in the room");
+  //   return router.replace(`/`);
+  // }
+  const player = { name, id: playerId, avatar: playerAvatar };
 
   if (players.length >= playersLimit) return toast.error("room is full");
-  socket.emit("room:join", { roomId, name, id: playerId }, (err: any) => {
+  socket.emit("room:join", { roomId, player }, (err: any) => {
     if (err) {
       router.replace(`/`);
       return toast.error(err.error);
@@ -60,6 +62,7 @@ export const createRoom = (
       return toast.error("you can't play by yourself with custom word");
     room.word.original = room.word.word;
   }
+
   setIsLoading(true);
   socket.emit("room:create", room, (err: any, roomId: string) => {
     socket.emit("room:getById", roomId);
@@ -88,14 +91,17 @@ export const leaveHandler: any = ({
   if (!roomId) return router.replace("/");
   const room: Room = rooms.find((room: any) => room.roomId === roomId)!;
   if (!room) return router.replace("/");
-  room.players = room!.players.filter((player) => player.id !== playerId);
+  const currentRound = room.rounds[room.currentRound];
+  currentRound.players = currentRound!.players.filter(
+    (player) => player.id !== playerId
+  );
   socket.emit("room:update", room);
   socket.emit("room:playerLeft", {
     roomId,
     name: playerName,
   });
 
-  if (room.players.length === 0 || room.creator === playerId)
+  if (currentRound.players.length === 0 || room.creator === playerId)
     socket.emit("room:leave", roomId);
 
   router.replace("/");

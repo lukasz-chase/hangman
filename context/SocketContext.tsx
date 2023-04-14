@@ -7,28 +7,41 @@ import { Room, Socket } from "../types/socket";
 const roomDummy = {
   roomId: "",
   playersLimit: 0,
-  wordToGuess: {
-    word: "",
-    translation: "",
-    original: "",
-  },
-  vacant: false,
   private: false,
-  language: "english",
-  author: "asd",
   roundTime: 0,
-  players: [
+  rounds: [
     {
-      id: "asd",
-      name: "alfred",
-      guessedLetters: ["a"],
-      score: 0,
-      connectedToRoom: false,
+      vacant: false,
+      language: "english",
+      round: 1,
+      roundWinner: "",
+      wordToGuessChooser: "asd",
+      playersInGame: [""],
+      players: [
+        {
+          id: "asd",
+          name: "alfred",
+          avatar:
+            "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191676/deb7gmlw3iyq4r41kjlx.png",
+          guessedLetters: ["a"],
+          score: 0,
+          connectedToRoom: false,
+          hasChosenWord: false,
+        },
+      ],
+      wordToGuess: {
+        word: "",
+        translation: "",
+        original: "",
+      },
+      roundTime: 60,
+      customWord: false,
     },
   ],
+  roundsNumber: 1,
+  currentRound: 1,
   inGame: false,
   creator: "",
-  customWord: false,
   messages: [
     {
       playerName: "asd",
@@ -38,7 +51,6 @@ const roomDummy = {
       playerAvatar: "",
     },
   ],
-  playersInGame: [""],
 };
 
 const SocketContext = createContext({
@@ -47,18 +59,21 @@ const SocketContext = createContext({
   setRoom: (room: any) => {},
   router: {},
   roomIsFetched: false,
+  currentRound: roomDummy.rounds[0],
 });
 
 const SocketContextProvider = ({ children }: { children: ReactNode }) => {
-  const socketUrl = "https://hangman-server-stl0.onrender.com/";
-  // const socketUrl = "http://localhost:8080";
+  // const socketUrl = "https://hangman-server-stl0.onrender.com/";
+  const socketUrl = "http://localhost:8080";
   const [room, setRoom] = useState<Room>(roomDummy);
   const [roomIsFetched, setRoomIsFetched] = useState(false);
+  const [currentRound, setCurrentRound] = useState(roomDummy.rounds[0]);
   const [socket, setSocket] = useState<Socket | null>(null);
   const router = useRouter();
   const setRoomHandler = (room: Room) => {
     setRoomIsFetched(true);
     setRoom(room);
+    setCurrentRound(room.rounds[room.currentRound]);
   };
   const errorHandler = () => {
     router.replace("/");
@@ -81,6 +96,7 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
         setRoom,
         router,
         roomIsFetched,
+        currentRound,
       }}
     >
       {children}

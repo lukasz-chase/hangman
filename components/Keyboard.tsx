@@ -41,7 +41,7 @@ export const Keyboard = memo(
     player,
   }: KeyboardProps) => {
     const { isChatFocused }: gameContextTypes = useContext(GameContext);
-
+    const currentRound = room.rounds[room.currentRound];
     const addGuessedLetter = useCallback(
       (letter: string) => {
         if (guessedLetters.includes(letter) || isLoser || isWinner) return;
@@ -49,14 +49,17 @@ export const Keyboard = memo(
         const updatedPlayer = setPlayerGuessedLetters(
           player,
           letter,
-          room.wordToGuess
+          currentRound.wordToGuess
         );
-        socket.emit("room:update", {
-          ...room,
-          players: room.players.map((p) =>
+        (room.rounds[room.currentRound] = {
+          ...currentRound,
+          players: currentRound.players.map((p) =>
             p.id === player.id ? updatedPlayer : p
           ),
-        });
+        }),
+          socket.emit("room:update", {
+            ...room,
+          });
       },
       [guessedLetters, isWinner, isLoser, player, room, socket]
     );

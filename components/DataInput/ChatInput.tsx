@@ -1,9 +1,9 @@
 "use client";
 import { useContext, useState } from "react";
-import { GameContext } from "../context/GameContext";
-import { gameContextTypes } from "../types/context";
+import { GameContext } from "@/context/GameContext";
+import { gameContextTypes } from "@/types/context";
 import { toast } from "react-hot-toast";
-import type { Message, Socket } from "../types/socket";
+import type { Message, Socket } from "@/types/socket";
 
 type ChatInputTypes = {
   socket: Socket;

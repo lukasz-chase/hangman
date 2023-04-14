@@ -16,6 +16,10 @@ import type { socketContextTypes, userContextTypes } from "../types/context";
 import type { roomPayload } from "../types/socket";
 import { roomClosed } from "../utils/lobby";
 import { createRoom } from "../utils/room";
+import Checkbox from "./DataInput/Checkbox";
+import Select from "./DataInput/Select";
+import Input from "./DataInput/Input";
+import RangeInput from "./DataInput/RangeInput";
 
 const RoomCreation = () => {
   const { data: session } = useSession();
@@ -28,9 +32,10 @@ const RoomCreation = () => {
     playersLimit: 1,
     language: "english",
     roundTime: 1,
-    author: {
+    creator: {
       name: session?.user?.name ?? user.name,
       id: session?.user?.id ?? user.id,
+      avatar: session?.user.avatar ?? user.avatar,
     },
     customWord: false,
     word: {
@@ -38,6 +43,7 @@ const RoomCreation = () => {
       translation: "",
       original: "",
     },
+    roundsNumber: 1,
   });
 
   const roomHasClosed = () => roomClosed(router);
@@ -57,84 +63,48 @@ const RoomCreation = () => {
   ) => setRoom({ ...room, [e.target.name]: e.target.value });
 
   return (
-    <div>
-      <div className="form-control flex flex-col gap-5 text-white min-w-[300px]">
-        {rangeInputs.map(({ label, name, max, min, options }: rangeType) => (
-          <div key={name}>
-            <h2>{label}</h2>
-            <input
-              type="range"
-              aria-label={`input ${name}`}
-              min={min}
-              max={max}
-              name={name}
-              value={room[name]}
-              className="range range-accent"
-              step="1"
+    <div className="w-full lg:w-1/2 p-4">
+      <div className="form-control grid grid-cols-1 md:grid-cols-2 gap-5 text-white min-w-1/2">
+        <div>
+          {rangeInputs.map((rangeInput: rangeType) => (
+            <RangeInput
+              key={rangeInput.name}
+              {...rangeInput}
+              value={room[rangeInput.name]}
               onChange={handleChange}
             />
-            <div className="w-full flex justify-between text-xs px-2">
-              {options.map((number) => (
-                <span key={number}>{number}</span>
-              ))}
-            </div>
-          </div>
-        ))}
-        {checkboxes.map(
-          ({ label, name, disabledFn, disabledLabel }: checkboxType) => (
-            <div key={name}>
-              <label className="label cursor-pointer">
-                <span className="label-text text-white">{label}</span>
-                <input
-                  type="checkbox"
-                  checked={room[name]}
-                  aria-label={`checkbox ${name}`}
-                  disabled={disabledFn(room.playersLimit)}
-                  name={name}
-                  className="checkbox checkbox-accent"
-                  onChange={(e) =>
-                    setRoom({ ...room, [name]: e.target.checked })
-                  }
-                />
-              </label>
-              {disabledFn(room.playersLimit) && (
-                <span className="text-xs text-slate-400">{disabledLabel}</span>
-              )}
-            </div>
-          )
-        )}
-        {selectInput.map(({ label, name, options }: selectType) => (
-          <div key={name} className="form-control w-full max-w-xs">
-            <label className="label cursor-pointer flexCenter flex-col text-white">
-              <span className="label-text">{label}</span>
-              <select
+          ))}
+        </div>
+        <div>
+          {selectInput.map((select: selectType) => (
+            <Select
+              key={select.name}
+              {...select}
+              onChange={(e) =>
+                setRoom({ ...room, [select.name]: e.target.value })
+              }
+            />
+          ))}
+          {checkboxes.map(
+            ({ label, name, disabledFn, disabledLabel }: checkboxType) => (
+              <Checkbox
+                key={name}
+                label={label}
+                checked={room[name]}
+                disabled={disabledFn(room.playersLimit)}
+                disabledLabel={disabledLabel ? disabledLabel : ""}
+                onChange={(e) => setRoom({ ...room, [name]: e.target.checked })}
                 name={name}
-                aria-label={`select ${name}`}
-                onChange={(e) => setRoom({ ...room, [name]: e.target.value })}
-                className="select select-bordered w-full max-w-xs"
-              >
-                {options.map(({ name, value }) => (
-                  <option
-                    key={name}
-                    aria-label={`option ${name}`}
-                    className="cursor-pointer p-5"
-                    value={value}
-                  >
-                    {name}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-        ))}
-        {room.customWord && (
-          <div className="form-control w-full max-w-xs">
-            <input
-              type="text"
-              aria-label={`input custom word`}
-              placeholder="Word to guess"
-              className="input input-bordered w-full max-w-xs"
+              />
+            )
+          )}
+        </div>
+        <div>
+          {room.customWord && (
+            <Input
               value={room.word.word}
+              placeholder="Word to guess"
+              ariaLabel="input custom word"
               onChange={(e) =>
                 setRoom({
                   ...room,
@@ -142,57 +112,30 @@ const RoomCreation = () => {
                 })
               }
             />
-          </div>
-        )}
-        {room.customWord && room.language !== "english" && (
-          <div className="form-control w-full max-w-xs">
-            <label className="label pt-0">
-              <span className="label-text">Translation to english</span>
-            </label>
-            <div className="flexCenter">
-              <input
-                type="text"
-                aria-label={`input custom word translation`}
-                placeholder="Translation"
-                className="input input-bordered w-full max-w-xs"
-                value={room.word.translation}
-                onChange={(e) =>
-                  setRoom({
-                    ...room,
-                    word: { ...room.word, translation: e.target.value },
-                  })
-                }
-              />
-              <div
-                className="md:tooltip md:tooltip-bottom hover:tooltip-open cursor-pointer"
-                data-tip="Provide translation for word to guess, it will be shown after the game is done so other players can learn what word they guessed means"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-        )}
-        <button
-          aria-label={`create a lobby`}
-          onClick={() => createRoom(room, socket, router, setIsLoading)}
-          className="btn btn-primary  text-white"
-        >
-          {isLoading ? "Loading" : "Create a Lobby"}
-        </button>
+          )}
+          {room.customWord && room.language !== "english" && (
+            <Input
+              value={room.word.translation}
+              placeholder="Translation"
+              ariaLabel="input custom word translation"
+              toolTip="Provide translation for word to guess, it will be shown after the game is done so other players can learn what word they guessed means"
+              onChange={(e) =>
+                setRoom({
+                  ...room,
+                  word: { ...room.word, translation: e.target.value },
+                })
+              }
+            />
+          )}
+        </div>
       </div>
+      <button
+        aria-label={`create a lobby`}
+        onClick={() => createRoom(room, socket, router, setIsLoading)}
+        className="btn btn-primary  text-white w-full mt-4"
+      >
+        {isLoading ? "Loading" : "Create a Lobby"}
+      </button>
     </div>
   );
 };

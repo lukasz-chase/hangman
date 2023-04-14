@@ -9,7 +9,9 @@ export type Player = {
   guessedLetters: string[];
   score: number;
   name: string;
+  avatar: string;
   connectedToRoom: boolean;
+  hasChosenWord: boolean;
 };
 
 export type Message = {
@@ -19,26 +21,33 @@ export type Message = {
   message: string;
   createdAt: string;
 };
-
-export type Room = {
-  roomId: string;
-  playersLimit: number;
+export type Round = {
+  round: number;
+  roundWinner: string;
+  wordToGuessChooser: string;
+  players: Player[];
+  playersInGame: string[];
+  customWord: boolean;
+  language: string;
+  vacant: boolean;
+  roundTime: number;
   wordToGuess: {
     word: string;
     translation: string;
     original: string;
   };
-  vacant: boolean;
+};
+export type Room = {
+  roomId: string;
+  playersLimit: number;
+  rounds: Round[];
+  roundsNumber: number;
+  currentRound: number;
   private: boolean;
   roundTime: number;
-  language: string;
-  author: string;
   creator: string;
   inGame: boolean;
-  players: Player[];
-  customWord: boolean;
   messages: Message[];
-  playersInGame: string[];
 };
 
 export type roomPayload = {
@@ -48,13 +57,15 @@ export type roomPayload = {
   language: string;
   roundTime: number;
   customWord: boolean;
+  roundsNumber: number;
   word: {
     word: string;
     translation: string;
     original: string;
   };
-  author: {
+  creator: {
     name: string;
     id: string;
+    avatar: string;
   };
 };

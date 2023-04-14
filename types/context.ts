@@ -1,5 +1,5 @@
 import type { GuestUser } from "./authTypes";
-import type { Room, Socket } from "./socket";
+import type { Room, Round, Socket } from "./socket";
 
 export type userContextTypes = {
   isLogged: boolean;
@@ -12,6 +12,7 @@ export type socketContextTypes = {
   room: Room;
   router: any;
   roomIsFetched: boolean;
+  currentRound: Round;
 };
 
 export type gameContextTypes = {

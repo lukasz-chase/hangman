@@ -1,42 +1,44 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useContext, useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import { SocketContext } from "../context/SocketContext";
 import { UserContext } from "../context/UserContext";
 import type { socketContextTypes, userContextTypes } from "../types/context";
 import {
-  copyUrl,
   playerDisconnectedHandler,
   playerJoinedHandler,
   roomClosed,
 } from "../utils/lobby";
+import { toast } from "react-hot-toast";
 import { joinRoom } from "../utils/room";
 import Chat from "./Chat";
+import PlayersDisplay from "./PlayersDisplay";
+import DetailsDisplay from "./DetailsDisplay";
+import StartGameButton from "./StartGameButton";
+import Loading from "./Loading";
 
 const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
   const { user }: userContextTypes = useContext(UserContext);
-  const { socket, router, room, roomIsFetched }: socketContextTypes =
-    useContext(SocketContext);
-
+  const {
+    socket,
+    router,
+    room,
+    roomIsFetched,
+    currentRound,
+  }: socketContextTypes = useContext(SocketContext);
   const [isLoading, setIsLoading] = useState(false);
 
   const playerId = session?.user.id ?? user.id;
   const name = session?.user?.name ?? user.name;
   const playerAvatar = session?.user?.image ?? user.avatar;
 
-  const roomUrl = `https://hangman-learning.netlify.app/lobby/${roomId}`;
-  // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
-  const isAuthor = room?.creator === playerId;
-
   const startTheGameHandler = () => {
     router.replace(`/game/${roomId}`);
     setIsLoading(false);
   };
-
   const startTheGame = () => {
-    if (room.customWord && room.players.length === 1) {
+    if (currentRound.customWord && currentRound.players.length === 1) {
       return toast.error("you can't play by yourself with custom word");
     }
     setIsLoading(true);
@@ -44,6 +46,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     socket!.emit("room:update", room);
     socket!.emit("startTheGame", roomId);
   };
+
   const roomHasClosed = () => roomClosed(router);
 
   useEffect(() => {
@@ -65,96 +68,65 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
 
   useEffect(() => {
     if (socket && roomIsFetched) {
-      const isPlayerInRoom = room.players.find(
-        (player) => player.id === playerId
-      );
-      const playerIndex = room.players.findIndex(
-        (player) => player.id === playerId
-      );
-      if (isPlayerInRoom && !isPlayerInRoom.connectedToRoom) {
-        room.players[playerIndex].connectedToRoom = true;
-        socket.emit("room:update", room);
-        return;
-      } else if (isPlayerInRoom && isPlayerInRoom.connectedToRoom) {
-        toast.error("you are already in the room");
-        return router.replace(`/`);
-      }
+      // const isPlayerInRoom = currentRound.players.find(
+      //   (player) => player.id === playerId
+      // );
+      // const playerIndex = currentRound.players.findIndex(
+      //   (player) => player.id === playerId
+      // );
+      // if (isPlayerInRoom && !isPlayerInRoom.connectedToRoom) {
+      //   currentRound.players[playerIndex].connectedToRoom = true;
+      //   socket.emit("room:update", room);
+      //   return;
+      // } else if (isPlayerInRoom && isPlayerInRoom.connectedToRoom) {
+      //   toast.error("you are already in the room");
+      //   return router.replace(`/`);
+      // }
 
       joinRoom({
-        players: room.players,
+        players: currentRound.players,
         playersLimit: room.playersLimit,
         socket,
         router,
         name,
         playerId,
+        playerAvatar,
         roomId,
       });
     }
   }, [socket, roomIsFetched]);
 
   // if (!room && router) return router.replace("/");
+  if (!roomIsFetched) return <Loading />;
   return (
     <div className="flexCenter xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
       <div className="flexCenter flex-col">
-        <div className="flexCenter flex-col md:flex-row gap-2 md:gap-5 min-h-[300px]  uppercase bg-white text-black">
-          <div className=" w-full md:w-64 md:h-full border-b-2 md:border-r-2 md:border-b-0 border-black ">
-            <h1 className="bg-black border-l-2 border-t-2 border-white text-white color-white p-2 text-center">
-              Players {room.players.length}/{room.playersLimit}
-            </h1>
-            {room.players.map((player, index) => (
-              <div
-                key={player.id}
-                className={`p-2 md:p-5 text-black flex justify-between ${
-                  index + 1 !== room.players.length && "border-b-2 border-black"
-                } `}
-              >
-                <span>{player.name}</span>
-                {room?.creator === player.id && (
-                  <span className="text-primary"> Host</span>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="flexCenter flex-col p-2 h-full min-w-full md:min-w-[400px] lg:min-w-[600px] gap-3 md:p-5  text-xs md:text-md lg:text-lg">
-            <div className="flex-col flexCenter">
-              <span>
-                Word language: <b className="text-info">{room.language}</b>
-              </span>
-              {room.customWord && (
-                <span className="text-sm lowercase">
-                  Word has been chosen by host
-                </span>
-              )}
-            </div>
-            <span>
-              Round time:{" "}
-              <b className="text-info lowercase">{room.roundTime}s</b>
-            </span>
-            <span className="text-xs md:text-md">{roomUrl}</span>
-            <button
-              onClick={() => copyUrl(roomUrl)}
-              className="btn btn-info w-36 uppercase"
-            >
-              copy url
-            </button>
-          </div>
+        <div className="flexCenter flex-col gap-2 md:gap-5 min-h-[300px] uppercase">
+          <DetailsDisplay
+            customWord={currentRound.customWord}
+            language={currentRound.language}
+            roomId={roomId}
+            roundTime={room.roundTime}
+            roundsNumber={room.roundsNumber}
+            currentRound={room.currentRound + 1}
+          />
+          <PlayersDisplay
+            creator={room.creator}
+            players={currentRound.players}
+            playersLimit={room.playersLimit}
+            playerToChooseWord={currentRound.wordToGuessChooser}
+            chooseWord={currentRound.wordToGuess.word === "1"}
+            playerLimit={room.playersLimit}
+            currentPlayerId={playerId}
+          />
         </div>
-        <button
-          disabled={!isAuthor}
-          aria-label="start the game"
-          className={`w-full md:border-2 p-2 md:p-5 tracking-widest text-md md:text-xl xl:text-2xl bg-black uppercase ${
-            isAuthor && "hover:text-success cursor-pointer"
-          }`}
-          onClick={startTheGame}
-        >
-          {isLoading ? (
-            "Loading"
-          ) : (
-            <div>
-              {isAuthor ? "Play" : "WAITING FOR HOST TO START THE GAME"}
-            </div>
-          )}
-        </button>
+        <StartGameButton
+          creator={room.creator}
+          isLoading={isLoading}
+          playerId={playerId}
+          chooseWord={currentRound.wordToGuess.word === "1"}
+          startTheGame={startTheGame}
+        />
       </div>
       <Chat
         messages={room.messages}
