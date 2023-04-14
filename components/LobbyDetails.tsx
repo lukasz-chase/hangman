@@ -99,9 +99,9 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   // if (!room && router) return router.replace("/");
   if (!roomIsFetched) return <Loading />;
   return (
-    <div className="flexCenter xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
+    <div className="flex xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
       <div className="flexCenter flex-col">
-        <div className="flexCenter flex-col gap-2 md:gap-5 min-h-[300px] uppercase">
+        <div className="flexCenter flex-col gap-2 md:gap-5 w-[90vw] lg:w-full min-h-[300px] uppercase">
           <DetailsDisplay
             customWord={currentRound.customWord}
             language={currentRound.language}
@@ -109,6 +109,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
             roundTime={room.roundTime}
             roundsNumber={room.roundsNumber}
             currentRound={room.currentRound + 1}
+            rounds={room.rounds}
           />
           <PlayersDisplay
             creator={room.creator}
@@ -128,14 +129,16 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
           startTheGame={startTheGame}
         />
       </div>
-      <Chat
-        messages={room.messages}
-        playerId={playerId}
-        playerName={name}
-        roomId={roomId}
-        socket={socket!}
-        playerAvatar={playerAvatar}
-      />
+      <div className="self-end">
+        <Chat
+          messages={room.messages}
+          playerId={playerId}
+          playerName={name}
+          roomId={roomId}
+          socket={socket!}
+          playerAvatar={playerAvatar}
+        />
+      </div>
     </div>
   );
 };

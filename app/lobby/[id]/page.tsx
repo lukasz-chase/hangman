@@ -10,7 +10,7 @@ type Props = {
 const Lobby = ({ params: { id: lobbyId } }: Props) => {
   return (
     <Login>
-      <div className="h-[100dvh] flexCenter mt-80 md:mt-20">
+      <div className="flexCenter mt-20">
         <LobbyDetails roomId={lobbyId} />
       </div>
     </Login>

@@ -1,3 +1,4 @@
+import { Round } from "@/types/socket";
 import { copyUrl } from "@/utils/lobby";
 import { memo } from "react";
 
@@ -8,6 +9,7 @@ type DetailsDisplayType = {
   roundsNumber: number;
   currentRound: number;
   roomId: string;
+  rounds: Round[];
 };
 
 const DetailsDisplay = memo(
@@ -18,6 +20,7 @@ const DetailsDisplay = memo(
     roundsNumber,
     currentRound,
     roomId,
+    rounds,
   }: DetailsDisplayType) => {
     const roomUrl = `https://hangman-learning.netlify.app/lobby/${roomId}`;
     // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
@@ -52,6 +55,18 @@ const DetailsDisplay = memo(
         >
           copy url
         </button>
+        <div className="grid md:grid-cols-fluid">
+          {rounds.map(({ roundWinner, round }) => (
+            <>
+              {roundWinner && (
+                <div className="flexCenter flex-col border-2 border-accent p-2">
+                  <span>round {round} winner</span>
+                  <b className="text-white">{roundWinner}</b>
+                </div>
+              )}
+            </>
+          ))}
+        </div>
       </div>
     );
   }

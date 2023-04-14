@@ -20,7 +20,7 @@ const Chat = ({
   playerAvatar,
 }: ChatTypes) => {
   return (
-    <div className="h-96 w-full max-w-[400px]  p-2 rounded-t-md flex flex-col">
+    <div className="h-96 w-[90vw] xl:max-w-[400px]  p-2 rounded-t-md flex flex-col">
       <Messages messages={messages} playerId={playerId} />
       <ChatInput
         playerAvatar={playerAvatar}

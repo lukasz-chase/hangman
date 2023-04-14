@@ -24,10 +24,10 @@ const PlayersDisplay = memo(
   }: PlayersDisplayType) => {
     return (
       <div className="w-full md:h-full">
-        <h1 className="text-white bg-black p-2 text-center">
+        <h1 className="text-white bg-primary p-2 text-center">
           Players {players.length}/{playersLimit}
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-fluid border-2 border-black">
+        <div className="grid grid-cols-1 md:grid-cols-fluid">
           {players.map((player, index) => (
             <div key={player.id} className="p-2 m-2 ">
               <div
