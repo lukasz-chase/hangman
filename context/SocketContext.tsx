@@ -14,7 +14,7 @@ const roomDummy = {
       vacant: false,
       language: "english",
       round: 1,
-      roundWinner: "",
+      roundWinners: [""],
       wordToGuessChooser: "asd",
       playersInGame: [""],
       players: [

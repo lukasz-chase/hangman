@@ -1,0 +1,68 @@
+import type { Player, Room, Round, Socket } from "@/types/socket";
+
+type NewRoundTypes = {
+  room: Room;
+  currentRound: Round;
+  player: Player | undefined;
+  roomId: string;
+  socket: Socket | null;
+  router: any;
+  winners: Player[];
+};
+export const createNewRound = ({
+  room,
+  currentRound,
+  player,
+  roomId,
+  socket,
+  router,
+  winners,
+}: NewRoundTypes) => {
+  room.rounds[room.currentRound] = {
+    ...currentRound,
+    roundWinners: winners.map((winner) => winner.name),
+  };
+
+  const playersThatDidntChooseWord = currentRound.players.filter(
+    (player) => !player.hasChosenWord
+  );
+
+  if (playersThatDidntChooseWord.length === 0) {
+    currentRound.players.map((player) => (player.hasChosenWord = false));
+  }
+  const newPlayerToChoseWord =
+    playersThatDidntChooseWord[
+      Math.floor(Math.random() * playersThatDidntChooseWord.length)
+    ];
+  player = {
+    ...player!,
+    guessedLetters: [],
+    score: 0,
+  };
+  room.currentRound++;
+  room.rounds[room.currentRound] = {
+    ...currentRound,
+    language: "choosing",
+    roundTime: room.roundTime * 60,
+    players: [player!],
+    wordToGuessChooser:
+      playersThatDidntChooseWord.length === 0
+        ? player!.id
+        : newPlayerToChoseWord.id,
+    roundWinners: [],
+    round: room.currentRound + 1,
+    playersInGame: [],
+    customWord: false,
+    wordToGuess: {
+      word: "1",
+      translation: "1",
+      original: "1",
+    },
+  };
+  socket?.emit("room:newRound", {
+    roomId: room.roomId,
+    roundNumber: room.currentRound,
+  });
+  socket?.emit("room:update", room);
+  router.replace(`/lobby/${roomId}`);
+};

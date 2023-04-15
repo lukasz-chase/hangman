@@ -101,7 +101,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   return (
     <div className="flex xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
       <div className="flexCenter flex-col">
-        <div className="flexCenter flex-col gap-2 md:gap-5 w-[90vw] lg:w-full min-h-[300px] uppercase">
+        <div className="flexCenter flex-col gap-2 md:gap-5 w-[90vw] lg:w-[65vw] min-h-[300px] uppercase">
           <DetailsDisplay
             customWord={currentRound.customWord}
             language={currentRound.language}
