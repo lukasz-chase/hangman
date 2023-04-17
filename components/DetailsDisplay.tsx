@@ -28,7 +28,7 @@ const DetailsDisplay = memo(
     return (
       <div className="flexCenter flex-col min-w-full md:min-w-[400px] lg:min-w-[600px]">
         <div className="flexCenter flex-col lg:flex-row p-2 h-full   gap-3 md:p-5  text-md md:text-md lg:text-lg">
-          <div className="flexCenter flex-col gap-2 text-white">
+          <div className="flexCenter flex-col gap-2 text-primary-content">
             <span>
               Round:
               <b className="text-info lowercase px-2">
@@ -48,7 +48,7 @@ const DetailsDisplay = memo(
               <b className="text-info lowercase px-2">{roundTime}s</b>
             </span>
           </div>
-          <div className="flexCenter flex-col gap-2 text-white">
+          <div className="flexCenter flex-col gap-2 text-primary-content">
             <b className="text-info uppercase">Invite friends</b>
             <span className="text-xs md:text-md">{roomUrl}</span>
             <button

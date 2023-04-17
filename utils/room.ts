@@ -23,10 +23,10 @@ export const joinRoom = ({
   router,
 }: JoinRoomProps) => {
   const isPlayerInRoom = players.find((player) => player.id === playerId);
-  // if (isPlayerInRoom) {
-  //   toast.error("you are already in the room");
-  //   return router.replace(`/`);
-  // }
+  if (isPlayerInRoom) {
+    toast.error("you are already in the room");
+    return router.replace(`/`);
+  }
   const player = { name, id: playerId, avatar: playerAvatar };
 
   if (players.length >= playersLimit) return toast.error("room is full");

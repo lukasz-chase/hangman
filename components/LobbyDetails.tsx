@@ -68,20 +68,21 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
 
   useEffect(() => {
     if (socket && roomIsFetched) {
-      // const isPlayerInRoom = currentRound.players.find(
-      //   (player) => player.id === playerId
-      // );
-      // const playerIndex = currentRound.players.findIndex(
-      //   (player) => player.id === playerId
-      // );
-      // if (isPlayerInRoom && !isPlayerInRoom.connectedToRoom) {
-      //   currentRound.players[playerIndex].connectedToRoom = true;
-      //   socket.emit("room:update", room);
-      //   return;
-      // } else if (isPlayerInRoom && isPlayerInRoom.connectedToRoom) {
-      //   toast.error("you are already in the room");
-      //   return router.replace(`/`);
-      // }
+      const isPlayerInRoom = currentRound.players.find(
+        (player) => player.id === playerId
+      );
+      const playerIndex = currentRound.players.findIndex(
+        (player) => player.id === playerId
+      );
+      console.log(isPlayerInRoom);
+      if (isPlayerInRoom && !isPlayerInRoom.connectedToRoom) {
+        currentRound.players[playerIndex].connectedToRoom = true;
+        socket.emit("room:update", room);
+        return;
+      } else if (isPlayerInRoom && isPlayerInRoom.connectedToRoom) {
+        toast.error("you are already in the room");
+        return router.replace(`/`);
+      }
 
       joinRoom({
         players: currentRound.players,
@@ -96,7 +97,11 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     }
   }, [socket, roomIsFetched]);
 
-  // if (!room && router) return router.replace("/");
+  useEffect(() => {
+    if (!room.roomId) {
+      router.replace("/");
+    }
+  }, [room]);
   if (!roomIsFetched) return <Loading />;
   return (
     <div className="flex xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">

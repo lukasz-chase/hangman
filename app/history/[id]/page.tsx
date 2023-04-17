@@ -1,5 +1,5 @@
+import GamesHistory from "@/components/GamesHistory";
 import Login from "@/components/Login";
-import Results from "@/components/Results";
 
 type Props = {
   params: {
@@ -7,14 +7,14 @@ type Props = {
   };
 };
 
-const ResultsPage = ({ params: { id: roomId } }: Props) => {
+const History = ({ params: { id: userId } }: Props) => {
   return (
     <Login>
       <div className="h-[100dvh] flexCenter">
-        <Results roomId={roomId} />
+        <GamesHistory userId={userId} />
       </div>
     </Login>
   );
 };
 
-export default ResultsPage;
+export default History;

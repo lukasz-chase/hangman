@@ -4,18 +4,14 @@ type NewRoundTypes = {
   room: Room;
   currentRound: Round;
   player: Player | undefined;
-  roomId: string;
   socket: Socket | null;
-  router: any;
   winners: Player[];
 };
 export const createNewRound = ({
   room,
   currentRound,
   player,
-  roomId,
   socket,
-  router,
   winners,
 }: NewRoundTypes) => {
   room.rounds[room.currentRound] = {
@@ -38,12 +34,13 @@ export const createNewRound = ({
     ...player!,
     guessedLetters: [],
     score: 0,
+    connectedToRoom: false,
   };
   room.currentRound++;
   room.rounds[room.currentRound] = {
     ...currentRound,
     language: "choosing",
-    roundTime: room.roundTime * 60,
+    roundTime: room.roundTime,
     players: [player!],
     wordToGuessChooser:
       playersThatDidntChooseWord.length === 0
@@ -59,10 +56,9 @@ export const createNewRound = ({
       original: "1",
     },
   };
+  socket?.emit("room:update", room);
   socket?.emit("room:newRound", {
     roomId: room.roomId,
     roundNumber: room.currentRound,
   });
-  socket?.emit("room:update", room);
-  router.replace(`/lobby/${roomId}`);
 };

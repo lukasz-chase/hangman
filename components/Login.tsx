@@ -32,7 +32,7 @@ const Login = ({ children }: { children: ReactNode }) => {
       {session || isLogged ? (
         <>{children}</>
       ) : (
-        <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-white text-xl lg:text-lg">
+        <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-primary-content text-xl lg:text-lg">
           <Image
             height="200"
             width="200"

@@ -64,7 +64,7 @@ const RoomCreation = () => {
 
   return (
     <div className="w-full lg:w-1/2 p-4">
-      <div className="form-control grid grid-cols-1 md:grid-cols-2 gap-5 text-white min-w-1/2">
+      <div className="form-control grid grid-cols-1 md:grid-cols-2 gap-5 text-primary-content min-w-1/2">
         <div>
           {rangeInputs.map((rangeInput: rangeType) => (
             <RangeInput
@@ -132,7 +132,7 @@ const RoomCreation = () => {
       <button
         aria-label={`create a lobby`}
         onClick={() => createRoom(room, socket, router, setIsLoading)}
-        className="btn btn-primary  text-white w-full mt-4"
+        className="btn btn-primary  text-primary-content w-full mt-4"
       >
         {isLoading ? "Loading" : "Create a Lobby"}
       </button>

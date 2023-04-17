@@ -22,6 +22,7 @@ const setPlayerGuessedLetters = (
   letter: string,
   wordToGuess: any
 ) => {
+  if (!player) return;
   const guessedLetters = [...player.guessedLetters, letter];
   const score = player.score + (wordToGuess.word.includes(letter) ? 10 : 0);
 
@@ -104,8 +105,14 @@ export const Keyboard = memo(
               !isInactive &&
               "bg-slate-600 hover:cursor-not-allowed"
             }
-            ${isActive && "bg-lime-500  text-white hover:cursor-not-allowed"}
-            ${isInactive && "bg-red-400 text-white hover:cursor-not-allowed"}
+            ${
+              isActive &&
+              "bg-lime-500  text-primary-content hover:cursor-not-allowed"
+            }
+            ${
+              isInactive &&
+              "bg-red-400 text-primary-content hover:cursor-not-allowed"
+            }
             `}
               key={key}
               onClick={() => addGuessedLetter(key)}

@@ -20,7 +20,7 @@ const Checkbox = ({
   return (
     <div className="p-2">
       <label className="label cursor-pointer">
-        <span className="label-text text-white">{label}</span>
+        <span className="label-text text-primary-content">{label}</span>
         <input
           type="checkbox"
           checked={checked}

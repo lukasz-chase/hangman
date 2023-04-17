@@ -1,19 +1,15 @@
-import Link from "next/link";
 import LobbyList from "@/components/LobbyList";
 import Login from "@/components/Login";
+import CustomLink from "@/components/CustomLink";
 
-export default () => {
+const mainPage = () => {
   return (
     <Login>
       <main className="h-[100dvh]  flex-col flexCenter gap-5">
-        <Link
-          className="btn btn-accent text-sm md:text-xl uppercase shadow-md text-center"
-          href="/game"
-        >
-          Create a lobby
-        </Link>
+        <CustomLink link="/game" label="Create a Lobby" />
         <LobbyList />
       </main>
     </Login>
   );
 };
+export default mainPage;

@@ -16,16 +16,24 @@ import type { socketContextTypes, userContextTypes } from "../types/context";
 import { playerDisconnectedHandler, roomClosed } from "../utils/lobby";
 import { toast } from "react-hot-toast";
 import { createNewRound } from "@/utils/round";
-import RoundWinners from "./RoundWinners";
+import { saveGame } from "@/api";
 
 const Hangman = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
   const { user }: userContextTypes = useContext(UserContext);
-  const { socket, router, roomIsFetched, room }: socketContextTypes =
-    useContext(SocketContext);
-  const currentRound = room.rounds[room.currentRound];
+  const {
+    socket,
+    router,
+    roomIsFetched,
+    room,
+    currentRound,
+  }: socketContextTypes = useContext(SocketContext);
+
   const roomHasClosed = () => {
     roomClosed(router);
+  };
+  const newRoundHandler = () => {
+    router.replace(`/lobby/${roomId}`);
   };
 
   useEffect(() => {
@@ -34,9 +42,11 @@ const Hangman = ({ roomId }: { roomId: string }) => {
       socket.emit("room:playerJoinsGame", { roomId, id: playerId });
 
       socket.on("roomHasClosed", roomHasClosed);
+      socket.on("room:newRound", newRoundHandler);
       socket.on("room:playerDisconnected", playerDisconnectedHandler);
 
       return () => {
+        socket.off("room:newRound", newRoundHandler);
         socket.off("roomHasClosed", roomHasClosed);
         socket.off("room:playerDisconnected", playerDisconnectedHandler);
       };
@@ -76,13 +86,14 @@ const Hangman = ({ roomId }: { roomId: string }) => {
   const isLoser = incorrectLetters.length >= 6;
 
   const isWinner = checkIsWinner(guessedLetters!, wordToGuess.word);
-  const isAuthor = playerId === room.creator;
+  const isWordAuthor =
+    currentRound.customWord && player!.id === currentRound.wordToGuessChooser;
 
   const gameHasEnded = hasGameEnded({
     roundTime: room.roundTime,
     players,
     wordToGuess: wordToGuess.word,
-    authorId: room.creator,
+    authorId: currentRound.wordToGuessChooser,
     customWord: currentRound.customWord,
   });
 
@@ -96,11 +107,9 @@ const Hangman = ({ roomId }: { roomId: string }) => {
       if (anotherRound) {
         createNewRound({
           room,
-          roomId,
           currentRound,
           socket,
           player,
-          router,
           winners,
         });
       } else {
@@ -108,6 +117,9 @@ const Hangman = ({ roomId }: { roomId: string }) => {
           (winner) => winner.name
         );
         socket?.emit("room:update", room);
+        if (session) {
+          saveGame(room);
+        }
         router.replace(`/results/${roomId}`);
       }
     }
@@ -122,19 +134,14 @@ const Hangman = ({ roomId }: { roomId: string }) => {
         wordToGuess={wordToGuess.word}
       />
       {gameHasEnded && (
-        <h1 className="uppercase p-5 text-white text-xs md:text-md lg:text-xl">
+        <h1 className="uppercase p-5 text-primary-content text-xs md:text-md lg:text-xl">
           The word was <b className="text-cyan-500">{wordToGuess.original} </b>
           {language !== "english" && `which means ${wordToGuess.translation}`}
         </h1>
       )}
       <div>
         <Keyboard
-          disabled={
-            isWinner ||
-            isLoser ||
-            (currentRound.customWord && isAuthor) ||
-            gameHasEnded
-          }
+          disabled={isWinner || isLoser || isWordAuthor || gameHasEnded}
           activeLetters={guessedLetters!.filter((letter: string) =>
             wordToGuess.word.includes(letter)
           )}

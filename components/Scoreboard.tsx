@@ -24,15 +24,14 @@ const Scoreboard = () => {
 
   const countdownRef = useRef<HTMLElement | null>(null);
   const countdownWrapperRef = useRef<HTMLDivElement | null>(null);
-  const { players, wordToGuess, customWord } = currentRound;
+  const { players, wordToGuess, customWord, wordToGuessChooser } = currentRound;
   const { roundTime } = currentRound;
-  const { creator } = room;
 
   const gameHasEnded = hasGameEnded({
     roundTime: roundTime,
     players: players,
     wordToGuess: wordToGuess.word,
-    authorId: creator,
+    authorId: wordToGuessChooser,
     customWord: customWord,
   });
 
@@ -57,7 +56,7 @@ const Scoreboard = () => {
       roundTime <= LIME_TIME && roundTime > WHITE_TIME
     );
     countdownRef.current!.classList.toggle(
-      "text-white",
+      "text-primary-content",
       roundTime < WHITE_TIME && roundTime > RED_TIME
     );
     countdownRef.current!.classList.toggle(
@@ -90,15 +89,15 @@ const Scoreboard = () => {
       <div className="flexCenter flex-col flex-2 min-w-full md:min-w-0 p-5">
         <div
           ref={countdownWrapperRef}
-          className={`flex-col justify-center items-center text-white hidden`}
+          className={`flex-col justify-center items-center text-primary-content hidden`}
         >
           <span>Time left</span>
           <span className={`countdown font-mono text-6xl`}>
             <span ref={countdownRef}></span>
           </span>
         </div>
-        <div className="bg-white min-w-56 flex flex-col min-w-full md:min-w-[300px]">
-          <h1 className="text-white bg-black py-2 w-full text-center self-center uppercase">
+        <div className="bg-primary-content min-w-56 flex flex-col min-w-full md:min-w-[300px]">
+          <h1 className="text-primary-content bg-neutral-focus py-2 w-full text-center self-center uppercase">
             Players
           </h1>
           {players.map((player: any) => (

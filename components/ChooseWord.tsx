@@ -52,7 +52,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
   return (
     <div className="flexCenter flex-col text-sm ">
       <h1 className="text-accent">You are chosing word this round</h1>
-      <div className="form-control grid grid-cols-1 gap-5 text-white min-w-1/2">
+      <div className="form-control grid grid-cols-1 gap-5 text-primary-content min-w-1/2">
         {selectInput.map((select: selectType) => (
           <Select
             key={select.name}
@@ -83,7 +83,11 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
             onChange={(e) =>
               setWord({
                 ...word,
-                wordToGuess: { ...word.wordToGuess, word: e.target.value },
+                wordToGuess: {
+                  ...word.wordToGuess,
+                  word: e.target.value,
+                  original: e.target.value,
+                },
               })
             }
           />
@@ -108,7 +112,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
         <button
           aria-label="set word to guess"
           onClick={setWordToGuess}
-          className="btn btn-primary  text-white w-full mt-4"
+          className="btn btn-primary  text-primary-content w-full mt-4"
         >
           Submit
         </button>

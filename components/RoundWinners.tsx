@@ -11,7 +11,7 @@ const RoundWinners = ({ rounds }: { rounds: Round[] }) => {
               <span>round {round} winners</span>
               <div className="flexCenter flex-col">
                 {roundWinners.map((name, index) => (
-                  <b key={index} className="text-white">
+                  <b key={index} className="text-primary-content">
                     {name}
                   </b>
                 ))}

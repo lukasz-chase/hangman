@@ -38,6 +38,7 @@ export type Round = {
   };
 };
 export type Room = {
+  id: String;
   roomId: string;
   playersLimit: number;
   rounds: Round[];

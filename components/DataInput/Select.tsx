@@ -13,7 +13,7 @@ type SelectTypes = {
 const Select = ({ label, name, onChange, options }: SelectTypes) => {
   return (
     <div key={name} className="form-control w-full ">
-      <label className="label cursor-pointer flexCenter flex-col text-white">
+      <label className="label cursor-pointer flexCenter flex-col text-primary-content">
         <span className="label-text">{label}</span>
         <select
           name={name}
