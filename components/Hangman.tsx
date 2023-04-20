@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SocketContext } from "@/context/SocketContext";
 import { useContext } from "react";
 import { HangmanDrawing } from "./HangmanDrawings";
@@ -17,6 +17,8 @@ import { playerDisconnectedHandler, roomClosed } from "../utils/lobby";
 import { toast } from "react-hot-toast";
 import { createNewRound } from "@/utils/round";
 import { saveGame } from "@/api";
+import Loading from "./Loading";
+import Scoreboard from "./Scoreboard";
 
 const Hangman = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
@@ -28,7 +30,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     room,
     currentRound,
   }: socketContextTypes = useContext(SocketContext);
-
+  const [loadingNewRound, setLoadingNewRound] = useState(false);
   const roomHasClosed = () => {
     roomClosed(router);
   };
@@ -104,6 +106,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
   useEffect(() => {
     const anotherRound = room.roundsNumber > room.currentRound + 1;
     if (gameHasEnded) {
+      setLoadingNewRound(true);
       if (anotherRound) {
         createNewRound({
           room,
@@ -113,47 +116,53 @@ const Hangman = ({ roomId }: { roomId: string }) => {
           winners,
         });
       } else {
-        room.rounds[room.currentRound].roundWinners = winners.map(
-          (winner) => winner.name
-        );
+        room.rounds[room.currentRound].roundWinners = winners.map((winner) => ({
+          name: winner.name,
+          id: winner.id,
+        }));
         socket?.emit("room:update", room);
-        if (session) {
-          saveGame(room);
-        }
-        router.replace(`/results/${roomId}`);
+        saveGame(room).then(({ data }) =>
+          router.replace(`/results/${data.id}`)
+        );
       }
     }
   }, [gameHasEnded]);
 
+  if (loadingNewRound) return <Loading />;
+
   return (
-    <div className="flexCenter flex-col mt-10 flex-1">
-      <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
-      <HangmanWord
-        reveal={isLoser}
-        guessedLetters={guessedLetters!}
-        wordToGuess={wordToGuess.word}
-      />
-      {gameHasEnded && (
-        <h1 className="uppercase p-5 text-primary-content text-xs md:text-md lg:text-xl">
-          The word was <b className="text-cyan-500">{wordToGuess.original} </b>
-          {language !== "english" && `which means ${wordToGuess.translation}`}
-        </h1>
-      )}
-      <div>
-        <Keyboard
-          disabled={isWinner || isLoser || isWordAuthor || gameHasEnded}
-          activeLetters={guessedLetters!.filter((letter: string) =>
-            wordToGuess.word.includes(letter)
-          )}
-          socket={socket!}
-          isLoser={isLoser}
-          isWinner={isWinner}
-          room={room}
-          inactiveLetters={incorrectLetters}
+    <div className="flexCenter flex-col gap-5 xl:flex-row">
+      <div className="flexCenter flex-col mt-10 flex-1">
+        <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
+        <HangmanWord
+          reveal={isLoser}
           guessedLetters={guessedLetters!}
-          player={player!}
+          wordToGuess={wordToGuess.word}
         />
+        {gameHasEnded && (
+          <h1 className="uppercase p-5 text-primary-content text-xs md:text-md lg:text-xl">
+            The word was{" "}
+            <b className="text-cyan-500">{wordToGuess.original} </b>
+            {language !== "english" && `which means ${wordToGuess.translation}`}
+          </h1>
+        )}
+        <div>
+          <Keyboard
+            disabled={isWinner || isLoser || isWordAuthor || gameHasEnded}
+            activeLetters={guessedLetters!.filter((letter: string) =>
+              wordToGuess.word.includes(letter)
+            )}
+            socket={socket!}
+            isLoser={isLoser}
+            isWinner={isWinner}
+            room={room}
+            inactiveLetters={incorrectLetters}
+            guessedLetters={guessedLetters!}
+            player={player!}
+          />
+        </div>
       </div>
+      <Scoreboard />
     </div>
   );
 };

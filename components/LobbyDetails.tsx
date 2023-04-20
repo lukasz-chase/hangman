@@ -74,7 +74,6 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
       const playerIndex = currentRound.players.findIndex(
         (player) => player.id === playerId
       );
-      console.log(isPlayerInRoom);
       if (isPlayerInRoom && !isPlayerInRoom.connectedToRoom) {
         currentRound.players[playerIndex].connectedToRoom = true;
         socket.emit("room:update", room);
@@ -83,7 +82,6 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
         toast.error("you are already in the room");
         return router.replace(`/`);
       }
-
       joinRoom({
         players: currentRound.players,
         playersLimit: room.playersLimit,
@@ -98,10 +96,10 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   }, [socket, roomIsFetched]);
 
   useEffect(() => {
-    if (!room.roomId) {
+    if (!room.roomId && roomIsFetched) {
       router.replace("/");
     }
-  }, [room]);
+  }, [room, roomIsFetched]);
   if (!roomIsFetched) return <Loading />;
   return (
     <div className="flex xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
@@ -115,6 +113,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
             roundsNumber={room.roundsNumber}
             currentRound={room.currentRound + 1}
             rounds={room.rounds}
+            playerId={playerId}
           />
           <PlayersDisplay
             creator={room.creator}

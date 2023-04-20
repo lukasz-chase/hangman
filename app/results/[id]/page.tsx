@@ -10,7 +10,7 @@ type Props = {
 const ResultsPage = ({ params: { id: roomId } }: Props) => {
   return (
     <Login>
-      <div className="h-[100dvh] flexCenter">
+      <div className="h-[100dvh]">
         <Results roomId={roomId} />
       </div>
     </Login>

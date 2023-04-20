@@ -9,32 +9,46 @@ const RoomsDisplay = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const { socket }: socketContextTypes = useContext(SocketContext);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const setRoomsHandler = (socketRooms: Room[]) => {
+  const setRoomsHandler = ({
+    rooms,
+    currentPage,
+    totalPages,
+  }: {
+    rooms: Room[];
+    currentPage: number;
+    totalPages: number;
+  }) => {
     setRooms([]);
-    const publicRooms = socketRooms.filter(
+    const publicRooms = rooms.filter(
       (room) => room.roomId.startsWith("public") && !room.inGame
     );
+    setPage(currentPage);
+    setTotalPages(totalPages);
     setRooms(publicRooms);
     setLoading(false);
   };
 
   useEffect(() => {
     if (socket) {
-      socket.emit("getRooms");
+      socket.emit("getRooms", page);
       socket.on("getRooms", setRoomsHandler);
       return () => {
         socket.off("getRooms", setRoomsHandler);
       };
     }
   }, [socket]);
-
+  const handlePage = (page: number) => {
+    socket!.emit("getRooms", page);
+  };
   return (
-    <div>
+    <div className="max-w-h-56">
       {loading ? (
         <progress className="progress progress-accent w-56"></progress>
       ) : (
-        <>
+        <div className="flexCenter flex-col gap-2">
           {rooms.length > 0 && <h1>Join a public lobby</h1>}
           <div className="flex gap-2 flex-col items-center">
             {rooms.map((room) => {
@@ -51,7 +65,22 @@ const RoomsDisplay = () => {
               );
             })}
           </div>
-        </>
+          <div className="btn-group">
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+              (currentPage) => (
+                <button
+                  key={currentPage}
+                  onClick={() => handlePage(currentPage)}
+                  className={`btn ${
+                    currentPage === page && "btn-active"
+                  } border-2 border-primary hover:border-white`}
+                >
+                  {currentPage}
+                </button>
+              )
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

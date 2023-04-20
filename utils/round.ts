@@ -16,7 +16,10 @@ export const createNewRound = ({
 }: NewRoundTypes) => {
   room.rounds[room.currentRound] = {
     ...currentRound,
-    roundWinners: winners.map((winner) => winner.name),
+    roundWinners: winners.map((winner) => ({
+      name: winner.name,
+      id: winner.id,
+    })),
   };
 
   const playersThatDidntChooseWord = currentRound.players.filter(
@@ -40,6 +43,7 @@ export const createNewRound = ({
   room.rounds[room.currentRound] = {
     ...currentRound,
     language: "choosing",
+    vacant: room.playersLimit > 1,
     roundTime: room.roundTime,
     players: [player!],
     wordToGuessChooser:

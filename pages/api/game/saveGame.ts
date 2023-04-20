@@ -19,11 +19,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           roomId: gameAdjusted.roomId,
         },
       });
-      console.log(data);
-      const result = await prisma.game.create({
-        data: gameAdjusted,
-      });
-      res.status(200).json(result);
+
+      if (!data) {
+        const result = await prisma.game.create({
+          data: gameAdjusted,
+        });
+        res.status(200).json(result);
+      } else {
+        res.status(200).json(data);
+      }
     } catch (err) {
       console.log(err);
       res.status(403).json({ err: "error when creating a game" });

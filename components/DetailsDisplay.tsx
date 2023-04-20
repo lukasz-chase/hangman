@@ -11,6 +11,7 @@ type DetailsDisplayType = {
   currentRound: number;
   roomId: string;
   rounds: Round[];
+  playerId: string;
 };
 
 const DetailsDisplay = memo(
@@ -22,12 +23,13 @@ const DetailsDisplay = memo(
     currentRound,
     roomId,
     rounds,
+    playerId,
   }: DetailsDisplayType) => {
-    const roomUrl = `https://hangman-learning.netlify.app/lobby/${roomId}`;
-    // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
+    // const roomUrl = `https://hangman-learning.netlify.app/lobby/${roomId}`;
+    const roomUrl = `http://localhost:3000/lobby/${roomId}`;
     return (
-      <div className="flexCenter flex-col min-w-full md:min-w-[400px] lg:min-w-[600px]">
-        <div className="flexCenter flex-col lg:flex-row p-2 h-full   gap-3 md:p-5  text-md md:text-md lg:text-lg">
+      <div className="flexCenter flex-col w-full">
+        <div className="flex items-center justify-evenly w-full flex-col lg:flex-row p-2 h-full gap-3 md:p-5 text-md md:text-md lg:text-lg">
           <div className="flexCenter flex-col gap-2 text-primary-content">
             <span>
               Round:
@@ -59,7 +61,7 @@ const DetailsDisplay = memo(
             </button>
           </div>
         </div>
-        <RoundWinners rounds={rounds} />
+        <RoundWinners rounds={rounds} playerId={playerId} />
       </div>
     );
   }

@@ -10,12 +10,13 @@ export const roomDummy = {
   playersLimit: 0,
   private: false,
   roundTime: 0,
+  createdAt: new Date(),
   rounds: [
     {
       vacant: false,
       language: "english",
       round: 1,
-      roundWinners: [""],
+      roundWinners: [{ id: "", name: "" }],
       wordToGuessChooser: "asd",
       playersInGame: [""],
       players: [

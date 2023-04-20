@@ -71,19 +71,25 @@ const RoomCreation = () => {
               key={rangeInput.name}
               {...rangeInput}
               value={room[rangeInput.name]}
-              onChange={handleChange}
+              onChange={(e) => {
+                if (
+                  e.target.name === "playersLimit" &&
+                  Number(e.target.value) === 1
+                ) {
+                  return setRoom({
+                    ...room,
+                    playersLimit: Number(e.target.value),
+                    customWord: false,
+                  });
+                }
+                handleChange(e);
+              }}
             />
           ))}
         </div>
         <div>
           {selectInput.map((select: selectType) => (
-            <Select
-              key={select.name}
-              {...select}
-              onChange={(e) =>
-                setRoom({ ...room, [select.name]: e.target.value })
-              }
-            />
+            <Select key={select.name} {...select} onChange={handleChange} />
           ))}
           {checkboxes.map(
             ({ label, name, disabledFn, disabledLabel }: checkboxType) => (

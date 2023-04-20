@@ -35,8 +35,8 @@ const StartGameButton = ({
     <button
       disabled={disabled}
       aria-label="start the game"
-      className={`w-full md:border-2 p-2 md:p-5 tracking-widest text-md md:text-lg xl:text-xl bg-neutral-focus uppercase ${
-        isAuthor && "hover:text-success cursor-pointer"
+      className={`btn-lg text-center w-full border-2 border-primary-content  bg-neutral-focus text-primary-content uppercase ${
+        isAuthor && "hover:border-accent hover:text-accent cursor-pointer"
       }
       ${disabled && "bg-slate-600 cursor-not-allowed"}
       `}

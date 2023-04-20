@@ -23,7 +23,10 @@ export type Message = {
 };
 export type Round = {
   round: number;
-  roundWinners: string[];
+  roundWinners: {
+    id: string;
+    name: string;
+  }[];
   wordToGuessChooser: string;
   players: Player[];
   playersInGame: string[];
@@ -38,7 +41,7 @@ export type Round = {
   };
 };
 export type Room = {
-  id: String;
+  id: string;
   roomId: string;
   playersLimit: number;
   rounds: Round[];
@@ -46,6 +49,7 @@ export type Room = {
   currentRound: number;
   private: boolean;
   roundTime: number;
+  createdAt: Date;
   creator: string;
   inGame: boolean;
   messages: Message[];

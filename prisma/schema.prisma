@@ -44,6 +44,7 @@ model Game {
   roundsNumber Int
   currentRound Int
   private      Boolean
+  createdAt    DateTime
   roundTime    Int
   creator      String
   inGame       Boolean

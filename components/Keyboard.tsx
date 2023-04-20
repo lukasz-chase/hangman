@@ -55,7 +55,7 @@ export const Keyboard = memo(
         (room.rounds[room.currentRound] = {
           ...currentRound,
           players: currentRound.players.map((p) =>
-            p.id === player.id ? updatedPlayer : p
+            p.id === player.id ? updatedPlayer! : p
           ),
         }),
           socket.emit("room:update", {

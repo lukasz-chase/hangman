@@ -72,37 +72,33 @@ export const createRoom = (
 };
 
 type leaveTypes = {
-  roomId: string;
   router: any;
-  rooms: Room[];
+  room: Room;
   socket: any;
   playerId: string;
   playerName: string;
 };
 
 export const leaveHandler: any = ({
-  roomId,
+  room,
   router,
-  rooms,
   socket,
   playerId,
   playerName,
 }: leaveTypes) => {
-  if (!roomId) return router.replace("/");
-  const room: Room = rooms.find((room: any) => room.roomId === roomId)!;
-  if (!room) return router.replace("/");
+  if (!room.roomId) return router.replace("/");
   const currentRound = room.rounds[room.currentRound];
   currentRound.players = currentRound!.players.filter(
     (player) => player.id !== playerId
   );
   socket.emit("room:update", room);
   socket.emit("room:playerLeft", {
-    roomId,
+    roomId: room.roomId,
     name: playerName,
   });
 
   if (currentRound.players.length === 0 || room.creator === playerId)
-    socket.emit("room:leave", roomId);
+    socket.emit("room:leave", room.roomId);
 
   router.replace("/");
 };
