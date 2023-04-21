@@ -28,6 +28,5 @@ export const hasGameEnded = ({
       checkIsWinner(player.guessedLetters, wordToGuess) ||
       checkIncorrectLetters(player.guessedLetters, wordToGuess).length >= 6
   );
-
   return gameHasEnded || didPlayersEnd;
 };

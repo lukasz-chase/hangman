@@ -95,12 +95,8 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     }
   }, [socket, roomIsFetched]);
 
-  useEffect(() => {
-    if (!room.roomId && roomIsFetched) {
-      router.replace("/");
-    }
-  }, [room, roomIsFetched]);
   if (!roomIsFetched) return <Loading />;
+
   return (
     <div className="flex xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
       <div className="flexCenter flex-col">
@@ -138,7 +134,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
           messages={room.messages}
           playerId={playerId}
           playerName={name}
-          roomId={roomId}
+          room={room}
           socket={socket!}
           playerAvatar={playerAvatar}
         />

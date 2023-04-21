@@ -1,4 +1,4 @@
-import type { Message, Socket } from "@/types/socket";
+import type { Message, Room, Socket } from "@/types/socket";
 import ChatInput from "@/components/DataInput/ChatInput";
 import Messages from "./Messages";
 
@@ -8,7 +8,7 @@ type ChatTypes = {
   playerName: string;
   playerAvatar: string;
   messages: Message[];
-  roomId: string;
+  room: Room;
 };
 
 const Chat = ({
@@ -16,7 +16,7 @@ const Chat = ({
   playerId,
   playerName,
   messages,
-  roomId,
+  room,
   playerAvatar,
 }: ChatTypes) => {
   return (
@@ -26,7 +26,7 @@ const Chat = ({
         playerAvatar={playerAvatar}
         playerId={playerId}
         playerName={playerName}
-        roomId={roomId}
+        room={room}
         socket={socket}
       />
     </div>

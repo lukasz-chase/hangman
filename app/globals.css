@@ -7,3 +7,21 @@
     @apply flex items-center justify-center;
   }
 }
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(83, 92, 110);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #20b2a5;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #5ba49e;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}

@@ -3,6 +3,7 @@ import { useEffect, useState, ReactNode, createContext } from "react";
 import { io } from "socket.io-client";
 import { useRouter } from "next/navigation";
 import { Room, Socket } from "../types/socket";
+import { toast } from "react-hot-toast";
 
 export const roomDummy = {
   id: "",
@@ -73,6 +74,10 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const router = useRouter();
   const setRoomHandler = (room: Room) => {
+    if (!room) {
+      toast.error("there is no room with that id");
+      return router.replace("/");
+    }
     setRoomIsFetched(true);
     setRoom(room);
     setCurrentRound(room.rounds[room.currentRound]);

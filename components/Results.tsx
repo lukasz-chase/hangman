@@ -49,7 +49,10 @@ const Results = ({ roomId }: { roomId: string }) => {
                   customWord,
                   roundTime,
                 }) => (
-                  <tr className="border-b bg-neutral border-gray-700 text-center text-primary-content">
+                  <tr
+                    key={round}
+                    className="border-b bg-neutral border-gray-700 text-center text-primary-content"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -80,7 +83,7 @@ const Results = ({ roomId }: { roomId: string }) => {
                       {roundWinners.map(({ name, id }) => (
                         <span
                           key={id}
-                          className={`${
+                          className={` ${
                             playerId === id ? "text-secondary" : "text-white"
                           }`}
                         >

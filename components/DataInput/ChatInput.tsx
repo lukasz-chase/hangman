@@ -3,11 +3,11 @@ import { useContext, useState } from "react";
 import { GameContext } from "@/context/GameContext";
 import { gameContextTypes } from "@/types/context";
 import { toast } from "react-hot-toast";
-import type { Message, Socket } from "@/types/socket";
+import type { Message, Room, Socket } from "@/types/socket";
 
 type ChatInputTypes = {
   socket: Socket;
-  roomId: string;
+  room: Room;
   playerName: string;
   playerId: string;
   playerAvatar: string;
@@ -15,7 +15,7 @@ type ChatInputTypes = {
 
 const ChatInput = ({
   socket,
-  roomId,
+  room,
   playerName,
   playerId,
   playerAvatar,
@@ -33,11 +33,11 @@ const ChatInput = ({
     const now = new Date();
     const currentHour = now.getHours();
     const currentMinute = now.getMinutes().toString().padStart(2, "0");
-    socket.emit(
-      "message",
-      { ...message, createdAt: `${currentHour}:${currentMinute}` },
-      roomId
-    );
+    room.messages.push({
+      ...message,
+      createdAt: `${currentHour}:${currentMinute}`,
+    });
+    socket.emit("room:update", room);
     setMessage({ ...message, message: "" });
   };
   const enterMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {

@@ -31,6 +31,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     currentRound,
   }: socketContextTypes = useContext(SocketContext);
   const [loadingNewRound, setLoadingNewRound] = useState(false);
+
   const roomHasClosed = () => {
     roomClosed(router);
   };
@@ -92,7 +93,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     currentRound.customWord && player!.id === currentRound.wordToGuessChooser;
 
   const gameHasEnded = hasGameEnded({
-    roundTime: room.roundTime,
+    roundTime: currentRound.roundTime,
     players,
     wordToGuess: wordToGuess.word,
     authorId: currentRound.wordToGuessChooser,
@@ -105,7 +106,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
 
   useEffect(() => {
     const anotherRound = room.roundsNumber > room.currentRound + 1;
-    if (gameHasEnded) {
+    if (gameHasEnded && room.roomId) {
       setLoadingNewRound(true);
       if (anotherRound) {
         createNewRound({
@@ -121,18 +122,23 @@ const Hangman = ({ roomId }: { roomId: string }) => {
           id: winner.id,
         }));
         socket?.emit("room:update", room);
-        saveGame(room).then(({ data }) =>
-          router.replace(`/results/${data.id}`)
-        );
+        saveGame(room)
+          .then(({ data }) => router.replace(`/results/${data.id}`))
+          .catch((err) => {
+            toast.error("Error while saving the game");
+            router.replace(`/`);
+          });
       }
     }
   }, [gameHasEnded]);
 
-  if (loadingNewRound) return <Loading />;
-
+  if (loadingNewRound || !roomIsFetched) return <Loading />;
   return (
     <div className="flexCenter flex-col gap-5 xl:flex-row">
       <div className="flexCenter flex-col mt-10 flex-1">
+        <h1 className="uppercase text-primary-content px-4">
+          Word language: <b className="text-accent">{currentRound.language}</b>
+        </h1>
         <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
         <HangmanWord
           reveal={isLoser}

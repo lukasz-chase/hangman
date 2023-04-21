@@ -117,7 +117,7 @@ const Scoreboard = () => {
         messages={room.messages}
         playerId={playerId}
         playerName={name}
-        roomId={room.roomId}
+        room={room}
         socket={socket!}
         playerAvatar={playerAvatar}
       />
