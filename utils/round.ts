@@ -33,18 +33,13 @@ export const createNewRound = ({
     playersThatDidntChooseWord[
       Math.floor(Math.random() * playersThatDidntChooseWord.length)
     ];
-  // player = {
-  //   ...player!,
-  //   guessedLetters: [],
-  //   score: 0,
-  //   connectedToRoom: false,
-  // };
+
   room.currentRound++;
   room.inGame = false;
   room.rounds[room.currentRound] = {
     ...currentRound,
     language: "choosing",
-    vacant: room.playersLimit > 1,
+    vacant: true,
     roundTime: room.roundTime,
     players: [],
     wordToGuessChooser:

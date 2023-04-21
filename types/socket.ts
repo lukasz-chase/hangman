@@ -1,7 +1,12 @@
 export interface Socket {
   on(event: string, callback: (payload: any) => void): void;
   off(event: string, callback: (payload: any) => void): void;
-  emit(event: string, payload?: any, additionalPayload?: any): void;
+  emit(
+    event: string,
+    payload?: any,
+    additionalPayload?: any,
+    thirdPayload?: any
+  ): void;
 }
 
 export type Player = {
