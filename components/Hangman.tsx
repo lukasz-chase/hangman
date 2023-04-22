@@ -127,7 +127,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
           .catch((err) => {
             console.log(err);
             toast.error("Error while saving the game");
-            router.replace(`/`);
+            // router.replace(`/`);
           });
       }
     }
