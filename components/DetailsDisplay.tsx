@@ -50,8 +50,8 @@ const DetailsDisplay = memo(
               <b className="text-info lowercase px-2">{roundTime}s</b>
             </span>
           </div>
-          <div className="flexCenter flex-col gap-2 text-primary-content">
-            <b className="text-info uppercase">Invite friends</b>
+          <div className="flexCenter flex-col gap-2 text-primary-content text-center">
+            <b className="text-secondary uppercase">Invite friends</b>
             <span className="text-xs md:text-md">{roomUrl}</span>
             <button
               onClick={() => copyUrl(roomUrl)}
