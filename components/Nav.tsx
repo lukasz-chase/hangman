@@ -22,7 +22,7 @@ const Nav = () => {
   };
 
   return (
-    <div className="absolute top-0 left-0 flex justify-between items-center w-[97%] text-primary-content">
+    <div className="absolute top-0 left-0 flex justify-between items-center w-[96%] text-primary-content">
       <h1 className="p-5 text-xl uppercase">
         <LeaveButton />
       </h1>

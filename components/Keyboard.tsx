@@ -34,7 +34,12 @@ export const Keyboard = memo(
     const addGuessedLetter = useCallback(
       (letter: string) => {
         if (guessedLetters.includes(letter) || isLoser || isWinner) return;
-        socket.emit("room:guessLetter", letter, room, player.id);
+        socket.emit("room:guessLetter", {
+          letter,
+          roomId: room.roomId,
+          playerId: player.id,
+          roundTime: room.rounds[room.currentRound].roundTime,
+        });
       },
       [guessedLetters, isWinner, isLoser, player, room, socket]
     );

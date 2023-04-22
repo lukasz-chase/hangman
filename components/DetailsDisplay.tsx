@@ -30,7 +30,7 @@ const DetailsDisplay = memo(
     return (
       <div className="flexCenter flex-col w-full">
         <div className="flex items-center justify-evenly w-full flex-col lg:flex-row p-2 h-full gap-3 md:p-5 text-md md:text-md lg:text-lg">
-          <div className="flexCenter flex-col gap-2 text-primary-content">
+          <div className="flexCenter flex-col gap-2 text-primary-content text-center">
             <span>
               Round:
               <b className="text-info lowercase px-2">
