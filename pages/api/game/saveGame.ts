@@ -30,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     } catch (err) {
       console.log(err);
-      res.status(403).json({ err: "error when creating a game" });
+      res.status(403).json({ err });
     }
   }
 };
