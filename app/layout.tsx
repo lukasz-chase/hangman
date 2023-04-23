@@ -26,7 +26,7 @@ const robotoMono = Roboto_Mono({
 
 export default async ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-[#2A303C]">
       <UserContextProvider>
         <SocketContextProvider>
           <GameContextProvider>
@@ -34,7 +34,7 @@ export default async ({ children }: { children: React.ReactNode }) => {
               <SessionProvider>
                 <LayoutWrapper>
                   <div
-                    className={`${montserrat.variable} ${robotoMono.variable}  font-montserrat`}
+                    className={`${montserrat.variable} ${robotoMono.variable} font-montserrat`}
                   >
                     <Nav />
                     {children}

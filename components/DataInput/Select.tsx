@@ -13,13 +13,13 @@ type SelectTypes = {
 const Select = ({ label, name, onChange, options }: SelectTypes) => {
   return (
     <div key={name} className="form-control w-full ">
-      <label className="label cursor-pointer flexCenter flex-col text-primary-content">
-        <span className="label-text">{label}</span>
+      <label className="label cursor-pointer flexCenter flex-col ">
+        <span className="label-text text-primary-content">{label}</span>
         <select
           name={name}
           aria-label={`select ${name}`}
           onChange={onChange}
-          className="select select-bordered w-full"
+          className="select select-bordered w-full bg-neutral-focus"
         >
           {options.map(({ name, value }) => (
             <option key={name} aria-label={`option ${name}`} value={value}>

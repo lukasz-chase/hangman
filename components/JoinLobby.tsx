@@ -26,7 +26,7 @@ const JoinLobby = memo(
 
     return (
       <div
-        className="p-5 bg-white shadow-lg hover:shadow-black cursor-pointer rounded-md flex flex-col justify-between w-96 text-black uppercase gap-2 transition-all duration-300"
+        className="p-5 bg-white shadow-lg hover:shadow-black cursor-pointer rounded-md flex flex-col justify-between w-[90vw] md:w-96 text-black uppercase gap-2 transition-all duration-300"
         aria-label="join a lobby"
         onClick={() =>
           joinRoom({

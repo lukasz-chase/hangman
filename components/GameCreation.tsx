@@ -63,7 +63,7 @@ const RoomCreation = () => {
   ) => setRoom({ ...room, [e.target.name]: e.target.value });
 
   return (
-    <div className="w-full lg:w-1/2 p-4">
+    <div className="w-full lg:w-1/2 p-4 mt-12 md:mt-0">
       <div className="form-control grid grid-cols-1 md:grid-cols-2 gap-5 text-primary-content min-w-1/2">
         <div>
           {rangeInputs.map((rangeInput: rangeType) => (

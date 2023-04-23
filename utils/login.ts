@@ -6,12 +6,14 @@ const avatars = [
   "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191675/wtym4a2k0vt0xmxdzmzp.png",
 ];
 
-const gameNames = ["Alfred", "Wizard", "Dragon", "Robert", "King"];
+export const generateGuestUser = () => {
+  const gameNames = ["Alfred", "Wizard", "Dragon", "Robert", "King"];
 
-const name = gameNames[Math.floor(Math.random() * gameNames.length)];
+  const name = gameNames[Math.floor(Math.random() * gameNames.length)];
 
-export const guestUser = {
-  id: short().generate(),
-  name,
-  avatar: avatars[Math.floor(Math.random() * avatars.length)],
+  return {
+    id: short().generate(),
+    name,
+    avatar: avatars[Math.floor(Math.random() * avatars.length)],
+  };
 };

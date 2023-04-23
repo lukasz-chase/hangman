@@ -5,7 +5,7 @@ import { UserContext } from "../context/UserContext";
 import logo from "@/assets/logo.png";
 import type { userContextTypes } from "../types/context";
 import Image from "next/image";
-import { guestUser } from "../utils/login";
+import { generateGuestUser } from "../utils/login";
 import SignButton from "./SignButton";
 import Loading from "./Loading";
 
@@ -22,17 +22,17 @@ const Login = ({ children }: { children: ReactNode }) => {
   }
 
   const guestLogIn = () => {
-    setUser(guestUser);
-    localStorage.setItem("guestUser", JSON.stringify(guestUser));
+    setUser(generateGuestUser());
+    localStorage.setItem("guestUser", JSON.stringify(generateGuestUser()));
     setIsLogged(true);
   };
 
   return (
-    <>
+    <div className="">
       {session || isLogged ? (
         <>{children}</>
       ) : (
-        <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-primary-content text-xl lg:text-lg">
+        <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-primary-content text-xl lg:text-lg ">
           <Image
             height="200"
             width="200"
@@ -61,7 +61,7 @@ const Login = ({ children }: { children: ReactNode }) => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
