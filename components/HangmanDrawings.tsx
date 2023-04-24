@@ -1,5 +1,6 @@
 import { memo } from "react";
-import { bodyParts, machineParts } from "../descriptions/Hangman";
+//description
+import { bodyParts, machineParts } from "@/descriptions/Hangman";
 
 type HangmanDrawingProps = {
   numberOfGuesses: number;

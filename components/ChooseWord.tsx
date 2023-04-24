@@ -1,22 +1,25 @@
 import { useContext, useState } from "react";
+//description
 import {
   checkboxType,
   checkboxes,
   selectInput,
   selectType,
 } from "@/descriptions/RoomInputs";
+//components
 import Checkbox from "./DataInput/Checkbox";
 import Select from "./DataInput/Select";
 import Input from "./DataInput/Input";
-import { socketContextTypes } from "@/types/context";
+//types
+import type { WordToGuess } from "@/types/socket";
+import type { socketContextTypes } from "@/types/context";
+//context
 import { SocketContext } from "@/context/SocketContext";
+//utils
+import { customWordToGuessValidation } from "@/utils/room";
 
 type wordType = {
-  wordToGuess: {
-    word: string;
-    translation: string;
-    original: string;
-  };
+  wordToGuess: WordToGuess;
   [key: string]: any;
   language: string;
   customWord: boolean;
@@ -36,13 +39,27 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
     language: "english",
     customWord: false,
   });
+
   const customWordCheckbox = checkboxes.filter(
     (checkbox) => checkbox.name === "customWord"
   );
+
   const playerWhoChoosesWordIndex = room.rounds[
     room.currentRound
   ].players.findIndex((player) => player.id === currentPlayerId);
+
   const setWordToGuess = () => {
+    if (
+      word.customWord &&
+      !customWordToGuessValidation({
+        language: word.language,
+        playersLimit,
+        wordToGuess: word.wordToGuess,
+      })
+    ) {
+      return;
+    }
+
     socket!.emit("room:setNewWordToGuess", {
       roomId: room.roomId,
       ...word,
@@ -51,7 +68,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
   };
   return (
     <div className="flexCenter flex-col text-sm ">
-      <h1 className="text-accent">You are chosing word this round</h1>
+      <h1 className="text-accent">You are choosing word this round</h1>
       <div className="form-control grid grid-cols-1 gap-5 text-primary-content min-w-1/2">
         {selectInput.map((select: selectType) => (
           <Select

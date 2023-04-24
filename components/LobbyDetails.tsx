@@ -1,16 +1,22 @@
 "use client";
-import { useSession } from "next-auth/react";
 import { useContext, useEffect, useState } from "react";
-import { SocketContext } from "../context/SocketContext";
-import { UserContext } from "../context/UserContext";
-import type { socketContextTypes, userContextTypes } from "../types/context";
+//context
+import { SocketContext } from "@/context/SocketContext";
+import { UserContext } from "@/context/UserContext";
+//libraries
+import { toast } from "react-hot-toast";
+import { useSession } from "next-auth/react";
+//types
+import type { socketContextTypes, userContextTypes } from "@/types/context";
+//utils
 import {
   playerDisconnectedHandler,
   playerJoinedHandler,
   roomClosed,
-} from "../utils/lobby";
-import { toast } from "react-hot-toast";
-import { joinRoom } from "../utils/room";
+} from "@/utils/lobby";
+
+import { joinRoom } from "@/utils/room";
+//components
 import Chat from "./Chat";
 import PlayersDisplay from "./PlayersDisplay";
 import DetailsDisplay from "./DetailsDisplay";
@@ -37,6 +43,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
     router.replace(`/game/${roomId}`);
     setIsLoading(false);
   };
+
   const startTheGame = () => {
     if (currentRound.customWord && currentRound.players.length === 1) {
       return toast.error("you can't play by yourself with custom word");

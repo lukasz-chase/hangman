@@ -1,9 +1,12 @@
 "use client";
 import { memo, useCallback, useContext, useEffect } from "react";
-import { GameContext } from "../context/GameContext";
-import { keys } from "../descriptions/Hangman";
-import type { Player, Room, Socket } from "../types/socket";
-import type { gameContextTypes } from "../types/context";
+//context
+import { GameContext } from "@/context/GameContext";
+//descriptions
+import { keys } from "@/descriptions/Hangman";
+//types
+import type { Player, Room, Socket } from "@/types/socket";
+import type { gameContextTypes } from "@/types/context";
 
 type KeyboardProps = {
   disabled?: boolean;
@@ -15,6 +18,20 @@ type KeyboardProps = {
   isWinner: boolean;
   guessedLetters: string[];
   player: Player;
+};
+
+const setKeyColor = (
+  isActive: boolean,
+  isInactive: boolean,
+  disabled: boolean
+) => {
+  if (isActive)
+    return "bg-lime-500  text-primary-content hover:cursor-not-allowed";
+  if (isInactive)
+    return "bg-red-400 text-primary-content hover:cursor-not-allowed";
+  if (disabled && !isActive && !isInactive)
+    return "bg-slate-600 hover:cursor-not-allowed";
+  return "bg-white hover:bg-slate-400";
 };
 
 export const Keyboard = memo(
@@ -71,28 +88,9 @@ export const Keyboard = memo(
           return (
             <button
               aria-label={`keyboard button ${key}`}
-              className={`kbd lg:kbd-md uppercase text-bold xl:kbd-lg w-full border-2 ratio-square p-2 cursor-pointer text-black 
-            ${
-              !isInactive &&
-              !isActive &&
-              !disabled &&
-              "bg-white hover:bg-slate-400"
-            }
-            ${
-              disabled &&
-              !isActive &&
-              !isInactive &&
-              "bg-slate-600 hover:cursor-not-allowed"
-            }
-            ${
-              isActive &&
-              "bg-lime-500  text-primary-content hover:cursor-not-allowed"
-            }
-            ${
-              isInactive &&
-              "bg-red-400 text-primary-content hover:cursor-not-allowed"
-            }
-            `}
+              className={`kbd lg:kbd-md uppercase text-bold xl:kbd-lg w-full
+              border-2 ratio-square p-2 cursor-pointer text-black 
+              ${setKeyColor(isActive, isInactive, disabled)}`}
               key={key}
               onClick={() => addGuessedLetter(key)}
               disabled={

@@ -1,24 +1,28 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
+//context
+import { UserContext } from "@/context/UserContext";
 import { SocketContext } from "@/context/SocketContext";
-import { useContext } from "react";
+//components
 import { HangmanDrawing } from "./HangmanDrawings";
 import { HangmanWord } from "./HangmanWord";
 import { Keyboard } from "./Keyboard";
-import { UserContext } from "../context/UserContext";
-import { useSession } from "next-auth/react";
+import Loading from "./Loading";
+import Scoreboard from "./Scoreboard";
+//utils
 import {
   checkIncorrectLetters,
   checkIsWinner,
   hasGameEnded,
-} from "../utils/game";
-import type { socketContextTypes, userContextTypes } from "../types/context";
-import { playerDisconnectedHandler, roomClosed } from "../utils/lobby";
-import { toast } from "react-hot-toast";
+} from "@/utils/game";
 import { createNewRound } from "@/utils/round";
+import { playerDisconnectedHandler, roomClosed } from "@/utils/lobby";
+//types
+import type { socketContextTypes, userContextTypes } from "@/types/context";
+//api
 import { saveGame } from "@/api";
-import Loading from "./Loading";
-import Scoreboard from "./Scoreboard";
 
 const Hangman = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
@@ -100,9 +104,8 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     customWord: currentRound.customWord,
   });
 
-  const highestScore = Math.max(...players.map((player) => player.score)); // find the highest score
-
-  const winners = players.filter((player) => player.score === highestScore); // filter players with the highest score
+  const highestScore = Math.max(...players.map((player) => player.score));
+  const winners = players.filter((player) => player.score === highestScore);
 
   useEffect(() => {
     const anotherRound = room.roundsNumber > room.currentRound + 1;
@@ -132,11 +135,16 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     }
   }, [gameHasEnded]);
 
-  if (loadingNewRound || !roomIsFetched) return <Loading />;
+  if (loadingNewRound || !roomIsFetched)
+    return (
+      <div className="h-[95dvh]">
+        <Loading />
+      </div>
+    );
   return (
     <div className="flexCenter flex-col gap-5 xl:flex-row">
       <div className="flexCenter flex-col mt-10 flex-1">
-        <h1 className="uppercase text-primary-content px-4">
+        <h1 className="uppercase text-primary-content py-4">
           Word language: <b className="text-accent">{currentRound.language}</b>
         </h1>
         <HangmanDrawing numberOfGuesses={incorrectLetters.length} />

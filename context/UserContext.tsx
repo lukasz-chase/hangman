@@ -1,6 +1,6 @@
 "use client";
 import { useState, ReactNode, createContext, useEffect } from "react";
-import { GuestUser } from "../types/authTypes";
+import type { GuestUser } from "@/types/authTypes";
 
 const UserContext = createContext({
   user: {

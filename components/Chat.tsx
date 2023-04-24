@@ -1,4 +1,6 @@
+//types
 import type { Message, Room, Socket } from "@/types/socket";
+//components
 import ChatInput from "@/components/DataInput/ChatInput";
 import Messages from "./Messages";
 

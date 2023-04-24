@@ -1,13 +1,18 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import { roomDummy } from "../context/SocketContext";
-import CustomLink from "./CustomLink";
-import { Room } from "@/types/socket";
-import { fetchResults } from "@/api";
-import Loading from "./Loading";
-import { userContextTypes } from "@/types/context";
-import { UserContext } from "@/context/UserContext";
 import { useSession } from "next-auth/react";
+//context
+import { roomDummy } from "@/context/SocketContext";
+import { UserContext } from "@/context/UserContext";
+//components
+import CustomLink from "./CustomLink";
+import Loading from "./Loading";
+//types
+import type { Room } from "@/types/socket";
+import type { userContextTypes } from "@/types/context";
+//api
+import { fetchResults } from "@/api";
+//description
 import { resultsHeader } from "@/descriptions/Results";
 
 const Results = ({ roomId }: { roomId: string }) => {
@@ -19,7 +24,12 @@ const Results = ({ roomId }: { roomId: string }) => {
   useEffect(() => {
     fetchResults(roomId).then(({ data }) => setRoom(data));
   }, []);
-  if (!room.roomId) return <Loading />;
+  if (!room.roomId)
+    return (
+      <div className="h-[100dvh]">
+        <Loading />
+      </div>
+    );
   return (
     <div className="flex flex-col justify-center lg:items-center h-full gap-4">
       <h1 className="text-accent self-center">Game Results</h1>

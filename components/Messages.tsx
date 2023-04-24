@@ -1,8 +1,11 @@
 "use client";
 import { useContext, useEffect, useRef } from "react";
-import type { Message as MessageType } from "../types/socket";
-import { gameContextTypes } from "../types/context";
-import { GameContext } from "../context/GameContext";
+//types
+import type { Message as MessageType } from "@/types/socket";
+import { gameContextTypes } from "@/types/context";
+//context
+import { GameContext } from "@/context/GameContext";
+//components
 import Message from "./Message";
 
 type MessagesProps = {

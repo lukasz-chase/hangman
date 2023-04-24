@@ -1,5 +1,7 @@
-import type { Player } from "@/types/socket";
 import { memo } from "react";
+//types
+import type { Player } from "@/types/socket";
+//components
 import ChooseWord from "./ChooseWord";
 
 type PlayersDisplayType = {

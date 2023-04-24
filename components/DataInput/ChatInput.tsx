@@ -1,9 +1,12 @@
 "use client";
 import { useContext, useState } from "react";
+//context
 import { GameContext } from "@/context/GameContext";
-import { gameContextTypes } from "@/types/context";
-import { toast } from "react-hot-toast";
+//types
+import type { gameContextTypes } from "@/types/context";
 import type { Message, Room, Socket } from "@/types/socket";
+//libraries
+import { toast } from "react-hot-toast";
 
 type ChatInputTypes = {
   socket: Socket;
@@ -28,6 +31,7 @@ const ChatInput = ({
     createdAt: "",
   });
   const { setIsChatFocused }: gameContextTypes = useContext(GameContext);
+
   const handleMessage = () => {
     if (!message.message) return toast.error("Message cant be empty");
     const now = new Date();
@@ -40,11 +44,13 @@ const ChatInput = ({
     socket.emit("room:update", room);
     setMessage({ ...message, message: "" });
   };
+
   const enterMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleMessage();
     }
   };
+
   const handleFocus = () => {
     setIsChatFocused(true);
   };

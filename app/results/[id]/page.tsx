@@ -1,3 +1,4 @@
+//components
 import Login from "@/components/Login";
 import Results from "@/components/Results";
 

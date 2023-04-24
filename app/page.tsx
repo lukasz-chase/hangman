@@ -1,3 +1,4 @@
+//components
 import LobbyList from "@/components/LobbyList";
 import Login from "@/components/Login";
 import CustomLink from "@/components/CustomLink";

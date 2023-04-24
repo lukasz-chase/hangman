@@ -1,12 +1,15 @@
-import { Player } from "../types/socket";
-import { joinRoom } from "../utils/room";
 import { memo, useContext } from "react";
 import { useSession } from "next-auth/react";
-import { UserContext } from "../context/UserContext";
-import { SocketContext } from "../context/SocketContext";
-import type { socketContextTypes, userContextTypes } from "../types/context";
+//types
+import type { Player } from "@/types/socket";
+import type { socketContextTypes, userContextTypes } from "@/types/context";
+//utils
+import { joinRoom } from "@/utils/room";
+//context
+import { UserContext } from "@/context/UserContext";
+import { SocketContext } from "@/context/SocketContext";
 
-type JoinLobbyProps = {
+type LobbyProps = {
   roomId: string;
   playersLimit: number;
   players: Player[];
@@ -14,8 +17,8 @@ type JoinLobbyProps = {
   customWord: boolean;
 };
 
-const JoinLobby = memo(
-  ({ roomId, playersLimit, players, language, customWord }: JoinLobbyProps) => {
+const Lobby = memo(
+  ({ roomId, playersLimit, players, language, customWord }: LobbyProps) => {
     const { data: session } = useSession();
     const { user }: userContextTypes = useContext(UserContext);
     const { socket, router }: socketContextTypes = useContext(SocketContext);
@@ -73,4 +76,4 @@ const JoinLobby = memo(
   }
 );
 
-export default JoinLobby;
+export default Lobby;

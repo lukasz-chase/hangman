@@ -1,3 +1,4 @@
+//components
 import GameCreation from "@/components/GameCreation";
 import Login from "@/components/Login";
 

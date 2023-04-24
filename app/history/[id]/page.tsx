@@ -1,3 +1,4 @@
+//components
 import GamesHistory from "@/components/GamesHistory";
 import Login from "@/components/Login";
 

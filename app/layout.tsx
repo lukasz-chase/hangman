@@ -1,10 +1,10 @@
 import "./globals.css";
-import { SocketContextProvider } from "../context/SocketContext";
-import { UserContextProvider } from "../context/UserContext";
-import { GameContextProvider } from "../context/GameContext";
-import Nav from "../components/Nav";
-import LayoutWrapper from "../components/LayoutWrapper";
-import { SessionProvider } from "../components/SessionProvider";
+import { SocketContextProvider } from "@/context/SocketContext";
+import { UserContextProvider } from "@/context/UserContext";
+import { GameContextProvider } from "@/context/GameContext";
+import Nav from "@/components/Nav";
+import LayoutWrapper from "@/components/LayoutWrapper";
+import { SessionProvider } from "@/components/SessionProvider";
 import { Montserrat, Roboto_Mono } from "next/font/google";
 
 export const metadata = {
@@ -24,7 +24,7 @@ const robotoMono = Roboto_Mono({
   variable: "--font-robotoMono",
 });
 
-export default async ({ children }: { children: React.ReactNode }) => {
+export default ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" className="bg-[#2A303C]">
       <UserContextProvider>

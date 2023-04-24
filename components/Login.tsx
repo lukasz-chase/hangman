@@ -1,11 +1,16 @@
 "use client";
+//libraries
 import { signIn, useSession } from "next-auth/react";
 import { ReactNode, useContext } from "react";
+//context
 import { UserContext } from "../context/UserContext";
+import type { userContextTypes } from "@/types/context";
+//assets
 import logo from "@/assets/logo.png";
-import type { userContextTypes } from "../types/context";
 import Image from "next/image";
-import { generateGuestUser } from "../utils/login";
+//utils
+import { generateGuestUser } from "@/utils/login";
+//components
 import SignButton from "./SignButton";
 import Loading from "./Loading";
 
@@ -15,10 +20,15 @@ const Login = ({ children }: { children: ReactNode }) => {
     setIsLogged,
     isLogged = false,
   }: userContextTypes = useContext(UserContext);
+
   const { data: session, status } = useSession();
 
   if (status === "loading") {
-    return <Loading />;
+    return (
+      <div className="h-[100dvh]">
+        <Loading />
+      </div>
+    );
   }
 
   const guestLogIn = () => {

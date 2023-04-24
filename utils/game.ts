@@ -1,4 +1,5 @@
-import { Player } from "../types/socket";
+//types
+import type { Player } from "@/types/socket";
 
 export const checkIsWinner = (letters: string[], wordToGuess: string) =>
   wordToGuess.split("").every((letter: string) => letters.includes(letter));

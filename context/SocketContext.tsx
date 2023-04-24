@@ -2,7 +2,7 @@
 import { useEffect, useState, ReactNode, createContext } from "react";
 import { io } from "socket.io-client";
 import { useRouter } from "next/navigation";
-import { Room, Socket } from "../types/socket";
+import type { Room, Socket } from "@/types/socket";
 
 export const roomDummy = {
   id: "",
@@ -65,7 +65,7 @@ const SocketContext = createContext({
 });
 
 const SocketContextProvider = ({ children }: { children: ReactNode }) => {
-  const socketUrl = "https://hangman-server-stl0.onrender.com/";
+  const socketUrl = "wss://hangman-server-stl0.onrender.com";
   // const socketUrl = "http://localhost:8080";
   const [room, setRoom] = useState<Room>(roomDummy);
   const [roomIsFetched, setRoomIsFetched] = useState(false);

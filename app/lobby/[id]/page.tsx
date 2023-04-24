@@ -1,3 +1,4 @@
+//components
 import LobbyDetails from "@/components/LobbyDetails";
 import Login from "@/components/Login";
 

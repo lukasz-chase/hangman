@@ -1,5 +1,6 @@
 import { toast } from "react-hot-toast";
-import { Player, Room, roomPayload } from "../types/socket";
+//types
+import type { Player, Room, WordToGuess, roomPayload } from "@/types/socket";
 
 type JoinRoomProps = {
   players: Player[];
@@ -10,6 +11,12 @@ type JoinRoomProps = {
   name: string;
   socket: any;
   router: any;
+};
+
+type WordToGuessValidationProps = {
+  wordToGuess: WordToGuess;
+  language: string;
+  playersLimit: number;
 };
 
 export const joinRoom = ({
@@ -39,28 +46,51 @@ export const joinRoom = ({
   });
 };
 
+export const customWordToGuessValidation = ({
+  wordToGuess,
+  language,
+  playersLimit,
+}: WordToGuessValidationProps) => {
+  const regex = /^[a-zA-Z]+$/;
+  if (wordToGuess.word.length < 2) {
+    toast.error("Word has to be at least 2 letters long");
+    return false;
+  }
+  if (wordToGuess.word.length > 45) {
+    toast.error("Word can't be longer than 45 letters");
+    return false;
+  }
+  if (language !== "english" && wordToGuess.translation) {
+    toast.error("You need to provide translation");
+    return false;
+  }
+  if (!regex.test(wordToGuess.word)) {
+    toast.error("word can only contain letters from a-z");
+    return false;
+  }
+  if (playersLimit === 1) {
+    toast.error("You need at least 2 players to play with custom word");
+    return false;
+  }
+  wordToGuess.original = wordToGuess.word;
+  return true;
+};
+
 export const createRoom = (
   room: roomPayload,
   socket: any,
   router: any,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  if (Number(room.playersLimit) === 1 && room.customWord) {
-    return toast.error("You need at least 2 players to play with custom word");
-  }
-  if (room.customWord) {
-    const regex = /^[a-zA-Z]+$/;
-    if (room.word.word.length < 2)
-      return toast.error("Word has to be at least 2 letters long");
-    if (room.word.word.length > 45)
-      return toast.error("Word can't be longer than 45 letters");
-    if (room.language !== "english" && !room.word.translation)
-      return toast.error("You need to provide translation");
-    if (!regex.test(room.word.word))
-      return toast.error("word can only contain letters from a-z");
-    if (room.playersLimit === 1)
-      return toast.error("you can't play by yourself with custom word");
-    room.word.original = room.word.word;
+  if (
+    room.customWord &&
+    !customWordToGuessValidation({
+      wordToGuess: room.word,
+      language: room.language,
+      playersLimit: Number(room.playersLimit),
+    })
+  ) {
+    return;
   }
 
   setIsLoading(true);

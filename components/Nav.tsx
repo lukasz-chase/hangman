@@ -1,11 +1,14 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
 import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
-import type { socketContextTypes, userContextTypes } from "../types/context";
 import Link from "next/link";
-import { leaveHandler } from "@/utils/room";
+//context
+import { UserContext } from "@/context/UserContext";
 import { SocketContext } from "@/context/SocketContext";
+//types
+import type { socketContextTypes, userContextTypes } from "@/types/context";
+//utils
+import { leaveHandler } from "@/utils/room";
 
 const Nav = () => {
   const { data: session } = useSession();

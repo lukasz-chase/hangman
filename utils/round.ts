@@ -1,3 +1,4 @@
+//types
 import type { Player, Room, Round, Socket } from "@/types/socket";
 
 type NewRoundTypes = {

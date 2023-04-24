@@ -12,7 +12,12 @@ const GamesHistory = ({ userId }: { userId: string }) => {
   useEffect(() => {
     fetchGames(userId).then(({ data }) => setGames(data));
   }, []);
-  if (games[0] && !games[0].id) return <Loading />;
+  if (games[0] && !games[0].id)
+    return (
+      <div className="h-[100dvh]">
+        <Loading />
+      </div>
+    );
   return (
     <div>
       {games.length > 0 ? (

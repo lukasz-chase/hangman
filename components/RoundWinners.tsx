@@ -1,5 +1,6 @@
-import { Round } from "@/types/socket";
-import React, { memo } from "react";
+import { memo } from "react";
+//types
+import type { Round } from "@/types/socket";
 
 const RoundWinners = ({
   rounds,

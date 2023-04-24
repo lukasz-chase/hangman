@@ -9,6 +9,12 @@ export interface Socket {
   ): void;
 }
 
+export type WordToGuess = {
+  word: string;
+  translation: string;
+  original: string;
+};
+
 export type Player = {
   id: string;
   guessedLetters: string[];
@@ -39,11 +45,7 @@ export type Round = {
   language: string;
   vacant: boolean;
   roundTime: number;
-  wordToGuess: {
-    word: string;
-    translation: string;
-    original: string;
-  };
+  wordToGuess: WordToGuess;
 };
 export type Room = {
   id: string;
@@ -68,11 +70,7 @@ export type roomPayload = {
   roundTime: number;
   customWord: boolean;
   roundsNumber: number;
-  word: {
-    word: string;
-    translation: string;
-    original: string;
-  };
+  word: WordToGuess;
   creator: {
     name: string;
     id: string;

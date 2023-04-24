@@ -1,10 +1,14 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useContext, useEffect, useRef } from "react";
-import { SocketContext } from "../context/SocketContext";
-import { UserContext } from "../context/UserContext";
-import type { socketContextTypes, userContextTypes } from "../types/context";
-import { hasGameEnded } from "../utils/game";
+//context
+import { SocketContext } from "@/context/SocketContext";
+import { UserContext } from "@/context/UserContext";
+//types
+import type { socketContextTypes, userContextTypes } from "@/types/context";
+//utils
+import { hasGameEnded } from "@/utils/game";
+//components
 import Chat from "./Chat";
 
 const COUNTDOWN_INTERVAL = 1000;

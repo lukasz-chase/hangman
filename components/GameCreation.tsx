@@ -1,9 +1,10 @@
 "use client";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { useContext } from "react";
-import { SocketContext } from "../context/SocketContext";
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState, useContext } from "react";
+//context
+import { SocketContext } from "@/context/SocketContext";
+import { UserContext } from "@/context/UserContext";
+//descriptions
 import {
   checkboxes,
   checkboxType,
@@ -11,11 +12,14 @@ import {
   rangeType,
   selectInput,
   selectType,
-} from "../descriptions/RoomInputs";
-import type { socketContextTypes, userContextTypes } from "../types/context";
-import type { roomPayload } from "../types/socket";
-import { roomClosed } from "../utils/lobby";
-import { createRoom } from "../utils/room";
+} from "@/descriptions/RoomInputs";
+//types
+import type { socketContextTypes, userContextTypes } from "@/types/context";
+import type { roomPayload } from "@/types/socket";
+//utils
+import { roomClosed } from "@/utils/lobby";
+import { createRoom } from "@/utils/room";
+//components
 import Checkbox from "./DataInput/Checkbox";
 import Select from "./DataInput/Select";
 import Input from "./DataInput/Input";
@@ -136,7 +140,7 @@ const RoomCreation = () => {
         </div>
       </div>
       <button
-        aria-label={`create a lobby`}
+        aria-label="create a lobby"
         onClick={() => createRoom(room, socket, router, setIsLoading)}
         className="btn btn-primary  text-primary-content w-full mt-4"
       >
