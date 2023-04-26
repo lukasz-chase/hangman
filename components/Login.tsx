@@ -8,18 +8,13 @@ import type { userContextTypes } from "@/types/context";
 //assets
 import logo from "@/assets/logo.png";
 import Image from "next/image";
-//utils
-import { generateGuestUser } from "@/utils/login";
 //components
 import SignButton from "./SignButton";
 import Loading from "./Loading";
+import GuestLogin from "./GuestLogin";
 
 const Login = ({ children }: { children: ReactNode }) => {
-  const {
-    setUser,
-    setIsLogged,
-    isLogged = false,
-  }: userContextTypes = useContext(UserContext);
+  const { isLogged = false }: userContextTypes = useContext(UserContext);
 
   const { data: session, status } = useSession();
 
@@ -31,21 +26,15 @@ const Login = ({ children }: { children: ReactNode }) => {
     );
   }
 
-  const guestLogIn = () => {
-    setUser(generateGuestUser());
-    localStorage.setItem("guestUser", JSON.stringify(generateGuestUser()));
-    setIsLogged(true);
-  };
-
   return (
     <div className="">
       {session || isLogged ? (
         <>{children}</>
       ) : (
-        <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-primary-content text-xl lg:text-lg ">
+        <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-primary-content text-sm lg:text-lg ">
           <Image
-            height="200"
-            width="200"
+            height="100"
+            width="100"
             src={logo}
             alt="hangman"
             className="rounded-md"
@@ -54,9 +43,9 @@ const Login = ({ children }: { children: ReactNode }) => {
             <h1>
               Welcome to <b className="text-sky-500">Hangman</b> online
             </h1>
-            <h2 className="text-lg lg:text-2xl">Learn new words by playing</h2>
+            <h2 className="">Learn new words by playing</h2>
             <h3>
-              <b className="text-lime-500">Sign in</b> to continue
+              <b className="text-lime-500">Sign in with</b>
             </h3>
           </div>
           <SignButton
@@ -64,11 +53,8 @@ const Login = ({ children }: { children: ReactNode }) => {
             label="google"
             onClick={() => signIn("google")}
           />
-          <SignButton
-            ariaLabel="guest sign in"
-            label="guest"
-            onClick={guestLogIn}
-          />
+          <h3>or as</h3>
+          <GuestLogin />
         </div>
       )}
     </div>

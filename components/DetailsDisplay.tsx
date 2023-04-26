@@ -4,8 +4,6 @@ import type { Round } from "@/types/socket";
 import { copyUrl } from "@/utils/lobby";
 //libraries
 import { memo } from "react";
-//components
-import RoundWinners from "./RoundWinners";
 
 type DetailsDisplayType = {
   language: string;
@@ -60,7 +58,6 @@ const DetailsDisplay = memo(
             </button>
           </div>
         </div>
-        <RoundWinners rounds={rounds} playerId={playerId} />
       </div>
     );
   }

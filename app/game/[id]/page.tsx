@@ -10,7 +10,7 @@ type Props = {
 const HangmanPage = ({ params: { id: gameId } }: Props) => {
   return (
     <Login>
-      <div className="h-[100dvh] w-full mt-[24rem] lg:mt-72 xl:mt-10 flexCenter">
+      <div className="w-full mt-[5rem] lg:mt-20 flexCenter">
         <Hangman roomId={gameId} />
       </div>
     </Login>

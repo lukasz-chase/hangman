@@ -39,7 +39,7 @@ const RoomCreation = () => {
     creator: {
       name: session?.user?.name ?? user.name,
       id: session?.user?.id ?? user.id,
-      avatar: session?.user.avatar ?? user.avatar,
+      avatar: session?.user.image ?? user.avatar,
     },
     customWord: false,
     word: {
@@ -48,6 +48,7 @@ const RoomCreation = () => {
       original: "",
     },
     roundsNumber: 1,
+    difficulty: 6,
   });
 
   const roomHasClosed = () => roomClosed(router);

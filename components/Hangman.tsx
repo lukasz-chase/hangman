@@ -11,6 +11,7 @@ import { HangmanWord } from "./HangmanWord";
 import { Keyboard } from "./Keyboard";
 import Loading from "./Loading";
 import Scoreboard from "./Scoreboard";
+import TipsAndStrategies from "./TipsAndStrategies";
 //utils
 import {
   checkIncorrectLetters,
@@ -78,7 +79,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     }
   }, [roomIsFetched]);
 
-  const { wordToGuess, players, language } = currentRound;
+  const { wordToGuess, players, language, difficulty } = currentRound;
   const playerId = session?.user.id ?? user.id;
   const player = players.find((player) => player.id === playerId);
 
@@ -89,8 +90,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     wordToGuess.word
   );
 
-  //6 because thats how much bodyparts we have - tries the user have
-  const isLoser = incorrectLetters.length >= 6;
+  const isLoser = incorrectLetters.length >= difficulty;
 
   const isWinner = checkIsWinner(guessedLetters!, wordToGuess.word);
   const isWordAuthor =
@@ -102,6 +102,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     wordToGuess: wordToGuess.word,
     authorId: currentRound.wordToGuessChooser,
     customWord: currentRound.customWord,
+    difficulty,
   });
 
   const highestScore = Math.max(...players.map((player) => player.score));
@@ -142,41 +143,49 @@ const Hangman = ({ roomId }: { roomId: string }) => {
       </div>
     );
   return (
-    <div className="flexCenter flex-col gap-5 xl:flex-row">
-      <div className="flexCenter flex-col mt-10 flex-1">
-        <h1 className="uppercase text-primary-content py-4">
-          Word language: <b className="text-accent">{currentRound.language}</b>
-        </h1>
-        <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
-        <HangmanWord
-          reveal={isLoser}
-          guessedLetters={guessedLetters!}
-          wordToGuess={wordToGuess.word}
-        />
-        {gameHasEnded && (
-          <h1 className="uppercase p-5 text-primary-content text-xs md:text-md lg:text-xl">
-            The word was{" "}
-            <b className="text-cyan-500">{wordToGuess.original} </b>
-            {language !== "english" && `which means ${wordToGuess.translation}`}
+    <div>
+      <div className="flexCenter flex-col gap-5 xl:flex-row">
+        <div className="flexCenter flex-col mt-10 flex-1">
+          <h1 className="uppercase text-primary-content py-4">
+            Word language:{" "}
+            <b className="text-accent">{currentRound.language}</b>
           </h1>
-        )}
-        <div>
-          <Keyboard
-            disabled={isWinner || isLoser || isWordAuthor || gameHasEnded}
-            activeLetters={guessedLetters!.filter((letter: string) =>
-              wordToGuess.word.includes(letter)
-            )}
-            socket={socket!}
-            isLoser={isLoser}
-            isWinner={isWinner}
-            room={room}
-            inactiveLetters={incorrectLetters}
-            guessedLetters={guessedLetters!}
-            player={player!}
+          <HangmanDrawing
+            numberOfGuesses={incorrectLetters.length}
+            difficulty={difficulty}
           />
+          <HangmanWord
+            reveal={isLoser}
+            guessedLetters={guessedLetters!}
+            wordToGuess={wordToGuess.word}
+          />
+          {gameHasEnded && (
+            <h1 className="uppercase p-5 text-primary-content text-xs md:text-md lg:text-xl">
+              The word was{" "}
+              <b className="text-cyan-500">{wordToGuess.original} </b>
+              {language !== "english" &&
+                `which means ${wordToGuess.translation}`}
+            </h1>
+          )}
+          <div>
+            <Keyboard
+              disabled={isWinner || isLoser || isWordAuthor || gameHasEnded}
+              activeLetters={guessedLetters!.filter((letter: string) =>
+                wordToGuess.word.includes(letter)
+              )}
+              socket={socket!}
+              isLoser={isLoser}
+              isWinner={isWinner}
+              room={room}
+              inactiveLetters={incorrectLetters}
+              guessedLetters={guessedLetters!}
+              player={player!}
+            />
+          </div>
         </div>
+        <Scoreboard />
       </div>
-      <Scoreboard />
+      <TipsAndStrategies />
     </div>
   );
 };

@@ -5,7 +5,7 @@ type SelectTypes = {
   name: string;
   options: {
     name: string;
-    value: string;
+    value: string | number;
   }[];
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
@@ -13,7 +13,7 @@ type SelectTypes = {
 const Select = ({ label, name, onChange, options }: SelectTypes) => {
   return (
     <div key={name} className="form-control w-full ">
-      <label className="label cursor-pointer flexCenter flex-col ">
+      <label className="label cursor-pointer flex items-start flex-col ">
         <span className="label-text text-primary-content">{label}</span>
         <select
           name={name}

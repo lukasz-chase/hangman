@@ -4,6 +4,7 @@ export const resultsHeader = [
   "Round time",
   "Round time left",
   "Custom Word",
+  "Difficulty",
   "Word to guess",
   "Round winners",
 ];

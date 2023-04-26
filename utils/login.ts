@@ -1,20 +1,38 @@
 import short from "short-uuid";
 
-const avatars = [
-  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191676/deb7gmlw3iyq4r41kjlx.png",
-  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191675/bfr0ynxpd8hv8jyxxvir.png",
-  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191675/hwbuzvi3blxi16xuxl3l.png",
-  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1680191675/wtym4a2k0vt0xmxdzmzp.png",
+export const avatarsVersion1 = [
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/zwykly-1_sxaqnb.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432100/hangmanAvatars/zwykly-2_rixaff.jpg",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432100/hangmanAvatars/zwykly-3_vc3ojo.jpg",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432100/hangmanAvatars/zwykly-4_fmo4sb.jpg",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432100/hangmanAvatars/zwykly-5_il1bsb.jpg",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432100/hangmanAvatars/zwykly-6_tjnfrg.png",
+];
+export const avatarsVersion2 = [
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/zamkniete-1_ti0bny.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/zamkniete-2_rycflz.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/zamkniete-3_mzh1dn.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432100/hangmanAvatars/zamkniete-4_vmuwva.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/zamkniete-5_ktj6nz.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/zamkniete-6_shk5mm.png",
+];
+export const avatarsVersion3 = [
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/okularki-1_uyzkye.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/okularki-2_sbmqe2.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/okularki-3_y4knk2.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/okularki-4_cpjaaa.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/okularki-5_a5ibsb.png",
+  "https://res.cloudinary.com/dmv02zyyo/image/upload/v1682432099/hangmanAvatars/okularki-6_x3w73p.png",
 ];
 
-export const generateGuestUser = () => {
+export const generateGuestUser = (name: string, avatar: string) => {
   const gameNames = ["Alfred", "Wizard", "Dragon", "Robert", "King"];
 
-  const name = gameNames[Math.floor(Math.random() * gameNames.length)];
-
+  const randomName = gameNames[Math.floor(Math.random() * gameNames.length)];
+  console.log(name || randomName);
   return {
     id: short().generate(),
-    name,
-    avatar: avatars[Math.floor(Math.random() * avatars.length)],
+    name: name || randomName,
+    avatar,
   };
 };

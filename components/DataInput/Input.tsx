@@ -3,6 +3,7 @@ import React from "react";
 type InputTypes = {
   value: string;
   placeholder: string;
+  maxLength?: number;
   ariaLabel: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   toolTip?: string;
@@ -11,6 +12,7 @@ type InputTypes = {
 const Input = ({
   value,
   placeholder,
+  maxLength,
   onChange,
   toolTip,
   ariaLabel,
@@ -22,6 +24,7 @@ const Input = ({
           type="text"
           aria-label={ariaLabel}
           placeholder={placeholder}
+          maxLength={maxLength}
           className="input input-bordered w-full"
           value={value}
           onChange={onChange}

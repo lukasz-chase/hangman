@@ -1,19 +1,23 @@
 import { memo } from "react";
 //description
-import { bodyParts, machineParts } from "@/descriptions/Hangman";
+import { parts } from "@/descriptions/Hangman";
 
 type HangmanDrawingProps = {
   numberOfGuesses: number;
+  difficulty: number;
 };
 
 export const HangmanDrawing = memo(
-  ({ numberOfGuesses }: HangmanDrawingProps) => {
+  ({ numberOfGuesses, difficulty }: HangmanDrawingProps) => {
+    const startIndex = 10 - difficulty;
     return (
-      <div className="relative">
-        {bodyParts.slice(0, numberOfGuesses).map(({ name, className }) => (
-          <div key={name} className={className} />
-        ))}
-        {machineParts.map(({ name, className }) => (
+      <div className="flexCenter relative min-h-[15rem] md:min-h-[20rem]">
+        {parts
+          .slice(startIndex, startIndex + numberOfGuesses)
+          .map(({ name, className }) => (
+            <div key={name} className={className} />
+          ))}
+        {parts.slice(0, startIndex).map(({ name, className }) => (
           <div key={name} className={className} />
         ))}
       </div>

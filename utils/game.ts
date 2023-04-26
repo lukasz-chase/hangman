@@ -13,12 +13,14 @@ export const hasGameEnded = ({
   wordToGuess,
   authorId,
   customWord,
+  difficulty,
 }: {
   roundTime: number;
   players: Player[];
   wordToGuess: string;
   authorId: string;
   customWord: boolean;
+  difficulty: number;
 }) => {
   const gameHasEnded = roundTime === 0;
   const playersMod = customWord
@@ -27,7 +29,29 @@ export const hasGameEnded = ({
   const didPlayersEnd = playersMod.every(
     (player) =>
       checkIsWinner(player.guessedLetters, wordToGuess) ||
-      checkIncorrectLetters(player.guessedLetters, wordToGuess).length >= 6
+      checkIncorrectLetters(player.guessedLetters, wordToGuess).length >=
+        difficulty
   );
   return gameHasEnded || didPlayersEnd;
+};
+
+export const hasPlayerFinished = ({
+  player,
+  wordToGuess,
+  wordToGuessChooser,
+  customWord,
+  difficulty,
+}: {
+  player: Player;
+  wordToGuess: string;
+  wordToGuessChooser: string;
+  customWord: boolean;
+  difficulty: number;
+}) => {
+  const playerHasFinished =
+    checkIsWinner(player!.guessedLetters, wordToGuess) ||
+    checkIncorrectLetters(player!.guessedLetters, wordToGuess).length >=
+      difficulty ||
+    (customWord && wordToGuessChooser === player.id);
+  return playerHasFinished;
 };

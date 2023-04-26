@@ -38,6 +38,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
     },
     language: "english",
     customWord: false,
+    difficulty: 6,
   });
 
   const customWordCheckbox = checkboxes.filter(

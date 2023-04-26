@@ -20,7 +20,7 @@ export type selectType = {
   name: string;
   options: {
     name: string;
-    value: string;
+    value: string | number;
   }[];
 };
 
@@ -85,6 +85,24 @@ export const selectInput: selectType[] = [
       {
         value: "french",
         name: "French",
+      },
+    ],
+  },
+  {
+    label: "Difficulty",
+    name: "difficulty",
+    options: [
+      {
+        value: 6,
+        name: "Hard",
+      },
+      {
+        value: 8,
+        name: "Medium",
+      },
+      {
+        value: 10,
+        name: "Easy",
       },
     ],
   },

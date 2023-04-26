@@ -1,4 +1,5 @@
-import React, { memo } from "react";
+import Image from "next/image";
+import { memo } from "react";
 
 type MessageProps = {
   playerId: string;
@@ -38,8 +39,8 @@ const Message = memo(
         }`}
       >
         <div className="chat-image avatar">
-          <div className="w-10 rounded-full">
-            <img src={playerAvatar} />
+          <div className="rounded-full">
+            <Image src={playerAvatar} alt={playerName} height={35} width={35} />
           </div>
         </div>
         <div className="chat-header flexCenter gap-2">

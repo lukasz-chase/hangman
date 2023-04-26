@@ -22,6 +22,7 @@ import PlayersDisplay from "./PlayersDisplay";
 import DetailsDisplay from "./DetailsDisplay";
 import StartGameButton from "./StartGameButton";
 import Loading from "./Loading";
+import RoundWinners from "./RoundWinners";
 
 const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
@@ -105,47 +106,50 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   if (!roomIsFetched) return <Loading />;
 
   return (
-    <div className="flex xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
-      <div className="flexCenter flex-col">
-        <div className="flexCenter flex-col gap-2 md:gap-5 w-[90vw] lg:w-[65vw] min-h-[300px] uppercase">
-          <DetailsDisplay
-            customWord={currentRound.customWord}
-            language={currentRound.language}
-            roomId={roomId}
-            roundTime={room.roundTime}
-            roundsNumber={room.roundsNumber}
-            currentRound={room.currentRound + 1}
-            rounds={room.rounds}
-            playerId={playerId}
-          />
-          <PlayersDisplay
+    <div className="flexCenter flex-col w-full">
+      <div className="flex xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
+        <div className="flexCenter flex-col">
+          <div className="flexCenter flex-col gap-2 md:gap-5 w-[90vw] lg:w-[65vw] min-h-[300px] uppercase">
+            <DetailsDisplay
+              customWord={currentRound.customWord}
+              language={currentRound.language}
+              roomId={roomId}
+              roundTime={room.roundTime}
+              roundsNumber={room.roundsNumber}
+              currentRound={room.currentRound + 1}
+              rounds={room.rounds}
+              playerId={playerId}
+            />
+            <PlayersDisplay
+              creator={room.creator}
+              players={currentRound.players}
+              playersLimit={room.playersLimit}
+              playerToChooseWord={currentRound.wordToGuessChooser}
+              chooseWord={currentRound.wordToGuess.word === "1"}
+              playerLimit={room.playersLimit}
+              currentPlayerId={playerId}
+            />
+          </div>
+          <StartGameButton
             creator={room.creator}
-            players={currentRound.players}
-            playersLimit={room.playersLimit}
-            playerToChooseWord={currentRound.wordToGuessChooser}
+            isLoading={isLoading}
+            playerId={playerId}
             chooseWord={currentRound.wordToGuess.word === "1"}
-            playerLimit={room.playersLimit}
-            currentPlayerId={playerId}
+            startTheGame={startTheGame}
           />
         </div>
-        <StartGameButton
-          creator={room.creator}
-          isLoading={isLoading}
-          playerId={playerId}
-          chooseWord={currentRound.wordToGuess.word === "1"}
-          startTheGame={startTheGame}
-        />
+        <div className="self-end">
+          <Chat
+            messages={room.messages}
+            playerId={playerId}
+            playerName={name}
+            room={room}
+            socket={socket!}
+            playerAvatar={playerAvatar}
+          />
+        </div>
       </div>
-      <div className="self-end">
-        <Chat
-          messages={room.messages}
-          playerId={playerId}
-          playerName={name}
-          room={room}
-          socket={socket!}
-          playerAvatar={playerAvatar}
-        />
-      </div>
+      <RoundWinners rounds={room.rounds} playerId={playerId} />
     </div>
   );
 };

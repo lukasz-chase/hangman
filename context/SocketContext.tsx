@@ -19,6 +19,7 @@ export const roomDummy = {
       roundWinners: [{ id: "", name: "" }],
       wordToGuessChooser: "asd",
       playersInGame: [""],
+      difficulty: 6,
       players: [
         {
           id: "asd",

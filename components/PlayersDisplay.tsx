@@ -1,4 +1,5 @@
 import { memo } from "react";
+import Image from "next/image";
 //types
 import type { Player } from "@/types/socket";
 //components
@@ -29,20 +30,30 @@ const PlayersDisplay = memo(
         <h1 className="text-primary-content bg-primary p-2 text-center">
           Players {players.length}/{playersLimit}
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-fluid">
-          {players.map((player, index) => (
-            <div key={player.id} className="p-2 m-2 ">
+        <div className="grid grid-cols-1 xl:grid-cols-fluid">
+          {players.map((player) => (
+            <div key={player.id} className="xl:p-2 xl:m-2">
               <div
-                className={`p-2 md:p-5 text-primary-content flexCenter gap-2 flex-row md:flex-col`}
+                className={`p-2 md:p-5 text-primary-content flexCenter text-center gap-2 flex-row md:flex-col text-xs`}
               >
-                <img
-                  className="h-10 w-10 rounded-full"
+                <Image
+                  height={40}
+                  width={40}
+                  className="rounded-full"
                   src={player.avatar}
                   alt={player.name}
                 />
-                <span>{player.name}</span>
+                <span
+                  className={`${
+                    currentPlayerId === player.id && "text-secondary"
+                  }`}
+                >
+                  {currentPlayerId === player.id
+                    ? `${player.name} (YOU)`
+                    : player.name}
+                </span>
                 {creator === player.id && (
-                  <span className="text-accent"> Host</span>
+                  <span className="text-accent">Host</span>
                 )}
               </div>
               {playerToChooseWord === currentPlayerId &&

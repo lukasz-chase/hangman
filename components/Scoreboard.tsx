@@ -7,9 +7,10 @@ import { UserContext } from "@/context/UserContext";
 //types
 import type { socketContextTypes, userContextTypes } from "@/types/context";
 //utils
-import { hasGameEnded } from "@/utils/game";
+import { hasGameEnded, hasPlayerFinished } from "@/utils/game";
 //components
 import Chat from "./Chat";
+import Image from "next/image";
 
 const COUNTDOWN_INTERVAL = 1000;
 const LIME_TIME = 90;
@@ -28,7 +29,8 @@ const Scoreboard = () => {
 
   const countdownRef = useRef<HTMLElement | null>(null);
   const countdownWrapperRef = useRef<HTMLDivElement | null>(null);
-  const { players, wordToGuess, customWord, wordToGuessChooser } = currentRound;
+  const { players, wordToGuess, customWord, wordToGuessChooser, difficulty } =
+    currentRound;
   const { roundTime } = currentRound;
 
   const gameHasEnded = hasGameEnded({
@@ -37,14 +39,17 @@ const Scoreboard = () => {
     wordToGuess: wordToGuess.word,
     authorId: wordToGuessChooser,
     customWord: customWord,
+    difficulty,
   });
 
   let countdownInterval: any;
+
   const timeHasRunOut = () => {
     socket!.emit("room:update", room);
     clearInterval(countdownInterval);
     return;
   };
+
   const setTimeoutUI = (roundTime: number) => {
     countdownRef.current!.style.setProperty("--value", `${roundTime}`);
     countdownWrapperRef.current!.classList.toggle(
@@ -68,6 +73,7 @@ const Scoreboard = () => {
       roundTime < RED_TIME && roundTime > 0
     );
   };
+
   useEffect(() => {
     if (!gameHasEnded) {
       countdownInterval = setInterval(() => {
@@ -90,7 +96,7 @@ const Scoreboard = () => {
 
   return (
     <div className="md:mr-20">
-      <div className="flexCenter flex-col flex-2 min-w-full md:min-w-0 p-5">
+      <div className="flexCenter flex-col flex-2 min-w-full md:min-w-full p-5">
         <div
           ref={countdownWrapperRef}
           className={`flex-col justify-center items-center text-primary-content hidden`}
@@ -104,17 +110,36 @@ const Scoreboard = () => {
           <h1 className="text-primary-content bg-neutral-focus py-2 w-full text-center self-center uppercase">
             Players
           </h1>
-          {players.map((player: any) => (
-            <div
-              key={player.id}
-              className="text-black uppercase p-5 flex justify-between gap-5 border-b-4 border-black"
-            >
-              <span>{player.id === playerId ? "you" : player.name}</span>
-              <span>
-                <b className="text-cyan-500">{player.score}</b> pts
-              </span>
-            </div>
-          ))}
+          {players
+            .sort((a, b) => b.score - a.score)
+            .map((player) => (
+              <div
+                key={player.id}
+                className={`text-black uppercase p-5 flex justify-between gap-5 border-b-4 border-black  ${
+                  hasPlayerFinished({
+                    player,
+                    wordToGuess: wordToGuess.word,
+                    wordToGuessChooser,
+                    customWord,
+                    difficulty,
+                  }) && "bg-lime-500"
+                }`}
+              >
+                <div className="flexCenter gap-2">
+                  <Image
+                    src={player.avatar}
+                    alt={player.name}
+                    height={32}
+                    width={32}
+                    className="rounded-full"
+                  />
+                  <span>{player.id === playerId ? "you" : player.name}</span>
+                </div>
+                <span>
+                  <b>{player.score}</b> pts
+                </span>
+              </div>
+            ))}
         </div>
       </div>
       <Chat

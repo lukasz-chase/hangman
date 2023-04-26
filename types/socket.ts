@@ -42,6 +42,7 @@ export type Round = {
   players: Player[];
   playersInGame: string[];
   customWord: boolean;
+  difficulty: number;
   language: string;
   vacant: boolean;
   roundTime: number;

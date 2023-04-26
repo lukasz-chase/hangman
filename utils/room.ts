@@ -121,6 +121,7 @@ export const leaveHandler: any = ({
   currentRound.players = currentRound!.players.filter(
     (player) => player.id !== playerId
   );
+  console.log(room);
   socket.emit("room:update", room);
   socket.emit("room:playerLeft", {
     roomId: room.roomId,

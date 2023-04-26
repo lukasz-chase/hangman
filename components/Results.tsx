@@ -30,6 +30,24 @@ const Results = ({ roomId }: { roomId: string }) => {
         <Loading />
       </div>
     );
+  const translateDifficultyToText = (difficulty: number) => {
+    let difficultyText;
+    switch (difficulty) {
+      case 10:
+        difficultyText = "Easy";
+        break;
+      case 8:
+        difficultyText = "Medium";
+        break;
+      case 6:
+        difficultyText = "Hard";
+        break;
+      default:
+        difficultyText = "Hard";
+        break;
+    }
+    return difficultyText;
+  };
   return (
     <div className="flex flex-col justify-center lg:items-center h-full gap-4">
       <h1 className="text-accent self-center">Game Results</h1>
@@ -57,6 +75,7 @@ const Results = ({ roomId }: { roomId: string }) => {
                   wordToGuess,
                   roundWinners,
                   customWord,
+                  difficulty,
                   roundTime,
                 }) => (
                   <tr
@@ -88,6 +107,9 @@ const Results = ({ roomId }: { roomId: string }) => {
                       {roundTime} <span className="lowercase">s</span>{" "}
                     </td>
                     <td className="px-6 py-4">{customWord.toString()}</td>
+                    <td className="px-6 py-4">
+                      {translateDifficultyToText(difficulty)}
+                    </td>
                     <td className="px-6 py-4">{wordToGuess.original}</td>
                     <td className="px-6 py-4 flexCenter flex-col gap-2">
                       {roundWinners.map(({ name, id }) => (
