@@ -1,6 +1,8 @@
 import { toast } from "react-hot-toast";
 //types
 import type { Player, Room, WordToGuess, roomPayload } from "@/types/socket";
+//translation
+import translate from "translate";
 
 type JoinRoomProps = {
   players: Player[];
@@ -17,6 +19,7 @@ type WordToGuessValidationProps = {
   wordToGuess: WordToGuess;
   language: string;
   playersLimit: number;
+  customCategory: string;
 };
 
 export const joinRoom = ({
@@ -50,18 +53,19 @@ export const customWordToGuessValidation = ({
   wordToGuess,
   language,
   playersLimit,
+  customCategory,
 }: WordToGuessValidationProps) => {
   const regex = /^[a-zA-Z]+$/;
+  if (wordToGuess.category === "other" && !customCategory) {
+    toast.error("You need to specify custom category");
+    return false;
+  }
   if (wordToGuess.word.length < 2) {
     toast.error("Word has to be at least 2 letters long");
     return false;
   }
   if (wordToGuess.word.length > 45) {
     toast.error("Word can't be longer than 45 letters");
-    return false;
-  }
-  if (language !== "english" && wordToGuess.translation) {
-    toast.error("You need to provide translation");
     return false;
   }
   if (!regex.test(wordToGuess.word)) {
@@ -72,22 +76,32 @@ export const customWordToGuessValidation = ({
     toast.error("You need at least 2 players to play with custom word");
     return false;
   }
+  if (wordToGuess.category === "other") {
+    wordToGuess.category = customCategory;
+  }
   wordToGuess.original = wordToGuess.word;
+
   return true;
 };
 
-export const createRoom = (
+export const createRoom = async (
   room: roomPayload,
   socket: any,
   router: any,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+  const language =
+    room.language.charAt(0).toUpperCase() + room.language.slice(1);
+
+  const translation = await translate(room.word.word, { from: language });
+  room.word.translation = translation;
   if (
     room.customWord &&
     !customWordToGuessValidation({
       wordToGuess: room.word,
       language: room.language,
       playersLimit: Number(room.playersLimit),
+      customCategory: room.customCategory,
     })
   ) {
     return;

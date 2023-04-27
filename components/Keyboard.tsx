@@ -55,7 +55,6 @@ export const Keyboard = memo(
           letter,
           roomId: room.roomId,
           playerId: player.id,
-          roundTime: room.rounds[room.currentRound].roundTime,
         });
       },
       [guessedLetters, isWinner, isLoser, player, room, socket]

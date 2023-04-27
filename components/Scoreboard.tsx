@@ -20,7 +20,7 @@ const RED_TIME = 20;
 const Scoreboard = () => {
   const { data: session } = useSession();
   const { user }: userContextTypes = useContext(UserContext);
-  const { socket, room, currentRound }: socketContextTypes =
+  const { socket, room, currentRound, setRoom }: socketContextTypes =
     useContext(SocketContext);
 
   const playerId = session?.user.id ?? user.id;
@@ -79,6 +79,7 @@ const Scoreboard = () => {
       countdownInterval = setInterval(() => {
         if (currentRound.roundTime === 0) timeHasRunOut();
         currentRound.roundTime--;
+        socket!.emit("room:setGameTime", currentRound.roundTime, room.roomId);
         setTimeoutUI(currentRound.roundTime);
       }, COUNTDOWN_INTERVAL);
     }

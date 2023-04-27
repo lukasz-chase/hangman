@@ -24,6 +24,7 @@ import { playerDisconnectedHandler, roomClosed } from "@/utils/lobby";
 import type { socketContextTypes, userContextTypes } from "@/types/context";
 //api
 import { saveGame } from "@/api";
+import { Detail } from "./DetailsDisplay";
 
 const Hangman = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
@@ -146,10 +147,8 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     <div>
       <div className="flexCenter flex-col gap-5 xl:flex-row">
         <div className="flexCenter flex-col mt-10 flex-1">
-          <h1 className="uppercase text-primary-content py-4">
-            Word language:{" "}
-            <b className="text-accent">{currentRound.language}</b>
-          </h1>
+          <Detail label="Word language:" value={`${language}`} />
+          <Detail label="Category:" value={`${wordToGuess.category}`} />
           <HangmanDrawing
             numberOfGuesses={incorrectLetters.length}
             difficulty={difficulty}

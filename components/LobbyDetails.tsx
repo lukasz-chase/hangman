@@ -117,8 +117,6 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
               roundTime={room.roundTime}
               roundsNumber={room.roundsNumber}
               currentRound={room.currentRound + 1}
-              rounds={room.rounds}
-              playerId={playerId}
             />
             <PlayersDisplay
               creator={room.creator}

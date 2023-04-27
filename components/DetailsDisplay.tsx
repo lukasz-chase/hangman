@@ -1,5 +1,3 @@
-//types
-import type { Round } from "@/types/socket";
 //utils
 import { copyUrl } from "@/utils/lobby";
 //libraries
@@ -12,12 +10,10 @@ type DetailsDisplayType = {
   roundsNumber: number;
   currentRound: number;
   roomId: string;
-  rounds: Round[];
-  playerId: string;
 };
 
-const Detail = ({ label, value }: { label: string; value: string }) => (
-  <span className="flexCenter gap-2">
+export const Detail = ({ label, value }: { label: string; value: string }) => (
+  <span className="flexCenter gap-2 uppercase">
     {label}
     <b className="text-info px-2">{value}</b>
   </span>
@@ -31,8 +27,6 @@ const DetailsDisplay = memo(
     roundsNumber,
     currentRound,
     roomId,
-    rounds,
-    playerId,
   }: DetailsDisplayType) => {
     const roomUrl = `https://hangman-learning.netlify.app/lobby/${roomId}`;
     // const roomUrl = `http://localhost:3000/lobby/${roomId}`;

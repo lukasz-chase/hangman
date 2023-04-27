@@ -55,6 +55,7 @@ export const createNewRound = ({
       word: "1",
       translation: "1",
       original: "1",
+      category: "choosing",
     },
   };
   socket?.emit("room:update", room);

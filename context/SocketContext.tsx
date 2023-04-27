@@ -2,7 +2,7 @@
 import { useEffect, useState, ReactNode, createContext } from "react";
 import { io } from "socket.io-client";
 import { useRouter } from "next/navigation";
-import type { Room, Socket } from "@/types/socket";
+import type { Player, Room, Socket } from "@/types/socket";
 
 export const roomDummy = {
   id: "",
@@ -36,6 +36,7 @@ export const roomDummy = {
         word: "",
         translation: "",
         original: "",
+        category: "",
       },
       roundTime: 60,
       customWord: false,
@@ -82,6 +83,7 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
     setRoom(room);
     setCurrentRound(room.rounds[room.currentRound]);
   };
+
   const errorHandler = () => {
     router.replace("/");
   };

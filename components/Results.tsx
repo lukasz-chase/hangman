@@ -107,6 +107,7 @@ const Results = ({ roomId }: { roomId: string }) => {
                       {roundTime} <span className="lowercase">s</span>{" "}
                     </td>
                     <td className="px-6 py-4">{customWord.toString()}</td>
+                    <td className="px-6 py-4">{wordToGuess.category}</td>
                     <td className="px-6 py-4">
                       {translateDifficultyToText(difficulty)}
                     </td>

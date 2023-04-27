@@ -23,6 +23,7 @@ type wordType = {
   [key: string]: any;
   language: string;
   customWord: boolean;
+  customCategory: string;
 };
 
 type ChooseWord = { playersLimit: number; currentPlayerId: string };
@@ -35,7 +36,9 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
       word: "",
       translation: "",
       original: "",
+      category: "",
     },
+    customCategory: "",
     language: "english",
     customWord: false,
     difficulty: 6,
@@ -56,6 +59,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
         language: word.language,
         playersLimit,
         wordToGuess: word.wordToGuess,
+        customCategory: word.customCategory,
       })
     ) {
       return;
@@ -67,6 +71,21 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
       playerIndex: playerWhoChoosesWordIndex,
     });
   };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    if (e.target.name === "category") {
+      setWord({
+        ...word,
+        wordToGuess: {
+          ...word.wordToGuess,
+          category: e.target.value,
+        },
+      });
+    } else {
+      setWord({ ...word, [e.target.name]: e.target.value });
+    }
+  };
   return (
     <div className="flexCenter flex-col text-sm ">
       <h1 className="text-accent">You are choosing word this round</h1>
@@ -75,9 +94,8 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
           <Select
             key={select.name}
             {...select}
-            onChange={(e) =>
-              setWord({ ...word, [select.name]: e.target.value })
-            }
+            invisible={select.InvisibleFn(word.customWord)}
+            onChange={handleChange}
           />
         ))}
         {customWordCheckbox.map(
@@ -97,6 +115,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
           <Input
             value={word.wordToGuess.word}
             placeholder="Word to guess"
+            label="Word to guess"
             ariaLabel="input custom word"
             onChange={(e) =>
               setWord({
@@ -110,19 +129,17 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
             }
           />
         )}
-        {word.customWord && word.language !== "english" && (
+        {word.customWord && word.category === "other" && (
           <Input
-            value={word.wordToGuess.translation}
-            placeholder="Translation"
-            ariaLabel="input custom word translation"
-            toolTip="Provide translation for word to guess, it will be shown after the game is done so other players can learn what word they guessed means"
+            value={word.customCategory}
+            placeholder="Custom category"
+            label="Custom category"
+            ariaLabel="input custom word category"
+            maxLength={25}
             onChange={(e) =>
               setWord({
                 ...word,
-                wordToGuess: {
-                  ...word.wordToGuess,
-                  translation: e.target.value,
-                },
+                customCategory: e.target.value,
               })
             }
           />

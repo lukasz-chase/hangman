@@ -7,12 +7,16 @@ type SelectTypes = {
     name: string;
     value: string | number;
   }[];
+  invisible: boolean;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-const Select = ({ label, name, onChange, options }: SelectTypes) => {
+const Select = ({ label, name, onChange, options, invisible }: SelectTypes) => {
   return (
-    <div key={name} className="form-control w-full ">
+    <div
+      key={name}
+      className={`form-control w-full ${invisible ? "hidden" : "flex"}`}
+    >
       <label className="label cursor-pointer flex items-start flex-col ">
         <span className="label-text text-primary-content">{label}</span>
         <select

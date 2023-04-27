@@ -13,6 +13,7 @@ export type socketContextTypes = {
   router: any;
   roomIsFetched: boolean;
   currentRound: Round;
+  setRoom: (room: any) => void;
 };
 
 export type gameContextTypes = {

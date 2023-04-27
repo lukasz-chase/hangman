@@ -46,7 +46,9 @@ const RoomCreation = () => {
       word: "",
       translation: "",
       original: "",
+      category: "animals",
     },
+    customCategory: "",
     roundsNumber: 1,
     difficulty: 6,
   });
@@ -65,7 +67,19 @@ const RoomCreation = () => {
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => setRoom({ ...room, [e.target.name]: e.target.value });
+  ) => {
+    if (e.target.name === "category") {
+      setRoom({
+        ...room,
+        word: {
+          ...room.word,
+          category: e.target.value,
+        },
+      });
+    } else {
+      setRoom({ ...room, [e.target.name]: e.target.value });
+    }
+  };
 
   return (
     <div className="w-full lg:w-1/2 p-4 mt-12 md:mt-0">
@@ -91,11 +105,39 @@ const RoomCreation = () => {
               }}
             />
           ))}
+          <div>
+            {room.customWord && (
+              <Input
+                value={room.word.word}
+                placeholder="Word to guess"
+                label="Word to guess"
+                ariaLabel="input custom word"
+                onChange={(e) =>
+                  setRoom({
+                    ...room,
+                    word: { ...room.word, word: e.target.value },
+                  })
+                }
+              />
+            )}
+            {room.customWord && room.word.category === "other" && (
+              <Input
+                value={room.customCategory}
+                placeholder="Custom category"
+                label="Custom category"
+                ariaLabel="input custom word category"
+                maxLength={25}
+                onChange={(e) =>
+                  setRoom({
+                    ...room,
+                    customCategory: e.target.value,
+                  })
+                }
+              />
+            )}
+          </div>
         </div>
         <div>
-          {selectInput.map((select: selectType) => (
-            <Select key={select.name} {...select} onChange={handleChange} />
-          ))}
           {checkboxes.map(
             ({ label, name, disabledFn, disabledLabel }: checkboxType) => (
               <Checkbox
@@ -109,35 +151,14 @@ const RoomCreation = () => {
               />
             )
           )}
-        </div>
-        <div>
-          {room.customWord && (
-            <Input
-              value={room.word.word}
-              placeholder="Word to guess"
-              ariaLabel="input custom word"
-              onChange={(e) =>
-                setRoom({
-                  ...room,
-                  word: { ...room.word, word: e.target.value },
-                })
-              }
+          {selectInput.map((select: selectType) => (
+            <Select
+              key={select.name}
+              {...select}
+              invisible={select.InvisibleFn(room.customWord)}
+              onChange={handleChange}
             />
-          )}
-          {room.customWord && room.language !== "english" && (
-            <Input
-              value={room.word.translation}
-              placeholder="Translation"
-              ariaLabel="input custom word translation"
-              toolTip="Provide translation for word to guess, it will be shown after the game is done so other players can learn what word they guessed means"
-              onChange={(e) =>
-                setRoom({
-                  ...room,
-                  word: { ...room.word, translation: e.target.value },
-                })
-              }
-            />
-          )}
+          ))}
         </div>
       </div>
       <button

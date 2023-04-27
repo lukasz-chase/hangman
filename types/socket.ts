@@ -13,6 +13,7 @@ export type WordToGuess = {
   word: string;
   translation: string;
   original: string;
+  category: string;
 };
 
 export type Player = {
@@ -71,6 +72,7 @@ export type roomPayload = {
   roundTime: number;
   customWord: boolean;
   roundsNumber: number;
+  customCategory: string;
   word: WordToGuess;
   creator: {
     name: string;

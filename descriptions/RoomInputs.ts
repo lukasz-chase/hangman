@@ -18,6 +18,7 @@ export type rangeType = {
 export type selectType = {
   label: string;
   name: string;
+  InvisibleFn: (any: boolean) => boolean;
   options: {
     name: string;
     value: string | number;
@@ -65,6 +66,7 @@ export const selectInput: selectType[] = [
   {
     label: "Choose language for word to guess",
     name: "language",
+    InvisibleFn: () => false,
     options: [
       {
         value: "english",
@@ -91,6 +93,7 @@ export const selectInput: selectType[] = [
   {
     label: "Difficulty",
     name: "difficulty",
+    InvisibleFn: () => false,
     options: [
       {
         value: 6,
@@ -103,6 +106,77 @@ export const selectInput: selectType[] = [
       {
         value: 10,
         name: "Easy",
+      },
+    ],
+  },
+  {
+    label: "Word category",
+    name: "category",
+    InvisibleFn: (customWord: boolean) => !customWord,
+    options: [
+      {
+        value: "animals",
+        name: "Animals",
+      },
+      {
+        value: "countries",
+        name: "Countries",
+      },
+      {
+        value: "foods",
+        name: "Foods",
+      },
+      {
+        value: "jobs",
+        name: "Jobs",
+      },
+      {
+        value: "movies",
+        name: "Movies",
+      },
+      {
+        value: "sports",
+        name: "Sports",
+      },
+      {
+        value: "colors",
+        name: "Colors",
+      },
+      {
+        value: "music",
+        name: "Music",
+      },
+      {
+        value: "famousPeople",
+        name: "Famous people",
+      },
+      {
+        value: "tvShows",
+        name: "TV shows",
+      },
+      {
+        value: "cities",
+        name: "Cities",
+      },
+      {
+        value: "travel",
+        name: "Travel",
+      },
+      {
+        value: "entertainment",
+        name: "Entertainment",
+      },
+      {
+        value: "technology",
+        name: "Technology",
+      },
+      {
+        value: "plants",
+        name: "Plants",
+      },
+      {
+        value: "other",
+        name: "Other",
       },
     ],
   },
