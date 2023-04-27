@@ -65,6 +65,7 @@ const GuestLogin = () => {
       <div className="w-[90%] lg:w-80 ">
         <Input
           ariaLabel="choose nickname"
+          label="nickname"
           placeholder="nickname"
           maxLength={21}
           value={guestUser.nickname}
