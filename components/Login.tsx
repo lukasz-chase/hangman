@@ -27,7 +27,7 @@ const Login = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <div className="">
+    <div className="mt-20">
       {session || isLogged ? (
         <>{children}</>
       ) : (
