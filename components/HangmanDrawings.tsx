@@ -1,6 +1,8 @@
 import { memo } from "react";
 //description
 import { parts } from "@/descriptions/Hangman";
+//animation
+import { motion } from "framer-motion";
 
 type HangmanDrawingProps = {
   numberOfGuesses: number;
@@ -15,10 +17,20 @@ export const HangmanDrawing = memo(
         {parts
           .slice(startIndex, startIndex + numberOfGuesses)
           .map(({ name, className }) => (
-            <div key={name} className={className} />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              key={name}
+              className={className}
+            />
           ))}
         {parts.slice(0, startIndex).map(({ name, className }) => (
-          <div key={name} className={className} />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            key={name}
+            className={className}
+          />
         ))}
       </div>
     );

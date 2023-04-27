@@ -4,6 +4,8 @@ import Image from "next/image";
 import type { Player } from "@/types/socket";
 //components
 import ChooseWord from "./ChooseWord";
+//animation
+import { motion } from "framer-motion";
 
 type PlayersDisplayType = {
   players: Player[];
@@ -32,7 +34,12 @@ const PlayersDisplay = memo(
         </h1>
         <div className="grid grid-cols-1 xl:grid-cols-fluid">
           {players.map((player) => (
-            <div key={player.id} className="xl:p-2 xl:m-2">
+            <motion.div
+              initial={{ opacity: 0, scale: 1.2 }}
+              animate={{ opacity: 1, scale: 1 }}
+              key={player.id}
+              className="xl:p-2 xl:m-2"
+            >
               <div
                 className={`p-2 md:p-5 text-primary-content flexCenter text-center gap-2 flex-row md:flex-col text-xs`}
               >
@@ -64,7 +71,7 @@ const PlayersDisplay = memo(
                     currentPlayerId={currentPlayerId}
                   />
                 )}
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

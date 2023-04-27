@@ -11,6 +11,8 @@ import { hasGameEnded, hasPlayerFinished } from "@/utils/game";
 //components
 import Chat from "./Chat";
 import Image from "next/image";
+//animation
+import { motion } from "framer-motion";
 
 const COUNTDOWN_INTERVAL = 1000;
 const LIME_TIME = 90;
@@ -114,17 +116,20 @@ const Scoreboard = () => {
           {players
             .sort((a, b) => b.score - a.score)
             .map((player) => (
-              <div
-                key={player.id}
-                className={`text-black uppercase p-5 flex justify-between gap-5 border-b-4 border-black  ${
-                  hasPlayerFinished({
+              <motion.div
+                animate={{
+                  backgroundColor: hasPlayerFinished({
                     player,
                     wordToGuess: wordToGuess.word,
                     wordToGuessChooser,
                     customWord,
                     difficulty,
-                  }) && "bg-lime-500"
-                }`}
+                  })
+                    ? "red"
+                    : "white",
+                }}
+                key={player.id}
+                className={`text-black uppercase p-5 flex justify-between gap-5 border-b-4 border-black`}
               >
                 <div className="flexCenter gap-2">
                   <Image
@@ -139,7 +144,7 @@ const Scoreboard = () => {
                 <span>
                   <b>{player.score}</b> pts
                 </span>
-              </div>
+              </motion.div>
             ))}
         </div>
       </div>
