@@ -41,7 +41,7 @@ const Login = ({ children }: { children: ReactNode }) => {
           />
           <div>
             <h1>
-              Witaj w <b className="text-sky-500">Wisielcu</b> online
+              Witaj w <b className="text-sky-500">Hangman</b> online
             </h1>
             <h2 className="">Ucz się nowych słów grając</h2>
             <h3>
