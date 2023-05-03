@@ -22,19 +22,26 @@ const ImageCarousel = ({ images, setImage }: ImageCarouselProps) => {
   };
 
   return (
-    <div className="flexCenter gap-2 lg:gap-5">
-      <button onClick={prevImage} className="text-3xl">
-        {"<"}
-      </button>
+    <div className="flexCenter gap-2 lg:gap-2">
+      <div
+        className="flex justify-center w-full cursor-pointer"
+        onClick={prevImage}
+      >
+        <kbd className="kbd">◀︎</kbd>
+      </div>
+
       <Image
         src={images[currentImageIndex]}
         alt="carousel-image"
         height={80}
         width={80}
       />
-      <button onClick={nextImage} className="text-3xl">
-        {">"}
-      </button>
+      <div
+        className="flex justify-center w-full cursor-pointer"
+        onClick={nextImage}
+      >
+        <kbd className="kbd">▶︎</kbd>
+      </div>
     </div>
   );
 };

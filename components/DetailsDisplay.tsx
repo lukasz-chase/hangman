@@ -28,7 +28,7 @@ const DetailsDisplay = memo(
     currentRound,
     roomId,
   }: DetailsDisplayType) => {
-    const roomUrl = `https://hangman-learning.netlify.app/lobby/${roomId}`;
+    const roomUrl = `https://wisielec-online.netlify.app//lobby/${roomId}`;
     // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
     return (
       <div className="flexCenter flex-col w-full">

@@ -50,22 +50,28 @@ const GuestLogin = () => {
   };
   return (
     <div className="flexCenter flex-col gap-5 w-full">
-      <div className="flexCenter flex-col lg:gap-5">
-        <button onClick={nextImagesVersion} className="text-3xl">
-          {"^"}
-        </button>
+      <div className="flexCenter flex-col lg:gap-2">
+        <div
+          className="flex justify-center w-full cursor-pointer"
+          onClick={nextImagesVersion}
+        >
+          <kbd className="kbd">▲</kbd>
+        </div>
         <ImageCarousel
           images={avatarVersionOptions[avatarsVersion]}
           setImage={setGuestUser}
         />
-        <button onClick={prevImagesVersion} className="rotate-180 text-3xl">
-          {"^"}
-        </button>
+        <div
+          className="flex justify-center w-full cursor-pointer"
+          onClick={prevImagesVersion}
+        >
+          <kbd className="kbd">▼</kbd>
+        </div>
       </div>
       <div className="w-[90%] lg:w-80 ">
         <Input
           ariaLabel="wybierz swoja nazwe"
-          label="nazwa"
+          label="nazwa użytkownika"
           placeholder="nazwa"
           maxLength={21}
           value={guestUser.nickname}

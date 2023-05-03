@@ -31,7 +31,7 @@ const Login = ({ children }: { children: ReactNode }) => {
       {session || isLogged ? (
         <>{children}</>
       ) : (
-        <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-primary-content text-sm lg:text-lg mt-20">
+        <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-primary-content text-sm lg:text-lg mt-20 md:mt-10 lg:mt-6">
           <Image
             height="100"
             width="100"
@@ -53,7 +53,7 @@ const Login = ({ children }: { children: ReactNode }) => {
             label="google"
             onClick={() => signIn("google")}
           />
-          <h3>lub jako</h3>
+          <div className="divider">LUB JAKO</div>
           <GuestLogin />
         </div>
       )}
