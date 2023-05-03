@@ -90,8 +90,29 @@ export const translateHandler = async (
   toTranslate: string,
   language: string
 ) => {
+  let translatedLanguage = "";
+  switch (language) {
+    case "polski":
+      translatedLanguage = "polish";
+      break;
+    case "angielski":
+      translatedLanguage = "english";
+      break;
+    case "hiszpański":
+      translatedLanguage = "spanish";
+      break;
+    case "niemiecki":
+      translatedLanguage = "german";
+      break;
+    case "francuski":
+      translatedLanguage = "french";
+      break;
+    default:
+      translatedLanguage = "polish";
+      break;
+  }
   const translated = await translate(toTranslate, {
-    from: language,
+    from: translatedLanguage,
     to: "pl",
   });
   return translated;
@@ -122,7 +143,7 @@ export const createRoom = async (
   setIsLoading(true);
   socket.emit("room:create", room, (err: any, roomId: string) => {
     socket.emit("room:getById", roomId);
-    router.replace(`/lobby/${roomId}`);
+    router.push(`/lobby/${roomId}`);
     setIsLoading(false);
   });
 };

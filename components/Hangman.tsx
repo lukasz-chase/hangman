@@ -38,14 +38,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     currentRound,
   }: socketContextTypes = useContext(SocketContext);
   const [loadingNewRound, setLoadingNewRound] = useState(false);
-  const [translatedLanguage, setTranslatedLanguage] = useState(
-    currentRound.language
-  );
-  useEffect(() => {
-    translateHandler(translatedLanguage, "en")
-      .then((data: string) => setTranslatedLanguage(data))
-      .catch((err: any) => console.log(err));
-  }, []);
+
   const roomHasClosed = () => {
     roomClosed(router);
   };
@@ -156,11 +149,13 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     <div>
       <div className="flexCenter flex-col gap-5 xl:flex-row">
         <div className="flexCenter flex-col mt-10 flex-1">
-          <Detail
-            label="Język słowa do odgadnięcia:"
-            value={`${translatedLanguage}`}
-          />
-          <Detail label="Kategoria:" value={`${wordToGuess.category}`} />
+          <div>
+            <Detail
+              label="Język słowa do odgadnięcia:"
+              value={`${currentRound.language}`}
+            />
+            <Detail label="Kategoria:" value={`${wordToGuess.category}`} />
+          </div>
           <HangmanDrawing
             numberOfGuesses={incorrectLetters.length}
             difficulty={difficulty}

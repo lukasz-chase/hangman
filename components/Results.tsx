@@ -7,7 +7,6 @@ import { UserContext } from "@/context/UserContext";
 //components
 import CustomLink from "./CustomLink";
 import Loading from "./Loading";
-import Translate from "./Translate";
 //types
 import type { Room } from "@/types/socket";
 import type { userContextTypes } from "@/types/context";
@@ -15,6 +14,22 @@ import type { userContextTypes } from "@/types/context";
 import { fetchResults } from "@/api";
 //description
 import { resultsHeader } from "@/descriptions/Results";
+
+const translateCustomWordToPolish = (customWord: string) => {
+  let translation = "";
+  switch (customWord) {
+    case "false":
+      translation = "Nie";
+      break;
+    case "true":
+      translation = "Tak";
+      break;
+    default:
+      translation = "Nie";
+      break;
+  }
+  return translation;
+};
 
 const Results = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
@@ -110,7 +125,7 @@ const Results = ({ roomId }: { roomId: string }) => {
                       {roundTime} <span className="lowercase">s</span>{" "}
                     </td>
                     <td className="px-6 py-4">
-                      <Translate text={customWord.toString()} language="en" />
+                      {translateCustomWordToPolish(customWord.toString())}
                     </td>
                     <td className="px-6 py-4">{wordToGuess.category}</td>
                     <td className="px-6 py-4">

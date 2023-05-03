@@ -141,7 +141,7 @@ const Scoreboard = () => {
                   <span>{player.id === playerId ? "ty" : player.name}</span>
                 </div>
                 <span>
-                  <b>{player.score}</b> pts
+                  <b>{player.score.toFixed(2)}</b> pts
                 </span>
               </div>
             ))}

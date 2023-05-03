@@ -15,7 +15,7 @@ import {
   roomClosed,
 } from "@/utils/lobby";
 
-import { joinRoom, translateHandler } from "@/utils/room";
+import { joinRoom } from "@/utils/room";
 //components
 import Chat from "./Chat";
 import PlayersDisplay from "./PlayersDisplay";
@@ -58,14 +58,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   };
 
   const roomHasClosed = () => roomClosed(router);
-  const [translatedLanguage, setTranslatedLanguage] = useState(
-    currentRound.language
-  );
-  useEffect(() => {
-    translateHandler(translatedLanguage, "en")
-      .then((data: string) => setTranslatedLanguage(data))
-      .catch((err: any) => console.log(err));
-  }, []);
+
   useEffect(() => {
     if (socket) {
       socket.emit("room:getById", roomId);
@@ -121,7 +114,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
           <div className="flexCenter flex-col gap-2 md:gap-5 w-[90vw] lg:w-[65vw] min-h-[300px] uppercase">
             <DetailsDisplay
               customWord={currentRound.customWord}
-              language={translatedLanguage}
+              language={currentRound.language}
               roomId={roomId}
               roundTime={room.roundTime}
               roundsNumber={room.roundsNumber}

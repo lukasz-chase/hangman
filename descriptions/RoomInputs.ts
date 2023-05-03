@@ -70,23 +70,23 @@ export const selectInput: selectType[] = [
     InvisibleFn: () => false,
     options: [
       {
-        value: "polish",
+        value: "polski",
         name: "Polski",
       },
       {
-        value: "english",
+        value: "angielski",
         name: "Angielski",
       },
       {
-        value: "spanish",
+        value: "hiszpański",
         name: "Hiszpański",
       },
       {
-        value: "german",
+        value: "niemiecki",
         name: "Niemiecki",
       },
       {
-        value: "french",
+        value: "francuski",
         name: "Francuski",
       },
     ],

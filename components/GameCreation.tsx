@@ -34,7 +34,7 @@ const RoomCreation = () => {
   const [room, setRoom] = useState<roomPayload>({
     privateRoom: false,
     playersLimit: 1,
-    language: "polish",
+    language: "polski",
     roundTime: 1,
     creator: {
       name: session?.user?.name ?? user.name,

@@ -68,7 +68,8 @@ const Lobby = memo(
             </span>
           )}
           <span className="text-sm text-black">
-            slowo jest po <b className="text-primary">{language}</b>
+            JĘZYK SŁOWA DO ODGADNIĘCIA:{" "}
+            <b className="text-primary">{language}</b>
           </span>
         </div>
       </div>

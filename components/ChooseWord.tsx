@@ -39,7 +39,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
       category: "",
     },
     customCategory: "",
-    language: "english",
+    language: "polski",
     customWord: false,
     difficulty: 6,
   });
@@ -87,7 +87,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
     }
   };
   return (
-    <div className="flexCenter flex-col text-sm ">
+    <div className="flexCenter flex-col text-sm">
       <h1 className="text-accent">You are choosing word this round</h1>
       <div className="form-control grid grid-cols-1 gap-5 text-primary-content min-w-1/2">
         {selectInput.map((select: selectType) => (
@@ -114,9 +114,9 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
         {word.customWord && (
           <Input
             value={word.wordToGuess.word}
-            placeholder="Word to guess"
-            label="Word to guess"
-            ariaLabel="input custom word"
+            placeholder="Słowo do odgadnięcia"
+            label="Słowo do odgadnięcia"
+            ariaLabel="Słowo do odgadnięcia"
             onChange={(e) =>
               setWord({
                 ...word,
@@ -132,9 +132,9 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
         {word.customWord && word.category === "other" && (
           <Input
             value={word.customCategory}
-            placeholder="Custom category"
-            label="Custom category"
-            ariaLabel="input custom word category"
+            placeholder="Inna kategoria"
+            label="Inna kategoria"
+            ariaLabel="Inna kategoria"
             maxLength={25}
             onChange={(e) =>
               setWord({
@@ -145,11 +145,11 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
           />
         )}
         <button
-          aria-label="set word to guess"
+          aria-label="wybierz słowo do odgadnięcia"
           onClick={setWordToGuess}
           className="btn btn-primary  text-primary-content w-full mt-4"
         >
-          Submit
+          Zatwierdź
         </button>
       </div>
     </div>
