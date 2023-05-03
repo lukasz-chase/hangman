@@ -49,7 +49,7 @@ const GamesHistory = ({ userId }: { userId: string }) => {
           <h1 className="text-2xl text-primary-content">
             Jeszcze nie zagrałeś żadnej gry!
           </h1>
-          <CustomLink link="/game" label="Play now" />
+          <CustomLink link="/game" label="Zagraj teraz" />
         </div>
       )}
     </div>
