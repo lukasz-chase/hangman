@@ -11,8 +11,6 @@ import { hasGameEnded, hasPlayerFinished } from "@/utils/game";
 //components
 import Chat from "./Chat";
 import Image from "next/image";
-//animation
-import { motion } from "framer-motion";
 
 const COUNTDOWN_INTERVAL = 1000;
 const LIME_TIME = 90;
@@ -104,32 +102,33 @@ const Scoreboard = () => {
           ref={countdownWrapperRef}
           className={`flex-col justify-center items-center text-primary-content hidden`}
         >
-          <span>Time left</span>
+          <span>Pozostały czas</span>
           <span className={`countdown font-mono text-6xl`}>
             <span ref={countdownRef}></span>
           </span>
         </div>
         <div className="bg-primary-content min-w-56 flex flex-col min-w-full md:min-w-[300px]">
           <h1 className="text-primary-content bg-neutral-focus py-2 w-full text-center self-center uppercase">
-            Players
+            Gracze
           </h1>
           {players
             .sort((a, b) => b.score - a.score)
             .map((player) => (
-              <motion.div
-                animate={{
-                  backgroundColor: hasPlayerFinished({
+              <div
+                key={player.id}
+                className={`text-black uppercase p-5 flex justify-between gap-5 border-b-4 border-black
+                ${
+                  hasPlayerFinished({
                     player,
                     wordToGuess: wordToGuess.word,
                     wordToGuessChooser,
                     customWord,
                     difficulty,
                   })
-                    ? "red"
-                    : "white",
-                }}
-                key={player.id}
-                className={`text-black uppercase p-5 flex justify-between gap-5 border-b-4 border-black`}
+                    ? "bg-lime-500"
+                    : "bg-white"
+                }
+                `}
               >
                 <div className="flexCenter gap-2">
                   <Image
@@ -139,12 +138,12 @@ const Scoreboard = () => {
                     width={32}
                     className="rounded-full"
                   />
-                  <span>{player.id === playerId ? "you" : player.name}</span>
+                  <span>{player.id === playerId ? "ty" : player.name}</span>
                 </div>
                 <span>
                   <b>{player.score}</b> pts
                 </span>
-              </motion.div>
+              </div>
             ))}
         </div>
       </div>

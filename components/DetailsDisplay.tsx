@@ -13,7 +13,7 @@ type DetailsDisplayType = {
 };
 
 export const Detail = ({ label, value }: { label: string; value: string }) => (
-  <span className="flexCenter gap-2 uppercase">
+  <span className="flex justify-between gap-2 uppercase">
     {label}
     <b className="text-info px-2">{value}</b>
   </span>
@@ -33,22 +33,30 @@ const DetailsDisplay = memo(
     return (
       <div className="flexCenter flex-col w-full">
         <div className="flex items-center justify-evenly w-full flex-col lg:flex-row p-2 h-full gap-3 md:p-5 text-md md:text-md lg:text-lg">
-          <div className="flexCenter flex-col gap-2 text-primary-content text-center">
-            <Detail label="Round:" value={`${currentRound}/${roundsNumber}`} />
+          <div className="flex justify-start flex-col gap-2 text-primary-content ">
+            <Detail label="Runda:" value={`${currentRound}/${roundsNumber}`} />
             <div className="flexCenter flex-col">
-              <Detail label="Word language:" value={`${language}`} />
-              {customWord && <Detail label="word chosen by player" value="" />}
+              <Detail
+                label="Język słowa do odgadnięcia:"
+                value={`${language}`}
+              />
+              {customWord && (
+                <Detail
+                  label="słowo do odgadnięcia zostało wybrane przez gracza"
+                  value=""
+                />
+              )}
             </div>
-            <Detail label="Round time:" value={`${roundTime} s`} />
+            <Detail label="Czas gry:" value={`${roundTime} s`} />
           </div>
           <div className="flexCenter flex-col gap-2 text-primary-content text-center">
-            <b className="text-secondary uppercase">Invite friends</b>
+            <b className="text-secondary uppercase">Zaproś znajomych</b>
             <span className="text-xs md:text-md">{roomUrl}</span>
             <button
               onClick={() => copyUrl(roomUrl)}
               className="btn btn-info w-36 uppercase"
             >
-              copy url
+              Kopiuj
             </button>
           </div>
         </div>

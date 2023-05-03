@@ -30,7 +30,7 @@ const Lobby = memo(
     return (
       <div
         className="p-5 bg-white shadow-lg hover:shadow-black cursor-pointer rounded-md flex flex-col justify-between w-[90vw] md:w-96 text-black uppercase gap-2 transition-all duration-300"
-        aria-label="join a lobby"
+        aria-label="dolacz do lobby"
         onClick={() =>
           joinRoom({
             players,
@@ -46,7 +46,7 @@ const Lobby = memo(
       >
         <div className="flex justify-between">
           <div className="flex flex-col">
-            <h5 className="text-xs">Players in lobby:</h5>
+            <h5 className="text-xs">Gracze w lobby:</h5>
             {players.map((player) => (
               <span key={player.id} className="">
                 {player.name}
@@ -64,11 +64,11 @@ const Lobby = memo(
         <div className="flex flex-col">
           {customWord && (
             <span className="text-xs lowercase text-black">
-              Word chosen by host
+              Slowo wybieral gospodarz
             </span>
           )}
           <span className="text-sm text-black">
-            word is in <b className="text-primary">{language}</b>
+            slowo jest po <b className="text-primary">{language}</b>
           </span>
         </div>
       </div>

@@ -33,7 +33,7 @@ const Messages = ({ messages, playerId }: MessagesProps) => {
       ))}
       {messages.length === 0 && (
         <div className="animate-bounce flexCenter flex-col">
-          <span>Type below to chat with players</span>
+          <span>Napisz wiadomość do innych graczy</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

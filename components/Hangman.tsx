@@ -25,6 +25,7 @@ import type { socketContextTypes, userContextTypes } from "@/types/context";
 //api
 import { saveGame } from "@/api";
 import { Detail } from "./DetailsDisplay";
+import { translateHandler } from "@/utils/room";
 
 const Hangman = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
@@ -37,7 +38,14 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     currentRound,
   }: socketContextTypes = useContext(SocketContext);
   const [loadingNewRound, setLoadingNewRound] = useState(false);
-
+  const [translatedLanguage, setTranslatedLanguage] = useState(
+    currentRound.language
+  );
+  useEffect(() => {
+    translateHandler(translatedLanguage, "en")
+      .then((data: string) => setTranslatedLanguage(data))
+      .catch((err: any) => console.log(err));
+  }, []);
   const roomHasClosed = () => {
     roomClosed(router);
   };
@@ -61,6 +69,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
       };
     }
   }, [socket]);
+
   useEffect(() => {
     if (roomIsFetched) {
       const playerInGame = currentRound.playersInGame.find(
@@ -70,11 +79,11 @@ const Hangman = ({ roomId }: { roomId: string }) => {
         (player) => player.id === playerId
       );
       if (!unwantedPlayer) {
-        toast.error("you can't join this game");
+        toast.error("Nie możesz dołączyć do tej gry");
         return router.replace("/");
       }
       if (playerInGame) {
-        toast.error("you are already in this game");
+        toast.error("Już jesteś w tej grze");
         return router.replace("/");
       }
     }
@@ -130,7 +139,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
         saveGame(room)
           .then(({ data }) => router.replace(`/results/${data.id}`))
           .catch((err) => {
-            toast.error("Error while saving the game");
+            toast.error("Błąd w trakcie zapisywania gry");
             router.replace(`/`);
           });
       }
@@ -147,8 +156,11 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     <div>
       <div className="flexCenter flex-col gap-5 xl:flex-row">
         <div className="flexCenter flex-col mt-10 flex-1">
-          <Detail label="Word language:" value={`${language}`} />
-          <Detail label="Category:" value={`${wordToGuess.category}`} />
+          <Detail
+            label="Język słowa do odgadnięcia:"
+            value={`${translatedLanguage}`}
+          />
+          <Detail label="Kategoria:" value={`${wordToGuess.category}`} />
           <HangmanDrawing
             numberOfGuesses={incorrectLetters.length}
             difficulty={difficulty}
@@ -158,14 +170,6 @@ const Hangman = ({ roomId }: { roomId: string }) => {
             guessedLetters={guessedLetters!}
             wordToGuess={wordToGuess.word}
           />
-          {gameHasEnded && (
-            <h1 className="uppercase p-5 text-primary-content text-xs md:text-md lg:text-xl">
-              The word was{" "}
-              <b className="text-cyan-500">{wordToGuess.original} </b>
-              {language !== "english" &&
-                `which means ${wordToGuess.translation}`}
-            </h1>
-          )}
           <div>
             <Keyboard
               disabled={isWinner || isLoser || isWordAuthor || gameHasEnded}

@@ -29,7 +29,7 @@ export const generateGuestUser = (name: string, avatar: string) => {
   const gameNames = ["Alfred", "Wizard", "Dragon", "Robert", "King"];
 
   const randomName = gameNames[Math.floor(Math.random() * gameNames.length)];
-  console.log(name || randomName);
+
   return {
     id: short().generate(),
     name: name || randomName,

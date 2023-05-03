@@ -6,6 +6,7 @@ import { roomDummy } from "@/context/SocketContext";
 import CustomLink from "./CustomLink";
 import Loading from "./Loading";
 import dateFormat from "dateformat";
+import Translate from "./Translate";
 
 const GamesHistory = ({ userId }: { userId: string }) => {
   const [games, setGames] = useState<Room[]>([roomDummy]);
@@ -28,24 +29,25 @@ const GamesHistory = ({ userId }: { userId: string }) => {
               key={Number(id)}
             >
               <div className="flex flex-col ">
-                <span>
-                  <h1 className="">{dateFormat(createdAt, "mmmm dS yyyy")}</h1>
-                </span>
+                <Translate
+                  text={dateFormat(createdAt, "mmmm dS yyyy")}
+                  language="en"
+                />
                 <span className="flex gap-2">
                   id: <b>{roomId}</b>
                 </span>
                 <span className="flex gap-2">
-                  Rounds: <b>{roundsNumber}</b>
+                  Rundy: <b>{roundsNumber}</b>
                 </span>
               </div>
-              <CustomLink link={`results/${id}`} label="View Details" />
+              <CustomLink link={`results/${id}`} label="Szczegóły" />
             </div>
           ))}
         </div>
       ) : (
         <div className="flexCenter flex-col gap-4">
           <h1 className="text-2xl text-primary-content">
-            You didn't play any games yet!
+            Jeszcze nie zagrałeś żadnej gry!
           </h1>
           <CustomLink link="/game" label="Play now" />
         </div>

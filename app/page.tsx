@@ -7,7 +7,7 @@ const mainPage = () => {
   return (
     <Login>
       <main className="h-[100dvh] flexCenter flex-col gap-5">
-        <CustomLink link="/game" label="Create a Lobby" />
+        <CustomLink link="/game" label="Stwórz Lobby" />
         <LobbyList />
       </main>
     </Login>

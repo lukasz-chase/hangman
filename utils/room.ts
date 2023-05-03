@@ -55,25 +55,27 @@ export const customWordToGuessValidation = ({
   playersLimit,
   customCategory,
 }: WordToGuessValidationProps) => {
-  const regex = /^[a-zA-Z]+$/;
+  const regex = /^[a-zA-Z ]+$/;
   if (wordToGuess.category === "other" && !customCategory) {
-    toast.error("You need to specify custom category");
+    toast.error("Musisz wpisać inną kategorie");
     return false;
   }
   if (wordToGuess.word.length < 2) {
-    toast.error("Word has to be at least 2 letters long");
+    toast.error("Słowo do odgadnięcia musi mieć przynajmniej 2 litery");
     return false;
   }
   if (wordToGuess.word.length > 45) {
-    toast.error("Word can't be longer than 45 letters");
+    toast.error("Słowo do odgadnięcia nie może mieć więcej niż 45 liter");
     return false;
   }
   if (!regex.test(wordToGuess.word)) {
-    toast.error("word can only contain letters from a-z");
+    toast.error("Słowo do odgadnięcia może zawierać tylko litery od a-z");
     return false;
   }
   if (playersLimit === 1) {
-    toast.error("You need at least 2 players to play with custom word");
+    toast.error(
+      "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym słowem"
+    );
     return false;
   }
   if (wordToGuess.category === "other") {
@@ -82,6 +84,17 @@ export const customWordToGuessValidation = ({
   wordToGuess.original = wordToGuess.word;
 
   return true;
+};
+
+export const translateHandler = async (
+  toTranslate: string,
+  language: string
+) => {
+  const translated = await translate(toTranslate, {
+    from: language,
+    to: "pl",
+  });
+  return translated;
 };
 
 export const createRoom = async (
@@ -93,8 +106,7 @@ export const createRoom = async (
   const language =
     room.language.charAt(0).toUpperCase() + room.language.slice(1);
 
-  const translation = await translate(room.word.word, { from: language });
-  room.word.translation = translation;
+  room.word.translation = await translateHandler(room.word.word, language);
   if (
     room.customWord &&
     !customWordToGuessValidation({
@@ -135,7 +147,7 @@ export const leaveHandler: any = ({
   currentRound.players = currentRound!.players.filter(
     (player) => player.id !== playerId
   );
-  console.log(room);
+
   socket.emit("room:update", room);
   socket.emit("room:playerLeft", {
     roomId: room.roomId,

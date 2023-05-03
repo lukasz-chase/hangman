@@ -37,11 +37,11 @@ const Nav = () => {
   };
 
   return (
-    <div className="absolute top-0 left-0 flex justify-between items-center w-[100%] md:w-[96%] text-primary-content">
+    <div className="absolute top-0 left-0 flex justify-between items-center w-[100%] md:w-[95%] text-primary-content">
       <h1 className="text-xl uppercase p-5">
         <div
           className="cursor-pointer"
-          aria-label="go home"
+          aria-label="idz do strony glownej"
           onClick={() =>
             leaveHandler({
               room,
@@ -52,24 +52,24 @@ const Nav = () => {
             })
           }
         >
-          Hangman
+          Wisielec
         </div>
       </h1>
       {(session || isLogged) && (
         <div className="flexCenter gap-2 p-5 md:p-0">
-          <Link href={`/history/${playerId}`}>History</Link>
+          <Link href={`/history/${playerId}`}>Historia</Link>
           <div
-            aria-label="sign out"
+            aria-label="wyloguj sie"
             onClick={() => signOutHandler()}
             className="md:tooltip md:tooltip-bottom hover:tooltip-open cursor-pointer"
-            data-tip="Sign out"
+            data-tip="Wyloguj się"
           >
             <img
               className="h-5 w-5 hidden md:block lg:h-8 lg:w-8 rounded-full"
               src={session?.user?.image! ?? user.avatar}
-              alt="Profile picture"
+              alt="zdjecie profilowe"
             />
-            <p className="block md:hidden">Sign out</p>
+            <p className="block md:hidden">Wyloguj się</p>
           </div>
         </div>
       )}

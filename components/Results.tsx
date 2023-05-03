@@ -7,6 +7,7 @@ import { UserContext } from "@/context/UserContext";
 //components
 import CustomLink from "./CustomLink";
 import Loading from "./Loading";
+import Translate from "./Translate";
 //types
 import type { Room } from "@/types/socket";
 import type { userContextTypes } from "@/types/context";
@@ -21,9 +22,11 @@ const Results = ({ roomId }: { roomId: string }) => {
   const playerId = session?.user.id ?? user.id;
 
   const [room, setRoom] = useState<Room>(roomDummy);
+
   useEffect(() => {
     fetchResults(roomId).then(({ data }) => setRoom(data));
   }, []);
+
   if (!room.roomId)
     return (
       <div className="h-[100dvh]">
@@ -34,23 +37,23 @@ const Results = ({ roomId }: { roomId: string }) => {
     let difficultyText;
     switch (difficulty) {
       case 10:
-        difficultyText = "Easy";
+        difficultyText = "Łatwy";
         break;
       case 8:
-        difficultyText = "Medium";
+        difficultyText = "Średni";
         break;
       case 6:
-        difficultyText = "Hard";
+        difficultyText = "Ciężki";
         break;
       default:
-        difficultyText = "Hard";
+        difficultyText = "Ciężki";
         break;
     }
     return difficultyText;
   };
   return (
     <div className="flex flex-col justify-center lg:items-center h-full gap-4">
-      <h1 className="text-accent self-center">Game Results</h1>
+      <h1 className="text-accent self-center">Wyniki gry</h1>
       <div className="relative overflow-x-auto lg:max-w-7xl  shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 uppercase">
           <thead className="text-xs text-gray-300 uppercase bg-primary">
@@ -106,7 +109,9 @@ const Results = ({ roomId }: { roomId: string }) => {
                     <td className="px-6 py-4">
                       {roundTime} <span className="lowercase">s</span>{" "}
                     </td>
-                    <td className="px-6 py-4">{customWord.toString()}</td>
+                    <td className="px-6 py-4">
+                      <Translate text={customWord.toString()} language="en" />
+                    </td>
                     <td className="px-6 py-4">{wordToGuess.category}</td>
                     <td className="px-6 py-4">
                       {translateDifficultyToText(difficulty)}
@@ -131,7 +136,7 @@ const Results = ({ roomId }: { roomId: string }) => {
         </table>
       </div>
       <div className="self-center">
-        <CustomLink link="/game" label="Create new lobby" />
+        <CustomLink link="/game" label="Stwórz nową grę" />
       </div>
     </div>
   );

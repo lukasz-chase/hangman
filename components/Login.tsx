@@ -27,33 +27,33 @@ const Login = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <div className="mt-20">
+    <div className="">
       {session || isLogged ? (
         <>{children}</>
       ) : (
-        <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-primary-content text-sm lg:text-lg ">
+        <div className="h-[100dvh] flexCenter flex-col gap-5 text-center text-primary-content text-sm lg:text-lg mt-20">
           <Image
             height="100"
             width="100"
             src={logo}
-            alt="hangman"
+            alt="wisielec"
             className="rounded-md"
           />
           <div>
             <h1>
-              Welcome to <b className="text-sky-500">Hangman</b> online
+              Witaj w <b className="text-sky-500">Wisielcu</b> online
             </h1>
-            <h2 className="">Learn new words by playing</h2>
+            <h2 className="">Ucz się nowych słów grając</h2>
             <h3>
-              <b className="text-lime-500">Sign in with</b>
+              <b className="text-lime-500">Zaloguj się z</b>
             </h3>
           </div>
           <SignButton
-            ariaLabel="google sign in"
+            ariaLabel="zaloguj z google"
             label="google"
             onClick={() => signIn("google")}
           />
-          <h3>or as</h3>
+          <h3>lub jako</h3>
           <GuestLogin />
         </div>
       )}

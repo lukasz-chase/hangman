@@ -19,23 +19,23 @@ const StartGameButton = ({
 
   const buttonText = () => {
     if (isLoading) {
-      return "Loading";
+      return "Ładowanie";
     }
     if (chooseWord) {
-      return "waiting for player to choose word to guess";
+      return "Oczekiwanie aż gracz wybierze słowo do odgadnięcia";
     }
     if (isAuthor) {
-      return "Play";
+      return "Graj";
     }
-    return "WAITING FOR HOST TO START THE GAME";
+    return "Oczekiwanie aż gospodarz zastartuje";
   };
   const disabled = !isAuthor || chooseWord;
 
   return (
     <button
       disabled={disabled}
-      aria-label="start the game"
-      className={`btn-lg text-center w-full border-2 border-primary-content  bg-neutral-focus text-primary-content uppercase ${
+      aria-label={buttonText()}
+      className={`btn-lg text-center w-full border-2 border-primary-content bg-neutral-focus text-primary-content uppercase mt-4 ${
         isAuthor && "hover:border-accent hover:text-accent cursor-pointer"
       }
       ${disabled && "bg-slate-600 cursor-not-allowed"}

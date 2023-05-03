@@ -64,9 +64,9 @@ const GuestLogin = () => {
       </div>
       <div className="w-[90%] lg:w-80 ">
         <Input
-          ariaLabel="choose nickname"
-          label="nickname"
-          placeholder="nickname"
+          ariaLabel="wybierz swoja nazwe"
+          label="nazwa"
+          placeholder="nazwa"
           maxLength={21}
           value={guestUser.nickname}
           onChange={(e) =>
@@ -75,8 +75,8 @@ const GuestLogin = () => {
         />
       </div>
       <SignButton
-        ariaLabel="guest sign in"
-        label="guest"
+        ariaLabel="zaloguj jako gosc"
+        label="gość"
         onClick={guestLogIn}
       />
     </div>

@@ -34,7 +34,7 @@ const RoomCreation = () => {
   const [room, setRoom] = useState<roomPayload>({
     privateRoom: false,
     playersLimit: 1,
-    language: "english",
+    language: "polish",
     roundTime: 1,
     creator: {
       name: session?.user?.name ?? user.name,
@@ -46,7 +46,7 @@ const RoomCreation = () => {
       word: "",
       translation: "",
       original: "",
-      category: "animals",
+      category: "zwierzęta",
     },
     customCategory: "",
     roundsNumber: 1,
@@ -109,9 +109,9 @@ const RoomCreation = () => {
             {room.customWord && (
               <Input
                 value={room.word.word}
-                placeholder="Word to guess"
-                label="Word to guess"
-                ariaLabel="input custom word"
+                placeholder="Słowo do odgadnięcia"
+                label="Słowo do odgadnięcia"
+                ariaLabel="Słowo do odgadnięcia"
                 onChange={(e) =>
                   setRoom({
                     ...room,
@@ -123,9 +123,9 @@ const RoomCreation = () => {
             {room.customWord && room.word.category === "other" && (
               <Input
                 value={room.customCategory}
-                placeholder="Custom category"
-                label="Custom category"
-                ariaLabel="input custom word category"
+                placeholder="Inna kategoria"
+                label="Inna kategoria"
+                ariaLabel="Inna kategoria"
                 maxLength={25}
                 onChange={(e) =>
                   setRoom({
@@ -162,11 +162,11 @@ const RoomCreation = () => {
         </div>
       </div>
       <button
-        aria-label="create a lobby"
+        aria-label="stworz lobby"
         onClick={() => createRoom(room, socket, router, setIsLoading)}
         className="btn btn-primary  text-primary-content w-full mt-4"
       >
-        {isLoading ? "Loading" : "Create a Lobby"}
+        {isLoading ? "Ładowanie" : "Stwórz"}
       </button>
     </div>
   );

@@ -27,34 +27,35 @@ export type selectType = {
 
 export const checkboxes: checkboxType[] = [
   {
-    label: "Private",
+    label: "Prywatne lobby",
     name: "privateRoom",
     disabledFn: () => false,
   },
   {
-    label: "Custom word",
+    label: "Własne słowo",
     name: "customWord",
     disabledFn: (playersLength: number) => Number(playersLength) === 1,
-    disabledLabel: "You need at least 2 players to play with custom word",
+    disabledLabel:
+      "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym słowem",
   },
 ];
 export const rangeInputs: rangeType[] = [
   {
-    label: "Number of players",
+    label: "Liczba graczy",
     name: "playersLimit",
     min: 1,
     max: 5,
     options: [1, 2, 3, 4, 5],
   },
   {
-    label: "Round time (in minutes)",
+    label: "Czas gry (w minutach)",
     name: "roundTime",
     min: 1,
     max: 3,
     options: [1, 2, 3],
   },
   {
-    label: "Number of rounds",
+    label: "Liczba rund",
     name: "roundsNumber",
     min: 1,
     max: 5,
@@ -64,119 +65,119 @@ export const rangeInputs: rangeType[] = [
 
 export const selectInput: selectType[] = [
   {
-    label: "Choose language for word to guess",
+    label: "Wybierz język słowa do odgadnięcia",
     name: "language",
     InvisibleFn: () => false,
     options: [
       {
-        value: "english",
-        name: "English",
+        value: "polish",
+        name: "Polski",
       },
       {
-        value: "polish",
-        name: "Polish",
+        value: "english",
+        name: "Angielski",
       },
       {
         value: "spanish",
-        name: "Spanish",
+        name: "Hiszpański",
       },
       {
         value: "german",
-        name: "German",
+        name: "Niemiecki",
       },
       {
         value: "french",
-        name: "French",
+        name: "Francuski",
       },
     ],
   },
   {
-    label: "Difficulty",
+    label: "Trudność gry",
     name: "difficulty",
     InvisibleFn: () => false,
     options: [
       {
         value: 6,
-        name: "Hard",
+        name: "Ciężka",
       },
       {
         value: 8,
-        name: "Medium",
+        name: "Średnia",
       },
       {
         value: 10,
-        name: "Easy",
+        name: "Łatwa",
       },
     ],
   },
   {
-    label: "Word category",
+    label: "Kategoria słowa",
     name: "category",
     InvisibleFn: (customWord: boolean) => !customWord,
     options: [
       {
         value: "animals",
-        name: "Animals",
+        name: "Zwierzęta",
       },
       {
         value: "countries",
-        name: "Countries",
+        name: "Kraje",
       },
       {
         value: "foods",
-        name: "Foods",
+        name: "Jedzenie",
       },
       {
         value: "jobs",
-        name: "Jobs",
+        name: "Zawód",
       },
       {
         value: "movies",
-        name: "Movies",
+        name: "Film",
       },
       {
         value: "sports",
-        name: "Sports",
+        name: "Sport",
       },
       {
         value: "colors",
-        name: "Colors",
+        name: "Kolor",
       },
       {
         value: "music",
-        name: "Music",
+        name: "Muzyka",
       },
       {
         value: "famousPeople",
-        name: "Famous people",
+        name: "Sławni ludzie",
       },
       {
         value: "tvShows",
-        name: "TV shows",
+        name: "Programy telewizyjne",
       },
       {
         value: "cities",
-        name: "Cities",
+        name: "Miasta",
       },
       {
         value: "travel",
-        name: "Travel",
+        name: "Podróż",
       },
       {
         value: "entertainment",
-        name: "Entertainment",
+        name: "Rozrywka",
       },
       {
         value: "technology",
-        name: "Technology",
+        name: "Technologia",
       },
       {
         value: "plants",
-        name: "Plants",
+        name: "Rośliny",
       },
       {
         value: "other",
-        name: "Other",
+        name: "Inna",
       },
     ],
   },

@@ -15,7 +15,7 @@ import {
   roomClosed,
 } from "@/utils/lobby";
 
-import { joinRoom } from "@/utils/room";
+import { joinRoom, translateHandler } from "@/utils/room";
 //components
 import Chat from "./Chat";
 import PlayersDisplay from "./PlayersDisplay";
@@ -47,7 +47,9 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
 
   const startTheGame = () => {
     if (currentRound.customWord && currentRound.players.length === 1) {
-      return toast.error("you can't play by yourself with custom word");
+      return toast.error(
+        "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym słowem"
+      );
     }
     setIsLoading(true);
     room.inGame = true;
@@ -56,7 +58,14 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   };
 
   const roomHasClosed = () => roomClosed(router);
-
+  const [translatedLanguage, setTranslatedLanguage] = useState(
+    currentRound.language
+  );
+  useEffect(() => {
+    translateHandler(translatedLanguage, "en")
+      .then((data: string) => setTranslatedLanguage(data))
+      .catch((err: any) => console.log(err));
+  }, []);
   useEffect(() => {
     if (socket) {
       socket.emit("room:getById", roomId);
@@ -87,7 +96,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
         socket.emit("room:update", room);
         return;
       } else if (isPlayerInRoom && isPlayerInRoom.connectedToRoom) {
-        toast.error("you are already in the room");
+        toast.error("już jesteś w tym lobby");
         return router.replace(`/`);
       }
       joinRoom({
@@ -112,7 +121,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
           <div className="flexCenter flex-col gap-2 md:gap-5 w-[90vw] lg:w-[65vw] min-h-[300px] uppercase">
             <DetailsDisplay
               customWord={currentRound.customWord}
-              language={currentRound.language}
+              language={translatedLanguage}
               roomId={roomId}
               roundTime={room.roundTime}
               roundsNumber={room.roundsNumber}
