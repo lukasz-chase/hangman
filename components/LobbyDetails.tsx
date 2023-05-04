@@ -108,10 +108,10 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   if (!roomIsFetched) return <Loading />;
 
   return (
-    <div className="flexCenter flex-col w-full">
-      <div className="flex xl:items-stretch gap-5 flex-col xl:flex-row min-h-[300px]">
-        <div className="flexCenter flex-col">
-          <div className="flexCenter flex-col gap-2 md:gap-5 w-[90vw] lg:w-[65vw] min-h-[300px] uppercase">
+    <div className="flexCenter flex-col w-[95%]">
+      <div className="flex xl:items-stretch w-full gap-5 flex-col xl:flex-row min-h-[300px]">
+        <div className="flexCenter flex-col w-full">
+          <div className="flexCenter flex-col gap-2 md:gap-5 w-full  min-h-[300px] uppercase">
             <DetailsDisplay
               customWord={currentRound.customWord}
               language={currentRound.language}

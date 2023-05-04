@@ -11,11 +11,7 @@ const RoundWinners = ({
 }) => {
   const roundsFiltered = rounds.filter((r) => r.roundWinners.length !== 0);
   return (
-    <div
-      className={`grid md:grid-cols-fluid w-[95%] uppercase m-5 ${
-        roundsFiltered.length > 0 && "border-2 border-accent"
-      }`}
-    >
+    <div className={`grid md:grid-cols-fluid w-full uppercase m-5 bg-black `}>
       {roundsFiltered.map(({ roundWinners, round, wordToGuess, language }) => (
         <div key={round}>
           {roundWinners.length > 0 && (
