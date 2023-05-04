@@ -34,12 +34,12 @@ export const joinRoom = ({
 }: JoinRoomProps) => {
   const isPlayerInRoom = players.find((player) => player.id === playerId);
   if (isPlayerInRoom) {
-    toast.error("you are already in the room");
+    toast.error("już jesteś w tym pokoju");
     return router.replace(`/`);
   }
   const player = { name, id: playerId, avatar: playerAvatar };
 
-  if (players.length >= playersLimit) return toast.error("room is full");
+  if (players.length >= playersLimit) return toast.error("pokój jest pełny");
   socket.emit("room:join", { roomId, player }, (err: any) => {
     if (err) {
       router.replace(`/`);
@@ -56,7 +56,7 @@ export const customWordToGuessValidation = ({
   customCategory,
 }: WordToGuessValidationProps) => {
   const regex = /^[a-zA-Z ]+$/;
-  if (wordToGuess.category === "other" && !customCategory) {
+  if (wordToGuess.category === "Inna" && !customCategory) {
     toast.error("Musisz wpisać inną kategorie");
     return false;
   }
@@ -78,7 +78,7 @@ export const customWordToGuessValidation = ({
     );
     return false;
   }
-  if (wordToGuess.category === "other") {
+  if (wordToGuess.category === "Inna") {
     wordToGuess.category = customCategory;
   }
   wordToGuess.original = wordToGuess.word;

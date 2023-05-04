@@ -88,16 +88,8 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
   };
   return (
     <div className="flexCenter flex-col text-sm">
-      <h1 className="text-accent">You are choosing word this round</h1>
+      <h1 className="text-accent">Wybierz słowo</h1>
       <div className="form-control grid grid-cols-1 gap-5 text-primary-content min-w-1/2">
-        {selectInput.map((select: selectType) => (
-          <Select
-            key={select.name}
-            {...select}
-            invisible={select.InvisibleFn(word.customWord)}
-            onChange={handleChange}
-          />
-        ))}
         {customWordCheckbox.map(
           ({ label, name, disabledFn, disabledLabel }: checkboxType) => (
             <Checkbox
@@ -111,6 +103,14 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
             />
           )
         )}
+        {selectInput.map((select: selectType) => (
+          <Select
+            key={select.name}
+            {...select}
+            invisible={select.InvisibleFn(word.customWord)}
+            onChange={handleChange}
+          />
+        ))}
         {word.customWord && (
           <Input
             value={word.wordToGuess.word}
@@ -129,7 +129,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
             }
           />
         )}
-        {word.customWord && word.category === "other" && (
+        {word.customWord && word.category === "Inna" && (
           <Input
             value={word.customCategory}
             placeholder="Inna kategoria"

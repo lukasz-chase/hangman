@@ -98,7 +98,7 @@ export const selectInput: selectType[] = [
     options: [
       {
         value: 6,
-        name: "Ciężka",
+        name: "Trudna",
       },
       {
         value: 8,
@@ -116,67 +116,67 @@ export const selectInput: selectType[] = [
     InvisibleFn: (customWord: boolean) => !customWord,
     options: [
       {
-        value: "animals",
+        value: "Zwierzęta",
         name: "Zwierzęta",
       },
       {
-        value: "countries",
+        value: "Kraje",
         name: "Kraje",
       },
       {
-        value: "foods",
+        value: "Jedzenie",
         name: "Jedzenie",
       },
       {
-        value: "jobs",
+        value: "Zawód",
         name: "Zawód",
       },
       {
-        value: "movies",
+        value: "Film",
         name: "Film",
       },
       {
-        value: "sports",
+        value: "Sport",
         name: "Sport",
       },
       {
-        value: "colors",
+        value: "Kolor",
         name: "Kolor",
       },
       {
-        value: "music",
+        value: "Muzyka",
         name: "Muzyka",
       },
       {
-        value: "famousPeople",
+        value: "Sławni ludzie",
         name: "Sławni ludzie",
       },
       {
-        value: "tvShows",
+        value: "Programy teleizyjne",
         name: "Programy telewizyjne",
       },
       {
-        value: "cities",
+        value: "Miasta",
         name: "Miasta",
       },
       {
-        value: "travel",
+        value: "Podróż",
         name: "Podróż",
       },
       {
-        value: "entertainment",
+        value: "Rozrywka",
         name: "Rozrywka",
       },
       {
-        value: "technology",
+        value: "Technologia",
         name: "Technologia",
       },
       {
-        value: "plants",
+        value: "Rośliny",
         name: "Rośliny",
       },
       {
-        value: "other",
+        value: "Inna",
         name: "Inna",
       },
     ],

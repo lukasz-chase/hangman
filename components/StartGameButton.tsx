@@ -27,7 +27,7 @@ const StartGameButton = ({
     if (isAuthor) {
       return "Graj";
     }
-    return "Oczekiwanie aż gospodarz zastartuje";
+    return "Oczekiwanie aż gospodarz rozpocznie grę";
   };
   const disabled = !isAuthor || chooseWord;
 

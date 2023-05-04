@@ -120,7 +120,7 @@ const RoomCreation = () => {
                 }
               />
             )}
-            {room.customWord && room.word.category === "other" && (
+            {room.customWord && room.word.category === "Inna" && (
               <Input
                 value={room.customCategory}
                 placeholder="Inna kategoria"
