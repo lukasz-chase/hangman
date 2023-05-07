@@ -43,14 +43,14 @@ const Message = memo(
             <Image src={playerAvatar} alt={playerName} height={35} width={35} />
           </div>
         </div>
-        <div className="chat-header flexCenter gap-2">
+        <div className="chat-header flexCenter gap-2 text-[#A6ADBB]">
           {playerName}
           <time className="text-xs opacity-50">{createdAt}</time>
         </div>
 
         <div
           className={`chat-bubble  ${
-            playerId === currentPlayerId && "chat-bubble-accent"
+            playerId === currentPlayerId && "chat-bubble-info"
           }
           `}
         >

@@ -31,7 +31,7 @@ const RangeInput = ({
         max={max}
         name={name}
         value={value}
-        className="range range-accent"
+        className="range range-accent "
         step="1"
         onChange={onChange}
       />

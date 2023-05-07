@@ -1,7 +1,7 @@
 const TipsAndStrategies = () => {
   return (
     <div className="w-full flexCenter my-10">
-      <div className="w-3/4 flexCenter gap-5 flex-col">
+      <div className="w-3/4 flexCenter gap-5 flex-col text-[#A6ADBB]">
         <h1 className="text-primary-content uppercase font-bold">
           WISIELEC - PODPOWIEDZI I STRATEGIE
         </h1>

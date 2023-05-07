@@ -13,7 +13,7 @@ type DetailsDisplayType = {
 };
 
 export const Detail = ({ label, value }: { label: string; value: string }) => (
-  <span className="flex justify-between gap-2 uppercase">
+  <span className="flex justify-between gap-2 uppercase text-primary-content">
     {label}
     <b className="text-info px-2">{value}</b>
   </span>
@@ -33,7 +33,7 @@ const DetailsDisplay = memo(
     return (
       <div className="w-full">
         <div className="flex items-center justify-evenly w-full flex-col lg:flex-row p-2 h-full gap-3 md:p-5 text-md md:text-md lg:text-lg">
-          <div className="flex justify-start flex-col gap-2 text-primary-content ">
+          <div className="flex justify-start flex-col gap-2 text-primary-content border-2 border-white p-2 border-dotted">
             <Detail label="Runda:" value={`${currentRound}/${roundsNumber}`} />
             <Detail label="Język słowa do odgadnięcia:" value={`${language}`} />
             {customWord && (

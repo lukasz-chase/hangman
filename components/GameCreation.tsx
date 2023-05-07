@@ -43,10 +43,10 @@ const RoomCreation = () => {
     },
     customWord: false,
     word: {
-      word: "",
-      translation: "",
-      original: "",
-      category: "zwierzęta",
+      word: "1",
+      translation: "1",
+      original: "1",
+      category: "1",
     },
     customCategory: "",
     roundsNumber: 1,
@@ -81,9 +81,27 @@ const RoomCreation = () => {
     }
   };
 
+  const checkboxesFiltered = checkboxes.filter(
+    (checkbox) => checkbox.name === "privateRoom"
+  );
   return (
     <div className="w-full lg:w-1/2 p-4 mt-12 md:mt-0">
-      <div className="form-control grid grid-cols-1 md:grid-cols-2 gap-5 text-primary-content min-w-1/2">
+      <div className="form-control grid grid-cols-1 gap-5 text-primary-content min-w-1/2">
+        <div>
+          {checkboxesFiltered.map(
+            ({ label, name, disabledFn, disabledLabel }: checkboxType) => (
+              <Checkbox
+                key={name}
+                label={label}
+                checked={room[name]}
+                disabled={disabledFn(room.playersLimit)}
+                disabledLabel={disabledLabel ? disabledLabel : ""}
+                onChange={(e) => setRoom({ ...room, [name]: e.target.checked })}
+                name={name}
+              />
+            )
+          )}
+        </div>
         <div>
           {rangeInputs.map((rangeInput: rangeType) => (
             <RangeInput
@@ -103,60 +121,6 @@ const RoomCreation = () => {
                 }
                 handleChange(e);
               }}
-            />
-          ))}
-          <div>
-            {room.customWord && (
-              <Input
-                value={room.word.word}
-                placeholder="Słowo do odgadnięcia"
-                label="Słowo do odgadnięcia"
-                ariaLabel="Słowo do odgadnięcia"
-                onChange={(e) =>
-                  setRoom({
-                    ...room,
-                    word: { ...room.word, word: e.target.value },
-                  })
-                }
-              />
-            )}
-            {room.customWord && room.word.category === "Inna" && (
-              <Input
-                value={room.customCategory}
-                placeholder="Inna kategoria"
-                label="Inna kategoria"
-                ariaLabel="Inna kategoria"
-                maxLength={25}
-                onChange={(e) =>
-                  setRoom({
-                    ...room,
-                    customCategory: e.target.value,
-                  })
-                }
-              />
-            )}
-          </div>
-        </div>
-        <div>
-          {checkboxes.map(
-            ({ label, name, disabledFn, disabledLabel }: checkboxType) => (
-              <Checkbox
-                key={name}
-                label={label}
-                checked={room[name]}
-                disabled={disabledFn(room.playersLimit)}
-                disabledLabel={disabledLabel ? disabledLabel : ""}
-                onChange={(e) => setRoom({ ...room, [name]: e.target.checked })}
-                name={name}
-              />
-            )
-          )}
-          {selectInput.map((select: selectType) => (
-            <Select
-              key={select.name}
-              {...select}
-              invisible={select.InvisibleFn(room.customWord)}
-              onChange={handleChange}
             />
           ))}
         </div>

@@ -27,7 +27,7 @@ const ImageCarousel = ({ images, setImage }: ImageCarouselProps) => {
         className="flex justify-center w-full cursor-pointer"
         onClick={prevImage}
       >
-        <kbd className="kbd">◀︎</kbd>
+        <kbd className="kbd bg-black text-primary-content">◀︎</kbd>
       </div>
 
       <Image
@@ -40,7 +40,7 @@ const ImageCarousel = ({ images, setImage }: ImageCarouselProps) => {
         className="flex justify-center w-full cursor-pointer"
         onClick={nextImage}
       >
-        <kbd className="kbd">▶︎</kbd>
+        <kbd className="kbd bg-black text-primary-content">▶︎</kbd>
       </div>
     </div>
   );

@@ -60,7 +60,7 @@ const PlayersDisplay = memo(
                     : player.name}
                 </span>
                 {creator === player.id && (
-                  <span className="text-accent">Gospodarz</span>
+                  <span className="text-info">Gospodarz</span>
                 )}
               </div>
               {playerToChooseWord === currentPlayerId &&

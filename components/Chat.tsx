@@ -11,6 +11,7 @@ type ChatTypes = {
   playerAvatar: string;
   messages: Message[];
   room: Room;
+  height: string;
 };
 
 const Chat = ({
@@ -20,9 +21,12 @@ const Chat = ({
   messages,
   room,
   playerAvatar,
+  height,
 }: ChatTypes) => {
   return (
-    <div className="h-96 w-[90vw] xl:max-w-[400px]  p-2 rounded-t-md flex flex-col">
+    <div
+      className={`w-[90vw] xl:max-w-[400px] p-2 rounded-t-md flex flex-col bg-[#394152] ${height}`}
+    >
       <Messages messages={messages} playerId={playerId} />
       <ChatInput
         playerAvatar={playerAvatar}

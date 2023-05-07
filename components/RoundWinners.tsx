@@ -15,7 +15,7 @@ const RoundWinners = ({
       {roundsFiltered.map(({ roundWinners, round, wordToGuess, language }) => (
         <div key={round}>
           {roundWinners.length > 0 && (
-            <div className="flexCenter flex-col  p-4 text-center">
+            <div className="flexCenter flex-col  p-4 text-center text-[#A6ADBB]">
               <span>zwycięzcy {round} rundy</span>
               <div className="flexCenter flex-col">
                 {roundWinners.map(({ name, id }, index) => (

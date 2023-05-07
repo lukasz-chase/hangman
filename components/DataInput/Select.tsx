@@ -15,7 +15,7 @@ const Select = ({ label, name, onChange, options, invisible }: SelectTypes) => {
   return (
     <div
       key={name}
-      className={`form-control w-full ${invisible ? "hidden" : "flex"}`}
+      className={`form-control w-full ${invisible ? "hidden" : "flex"} p-2`}
     >
       <label className="label cursor-pointer flex items-start flex-col ">
         <span className="label-text text-primary-content">{label}</span>

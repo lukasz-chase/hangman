@@ -64,7 +64,7 @@ const ChatInput = ({
         type="text"
         aria-label="Napisz wiadomość"
         placeholder="Napisz wiadomość"
-        className="input input-bordered flex-1"
+        className="input input-bordered flex-1 text-primary-content"
         value={message.message}
         onChange={(e) => setMessage({ ...message, message: e.target.value })}
         onKeyDown={enterMessage}

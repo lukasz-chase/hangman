@@ -87,7 +87,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
   };
   return (
     <div className="flexCenter flex-col text-sm">
-      <h1 className="text-accent">Wybierz słowo</h1>
+      <h1 className="text-info">Wybierz słowo do odgadniecia w tej rundzie</h1>
       <div className="form-control grid grid-cols-1 gap-5 text-primary-content min-w-1/2">
         {customWordCheckbox.map(
           ({ label, name, disabledFn, disabledLabel }: checkboxType) => (
@@ -128,7 +128,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
             }
           />
         )}
-        {word.customWord && word.category === "Inna" && (
+        {word.customWord && word.wordToGuess.category === "Inna" && (
           <Input
             value={word.customCategory}
             placeholder="Inna kategoria"

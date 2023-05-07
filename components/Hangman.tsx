@@ -109,7 +109,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
   });
 
   const highestScore = Math.max(...players.map((player) => player.score));
-  console.log(highestScore);
+
   const winners = () => {
     if (currentRound.roundTime === 0 && highestScore === 0) {
       return [{ name: "Czas się skończył", id: "1" }];

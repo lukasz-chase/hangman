@@ -55,7 +55,7 @@ const GuestLogin = () => {
           className="flex justify-center w-full cursor-pointer"
           onClick={nextImagesVersion}
         >
-          <kbd className="kbd">▲</kbd>
+          <kbd className="kbd bg-black text-primary-content">▲</kbd>
         </div>
         <ImageCarousel
           images={avatarVersionOptions[avatarsVersion]}
@@ -65,7 +65,7 @@ const GuestLogin = () => {
           className="flex justify-center w-full cursor-pointer"
           onClick={prevImagesVersion}
         >
-          <kbd className="kbd">▼</kbd>
+          <kbd className="kbd bg-black text-primary-content">▼</kbd>
         </div>
       </div>
       <div className="w-[90%] lg:w-80 ">

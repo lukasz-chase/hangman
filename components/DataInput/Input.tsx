@@ -20,10 +20,10 @@ const Input = ({
   return (
     <div className="form-control w-full mt-2">
       <label className="label">
-        <span className="label-text">{label}</span>
+        <span className="label-text text-[#A6ADBB]">{label}</span>
       </label>
       <input
-        type="text"
+        type="text text-primary-content"
         aria-label={ariaLabel}
         placeholder={placeholder}
         maxLength={maxLength}

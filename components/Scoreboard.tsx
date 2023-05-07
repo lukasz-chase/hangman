@@ -154,6 +154,7 @@ const Scoreboard = () => {
         room={room}
         socket={socket!}
         playerAvatar={playerAvatar}
+        height="h-[20rem]"
       />
     </div>
   );

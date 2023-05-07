@@ -36,9 +36,12 @@ const StartGameButton = ({
       disabled={disabled}
       aria-label={buttonText()}
       className={`btn-lg text-center w-full border-2 border-primary-content bg-neutral-focus text-primary-content uppercase mt-4 ${
-        isAuthor && "hover:border-accent hover:text-accent cursor-pointer"
+        isAuthor && "hover:border-info hover:text-info cursor-pointer"
       }
-      ${disabled && "bg-slate-600 cursor-not-allowed"}
+      ${
+        disabled &&
+        "bg-slate-600 cursor-not-allowed hover:border-primary-content hover:text-primary-content"
+      }
       `}
       onClick={startTheGame}
     >

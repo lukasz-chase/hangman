@@ -109,9 +109,9 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
 
   return (
     <div className="flexCenter flex-col w-[95%]">
-      <div className="flex xl:items-stretch w-full gap-5 flex-col xl:flex-row min-h-[300px]">
+      <div className="flex xl:items-stretch w-full gap-5 flex-col xl:flex-row">
         <div className="flexCenter flex-col w-full">
-          <div className="flexCenter flex-col gap-2 md:gap-5 w-full  min-h-[300px] uppercase">
+          <div className="flexCenter flex-col gap-2 md:gap-5 w-full  min-h-[300px] uppercase mt-10">
             <DetailsDisplay
               customWord={currentRound.customWord}
               language={currentRound.language}
@@ -138,7 +138,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
             startTheGame={startTheGame}
           />
         </div>
-        <div className="self-end">
+        <div className="self-end h-full">
           <Chat
             messages={room.messages}
             playerId={playerId}
@@ -146,9 +146,11 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
             room={room}
             socket={socket!}
             playerAvatar={playerAvatar}
+            height="h-[28rem]"
           />
         </div>
       </div>
+
       <RoundWinners rounds={room.rounds} playerId={playerId} />
     </div>
   );
