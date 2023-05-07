@@ -17,7 +17,6 @@ type JoinRoomProps = {
 
 type WordToGuessValidationProps = {
   wordToGuess: WordToGuess;
-  language: string;
   playersLimit: number;
   customCategory: string;
 };
@@ -51,7 +50,6 @@ export const joinRoom = ({
 
 export const customWordToGuessValidation = ({
   wordToGuess,
-  language,
   playersLimit,
   customCategory,
 }: WordToGuessValidationProps) => {
@@ -132,7 +130,6 @@ export const createRoom = async (
     room.customWord &&
     !customWordToGuessValidation({
       wordToGuess: room.word,
-      language: room.language,
       playersLimit: Number(room.playersLimit),
       customCategory: room.customCategory,
     })

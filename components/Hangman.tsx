@@ -82,7 +82,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
     }
   }, [roomIsFetched]);
 
-  const { wordToGuess, players, language, difficulty } = currentRound;
+  const { wordToGuess, players, difficulty } = currentRound;
   const playerId = session?.user.id ?? user.id;
   const player = players.find((player) => player.id === playerId);
 
@@ -109,7 +109,13 @@ const Hangman = ({ roomId }: { roomId: string }) => {
   });
 
   const highestScore = Math.max(...players.map((player) => player.score));
-  const winners = players.filter((player) => player.score === highestScore);
+  console.log(highestScore);
+  const winners = () => {
+    if (currentRound.roundTime === 0 && highestScore === 0) {
+      return [{ name: "Czas się skończył", id: "1" }];
+    }
+    return players.filter((player) => player.score === highestScore);
+  };
 
   useEffect(() => {
     const anotherRound = room.roundsNumber > room.currentRound + 1;
@@ -121,13 +127,15 @@ const Hangman = ({ roomId }: { roomId: string }) => {
           currentRound,
           socket,
           player,
-          winners,
+          winners: winners(),
         });
       } else {
-        room.rounds[room.currentRound].roundWinners = winners.map((winner) => ({
-          name: winner.name,
-          id: winner.id,
-        }));
+        room.rounds[room.currentRound].roundWinners = winners().map(
+          (winner) => ({
+            name: winner.name,
+            id: winner.id,
+          })
+        );
         socket?.emit("room:update", room);
         saveGame(room)
           .then(({ data }) => router.replace(`/results/${data.id}`))

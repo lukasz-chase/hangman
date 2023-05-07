@@ -8,7 +8,7 @@ export const playerDisconnectedHandler = (name: string) => {
 };
 
 export const roomClosed = (router: any) => {
-  toast.error("Pokój się zamknął");
+  toast.error("Pokój został zamknięty");
   router.replace("/");
 };
 

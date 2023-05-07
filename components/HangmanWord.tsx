@@ -11,7 +11,7 @@ export const HangmanWord = memo(
     return (
       <div className="flex gap-1 text-3xl md:text-5xl font-bold uppercase mt-4">
         {wordToGuess.split("").map((letter, index) => (
-          <span className="border-b-2 border-black font-robotoMono" key={index}>
+          <span className="border-b-2 border-white font-robotoMono" key={index}>
             <span
               className={`${
                 guessedLetters.includes(letter) || reveal

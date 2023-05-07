@@ -6,7 +6,7 @@ type NewRoundTypes = {
   currentRound: Round;
   player: Player | undefined;
   socket: Socket | null;
-  winners: Player[];
+  winners: Player[] | { name: string; id: string }[];
 };
 export const createNewRound = ({
   room,
