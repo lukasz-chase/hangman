@@ -56,7 +56,6 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
     if (
       word.customWord &&
       !customWordToGuessValidation({
-        language: word.language,
         playersLimit,
         wordToGuess: word.wordToGuess,
         customCategory: word.customCategory,
