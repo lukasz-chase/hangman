@@ -31,7 +31,7 @@ const GamesHistory = ({ userId }: { userId: string }) => {
               <div className="flex flex-col ">
                 <Translate
                   text={dateFormat(createdAt, "mmmm dS yyyy")}
-                  language="en"
+                  language="angielski"
                 />
                 <span className="flex gap-2">
                   id: <b>{roomId}</b>

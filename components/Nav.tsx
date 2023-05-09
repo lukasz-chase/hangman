@@ -20,13 +20,6 @@ const Nav = () => {
   const playerName = session?.user.name ?? user.name;
 
   const signOutHandler = () => {
-    if (isLogged) {
-      localStorage.removeItem("guestUser");
-      setUser({});
-      setIsLogged(false);
-    } else {
-      signOut();
-    }
     leaveHandler({
       room,
       router,
@@ -34,6 +27,13 @@ const Nav = () => {
       playerId,
       playerName,
     });
+    if (isLogged) {
+      localStorage.removeItem("guestUser");
+      setUser({});
+      setIsLogged(false);
+    } else {
+      signOut();
+    }
   };
 
   return (
@@ -56,11 +56,11 @@ const Nav = () => {
         </div>
       </h1>
       {(session || isLogged) && (
-        <div className="flexCenter gap-2 p-5 md:p-0">
+        <div className="flexCenter gap-6 p-5 md:p-0">
           <Link href={`/history/${playerId}`}>Historia</Link>
           <div
             aria-label="wyloguj sie"
-            onClick={() => signOutHandler()}
+            onClick={signOutHandler}
             className="md:tooltip md:tooltip-bottom hover:tooltip-open cursor-pointer"
             data-tip="Wyloguj się"
           >

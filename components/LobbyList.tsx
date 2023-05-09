@@ -58,7 +58,12 @@ const RoomsDisplay = () => {
         <Loading />
       ) : (
         <div className="flexCenter flex-col gap-2">
-          {rooms.length > 0 && <h1>Join a public lobby</h1>}
+          {rooms.length > 0 && (
+            <div>
+              <div className="divider">lub</div>
+              <h1>Dołącz do czyjegoś lobby</h1>
+            </div>
+          )}
           <div className="flex gap-2 flex-col items-center">
             {rooms.map((room) => {
               const currentRound = room.rounds[room.currentRound];

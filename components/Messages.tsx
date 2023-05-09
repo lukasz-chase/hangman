@@ -1,10 +1,5 @@
-"use client";
-import { useContext, useEffect, useRef } from "react";
 //types
 import type { Message as MessageType } from "@/types/socket";
-import { gameContextTypes } from "@/types/context";
-//context
-import { GameContext } from "@/context/GameContext";
 //components
 import Message from "./Message";
 
@@ -14,14 +9,6 @@ type MessagesProps = {
 };
 
 const Messages = ({ messages, playerId }: MessagesProps) => {
-  const { isChatFocused }: gameContextTypes = useContext(GameContext);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isChatFocused) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
   return (
     <div
       className={`flex-1 max-h-full overflow-y-auto ${
@@ -42,7 +29,7 @@ const Messages = ({ messages, playerId }: MessagesProps) => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-6 h-6 text-accent"
+            className="w-6 h-6 text-info"
           >
             <path
               strokeLinecap="round"
@@ -52,7 +39,6 @@ const Messages = ({ messages, playerId }: MessagesProps) => {
           </svg>
         </div>
       )}
-      <div ref={messagesEndRef} />
     </div>
   );
 };

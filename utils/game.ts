@@ -1,8 +1,12 @@
 //types
 import type { Player } from "@/types/socket";
 
-export const checkIsWinner = (letters: string[], wordToGuess: string) =>
-  wordToGuess.split("").every((letter: string) => letters.includes(letter));
+export const checkIsWinner = (letters: string[], wordToGuess: string) => {
+  const wordToGuessWithoutSpace = wordToGuess.replace(/\s+/g, "");
+  return wordToGuessWithoutSpace
+    .split("")
+    .every((letter: string) => letters.includes(letter));
+};
 
 export const checkIncorrectLetters = (letters: string[], wordToGuess: string) =>
   letters!.filter((letter: string) => !wordToGuess.includes(letter));
@@ -26,6 +30,7 @@ export const hasGameEnded = ({
   const playersMod = customWord
     ? players.filter((player) => player.id !== authorId)
     : players;
+
   const didPlayersEnd = playersMod.every(
     (player) =>
       checkIsWinner(player.guessedLetters, wordToGuess) ||

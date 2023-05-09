@@ -25,7 +25,6 @@ import type { socketContextTypes, userContextTypes } from "@/types/context";
 //api
 import { saveGame } from "@/api";
 import { Detail } from "./DetailsDisplay";
-import { translateHandler } from "@/utils/room";
 
 const Hangman = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();

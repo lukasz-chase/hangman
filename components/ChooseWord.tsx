@@ -36,7 +36,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
       word: "",
       translation: "",
       original: "",
-      category: "",
+      category: "zwierzęta",
     },
     customCategory: "",
     language: "polski",

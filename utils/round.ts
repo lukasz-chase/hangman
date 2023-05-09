@@ -8,6 +8,26 @@ type NewRoundTypes = {
   socket: Socket | null;
   winners: Player[] | { name: string; id: string }[];
 };
+const playersThatDidntChooseWordHandler = (
+  currentRound: Round,
+  rounds: Round[]
+) => {
+  const players = currentRound.players;
+  const playersThatChosenWord: string[] = [];
+  for (let i = 0; i < rounds.length; i++) {
+    const playerChosenWord = rounds[i].players.filter(
+      (p) => p.hasChosenWord === true
+    );
+    if (playerChosenWord[0]) {
+      playersThatChosenWord.push(playerChosenWord[0].id);
+    }
+  }
+  const availablePlayers = players.filter((player) => {
+    return !playersThatChosenWord.some((id) => id === player.id);
+  });
+
+  return availablePlayers;
+};
 export const createNewRound = ({
   room,
   currentRound,
@@ -23,12 +43,14 @@ export const createNewRound = ({
     })),
   };
 
-  const playersThatDidntChooseWord = currentRound.players.filter(
-    (player) => !player.hasChosenWord
+  const playersThatDidntChooseWord = playersThatDidntChooseWordHandler(
+    currentRound,
+    room.rounds
   );
-
   if (playersThatDidntChooseWord.length === 0) {
-    currentRound.players.map((player) => (player.hasChosenWord = false));
+    for (let i = 0; i < room.rounds.length; i++) {
+      room.rounds[i].players.map((p) => (p.hasChosenWord = false));
+    }
   }
   const newPlayerToChoseWord =
     playersThatDidntChooseWord[
