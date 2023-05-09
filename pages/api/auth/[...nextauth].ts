@@ -4,6 +4,9 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/prisma/client";
 import { Session, User } from "@/types/authTypes";
 
+console.log(process.env.AUTH_SECRET);
+console.log(process.env.GOOGLE_CLIENT_ID!);
+
 export const AuthOptions: any = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.AUTH_SECRET,
