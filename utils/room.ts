@@ -38,7 +38,10 @@ export const joinRoom = ({
   }
   const player = { name, id: playerId, avatar: playerAvatar };
 
-  if (players.length >= playersLimit) return toast.error("pokój jest pełny");
+  if (players.length >= playersLimit) {
+    toast.error("pokój jest pełny");
+    return router.replace(`/`);
+  }
   socket.emit("room:join", { roomId, player }, (err: any) => {
     if (err) {
       router.replace(`/`);
