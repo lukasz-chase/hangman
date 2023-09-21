@@ -61,7 +61,7 @@ export const createNewRound = ({
   room.inGame = false;
   room.rounds[room.currentRound] = {
     ...currentRound,
-    language: "choosing",
+    language: "wybierany",
     vacant: true,
     roundTime: room.roundTime,
     players: [],
@@ -77,7 +77,7 @@ export const createNewRound = ({
       word: "1",
       translation: "1",
       original: "1",
-      category: "choosing",
+      category: "wybierana",
     },
   };
   socket?.emit("room:update", room);

@@ -22,7 +22,7 @@ const StartGameButton = ({
       return "Ładowanie";
     }
     if (chooseWord) {
-      return "Oczekiwanie aż gracz wybierze słowo do odgadnięcia";
+      return "Oczekiwanie aż gracz wybierze hasło";
     }
     if (isAuthor) {
       return "Graj";

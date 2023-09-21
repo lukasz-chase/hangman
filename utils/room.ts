@@ -62,15 +62,15 @@ export const customWordToGuessValidation = ({
     return false;
   }
   if (wordToGuess.word.length < 2) {
-    toast.error("Słowo do odgadnięcia musi mieć przynajmniej 2 litery");
+    toast.error("Hasło musi mieć przynajmniej 2 litery");
     return false;
   }
   if (wordToGuess.word.length > 45) {
-    toast.error("Słowo do odgadnięcia nie może mieć więcej niż 45 liter");
+    toast.error("Hasło nie może mieć więcej niż 45 liter");
     return false;
   }
   if (!regex.test(wordToGuess.word)) {
-    toast.error("Słowo do odgadnięcia może zawierać tylko litery od a-z");
+    toast.error("Hasło może zawierać tylko litery od a-z");
     return false;
   }
   if (playersLimit === 1) {

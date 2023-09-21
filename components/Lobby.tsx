@@ -64,12 +64,11 @@ const Lobby = memo(
         <div className="flex flex-col">
           {customWord && (
             <span className="text-xs lowercase text-black">
-              Slowo wybieral gospodarz
+              Hasło wybieral gospodarz
             </span>
           )}
           <span className="text-sm text-black">
-            JĘZYK SŁOWA DO ODGADNIĘCIA:{" "}
-            <b className="text-primary">{language}</b>
+            JĘZYK HASŁA: <b className="text-primary">{language}</b>
           </span>
         </div>
       </div>

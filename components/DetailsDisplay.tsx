@@ -35,12 +35,9 @@ const DetailsDisplay = memo(
         <div className="flex items-center justify-evenly w-full flex-col lg:flex-row p-2 h-full gap-3 md:p-5 text-md md:text-md lg:text-lg">
           <div className="flex justify-start flex-col gap-2 text-primary-content border-2 border-white p-2 border-dotted">
             <Detail label="Runda:" value={`${currentRound}/${roundsNumber}`} />
-            <Detail label="Język słowa do odgadnięcia:" value={`${language}`} />
+            <Detail label="Język hasło:" value={`${language}`} />
             {customWord && (
-              <Detail
-                label="słowo do odgadnięcia zostało wybrane przez gracza"
-                value=""
-              />
+              <Detail label="hasło zostało wybrane przez gracza" value="" />
             )}
             <Detail label="Czas gry:" value={`${roundTime} s`} />
           </div>

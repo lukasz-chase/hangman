@@ -30,7 +30,7 @@ const RoundWinners = ({
                 ))}
               </div>
               <span>
-                słowem do odgadnięcia, było:{" "}
+                hasłem do odgadnięcia, było:{" "}
                 <b className="text-secondary">{wordToGuess.word}</b>
               </span>
               {language !== "polski" && (

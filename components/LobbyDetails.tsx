@@ -48,7 +48,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   const startTheGame = () => {
     if (currentRound.customWord && currentRound.players.length === 1) {
       return toast.error(
-        "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym słowem"
+        "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym hasłem"
       );
     }
     setIsLoading(true);

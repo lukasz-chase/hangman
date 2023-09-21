@@ -3,9 +3,9 @@ export const resultsHeader = [
   "Gracze",
   "Czas rundy",
   "Pozostały czas rundy",
-  "Własne słowo",
+  "Własne hasło",
   "Kategoria",
   "Trudność",
-  "Słowo do odgadnięcia",
+  "Hasło do odgadnięcia",
   "Zwycięzcy",
 ];

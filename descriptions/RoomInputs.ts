@@ -32,11 +32,11 @@ export const checkboxes: checkboxType[] = [
     disabledFn: () => false,
   },
   {
-    label: "Własne słowo",
+    label: "Własne hasło",
     name: "customWord",
     disabledFn: (playersLength: number) => Number(playersLength) === 1,
     disabledLabel:
-      "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym słowem",
+      "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym hasłem",
   },
 ];
 export const rangeInputs: rangeType[] = [
@@ -65,7 +65,7 @@ export const rangeInputs: rangeType[] = [
 
 export const selectInput: selectType[] = [
   {
-    label: "Wybierz język słowa do odgadnięcia",
+    label: "Wybierz język hasła do odgadnięcia",
     name: "language",
     InvisibleFn: () => false,
     options: [
@@ -111,7 +111,7 @@ export const selectInput: selectType[] = [
     ],
   },
   {
-    label: "Kategoria słowa",
+    label: "Kategoria hasła",
     name: "category",
     InvisibleFn: (customWord: boolean) => !customWord,
     options: [

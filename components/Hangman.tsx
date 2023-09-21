@@ -158,7 +158,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
         <div className="flexCenter flex-col mt-10 flex-1">
           <div>
             <Detail
-              label="Język słowa do odgadnięcia:"
+              label="Język hasła do odgadnięcia:"
               value={`${currentRound.language}`}
             />
             <Detail label="Kategoria:" value={`${wordToGuess.category}`} />
