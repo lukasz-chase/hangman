@@ -20,7 +20,7 @@ const LayoutWrapper = ({ children }: Props) => {
         </div>
       ) : (
         <div className="h-screen flex flex-center flex-col gap-4  w-[99vw] flexCenter">
-          <span className="uppercase">Waiting for server to start running</span>
+          <span className="uppercase">Łączenie z serwerem...</span>
           <span className="loading loading-infinity loading-lg text-accent"></span>
         </div>
       )}
