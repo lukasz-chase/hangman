@@ -84,6 +84,10 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
       const playerIndex = currentRound.players.findIndex(
         (player) => player.id === playerId
       );
+      if (room.inGame) {
+        toast.error("Gra trwa, nie możesz teraz dołączyć");
+        return router.replace(`/`);
+      }
       if (isPlayerInRoom && !isPlayerInRoom.connectedToRoom) {
         currentRound.players[playerIndex].connectedToRoom = true;
         socket.emit("room:update", room);

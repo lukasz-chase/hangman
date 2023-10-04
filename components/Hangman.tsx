@@ -71,7 +71,7 @@ const Hangman = ({ roomId }: { roomId: string }) => {
         (player) => player.id === playerId
       );
       if (!unwantedPlayer) {
-        toast.error("Nie możesz dołączyć do tej gry");
+        toast.error("Gra trwa, nie możesz teraz dołączyć");
         return router.replace("/");
       }
       if (playerInGame) {

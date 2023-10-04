@@ -8,6 +8,7 @@ import { joinRoom } from "@/utils/room";
 //context
 import { UserContext } from "@/context/UserContext";
 import { SocketContext } from "@/context/SocketContext";
+import toast from "react-hot-toast";
 
 type LobbyProps = {
   roomId: string;
