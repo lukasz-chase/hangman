@@ -14,6 +14,7 @@ export type socketContextTypes = {
   roomIsFetched: boolean;
   currentRound: Round;
   setRoom: (room: any) => void;
+  connected: boolean;
 };
 
 export type gameContextTypes = {

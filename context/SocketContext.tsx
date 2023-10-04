@@ -64,6 +64,7 @@ const SocketContext = createContext({
   router: {},
   roomIsFetched: false,
   currentRound: roomDummy.rounds[0],
+  connected: false,
 });
 
 const SocketContextProvider = ({ children }: { children: ReactNode }) => {
@@ -71,6 +72,7 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
   // const socketUrl = "http://localhost:8080";
   const [room, setRoom] = useState<Room>(roomDummy);
   const [roomIsFetched, setRoomIsFetched] = useState(false);
+  const [connected, setConnected] = useState(false);
   const [currentRound, setCurrentRound] = useState(roomDummy.rounds[0]);
   const [socket, setSocket] = useState<Socket | null>(null);
   const router = useRouter();
@@ -90,6 +92,7 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const socket = io(socketUrl);
     setSocket(socket);
+    socket.on("connect", () => setConnected(true));
     socket.on("room:getById", setRoomHandler);
     socket.on("error", errorHandler);
     return () => {
@@ -106,6 +109,7 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
         router,
         roomIsFetched,
         currentRound,
+        connected,
       }}
     >
       {children}
