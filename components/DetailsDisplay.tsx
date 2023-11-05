@@ -28,14 +28,14 @@ const DetailsDisplay = memo(
     currentRound,
     roomId,
   }: DetailsDisplayType) => {
-    const roomUrl = `https://hangman-learning.netlify.app/lobby/${roomId}`;
+    const roomUrl = `https://wisielec-online.netlify.app/lobby/${roomId}`;
     // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
     return (
       <div className="w-full">
         <div className="flex items-center justify-evenly w-full flex-col lg:flex-row p-2 h-full gap-3 md:p-5 text-md md:text-md lg:text-lg">
           <div className="flex justify-start flex-col gap-2 text-primary-content border-2 border-white p-2 border-dotted">
             <Detail label="Runda:" value={`${currentRound}/${roundsNumber}`} />
-            <Detail label="Język hasło:" value={`${language}`} />
+            <Detail label="Język hasła:" value={`${language}`} />
             {customWord && (
               <Detail label="hasło zostało wybrane przez gracza" value="" />
             )}

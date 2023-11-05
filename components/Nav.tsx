@@ -52,7 +52,7 @@ const Nav = () => {
             })
           }
         >
-          Hangman
+          Wisielec
         </div>
       </h1>
       {(session || isLogged) && (
