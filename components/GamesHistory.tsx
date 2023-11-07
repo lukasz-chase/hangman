@@ -25,7 +25,7 @@ const GamesHistory = ({ userId }: { userId: string }) => {
         <div className="flex flex-col gap-2">
           {games.map(({ id, roundsNumber, roomId, createdAt }) => (
             <div
-              className="flex items-center justify-between gap-4 bg-neutral p-4"
+              className="flex items-center justify-between gap-4 bg-base-200 p-4"
               key={Number(id)}
             >
               <div className="flex flex-col ">
