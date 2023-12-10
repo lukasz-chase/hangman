@@ -53,7 +53,7 @@ const RoomsDisplay = () => {
   };
 
   return (
-    <div className="max-w-h-56">
+    <div className="max-w-56 max-h-96">
       {loading ? (
         <Loading />
       ) : (

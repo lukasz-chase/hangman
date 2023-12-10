@@ -25,7 +25,7 @@ const Chat = ({
 }: ChatTypes) => {
   return (
     <div
-      className={`w-[90vw] xl:max-w-[400px] p-2 rounded-t-md flex flex-col bg-[#394152] ${height}`}
+      className={`w-[95vw] xl:max-w-[400px] p-2 rounded-t-md flex flex-col bg-[#394152] ${height}`}
     >
       <Messages messages={messages} playerId={playerId} />
       <ChatInput
