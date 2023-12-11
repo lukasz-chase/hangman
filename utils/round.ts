@@ -57,6 +57,11 @@ export const createNewRound = ({
       Math.floor(Math.random() * playersThatDidntChooseWord.length)
     ];
 
+  currentRound.players.forEach((player) => {
+    player.guessedLetters = [];
+    player.score = 0;
+  });
+
   room.currentRound++;
   room.inGame = false;
   room.rounds[room.currentRound] = {
@@ -64,7 +69,7 @@ export const createNewRound = ({
     language: "wybierany",
     vacant: true,
     roundTime: room.roundTime,
-    players: [],
+    players: currentRound.players,
     wordToGuessChooser:
       playersThatDidntChooseWord.length === 0
         ? player!.id

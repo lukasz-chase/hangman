@@ -10,8 +10,6 @@ import {
   checkboxType,
   rangeInputs,
   rangeType,
-  selectInput,
-  selectType,
 } from "@/descriptions/RoomInputs";
 //types
 import type { socketContextTypes, userContextTypes } from "@/types/context";
@@ -21,8 +19,6 @@ import { roomClosed } from "@/utils/lobby";
 import { createRoom } from "@/utils/room";
 //components
 import Checkbox from "./DataInput/Checkbox";
-import Select from "./DataInput/Select";
-import Input from "./DataInput/Input";
 import RangeInput from "./DataInput/RangeInput";
 
 const RoomCreation = () => {

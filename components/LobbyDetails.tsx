@@ -2,20 +2,14 @@
 import { useContext, useEffect, useState } from "react";
 //context
 import { SocketContext } from "@/context/SocketContext";
-import { UserContext } from "@/context/UserContext";
-//libraries
-import { toast } from "react-hot-toast";
-import { useSession } from "next-auth/react";
 //types
-import type { socketContextTypes, userContextTypes } from "@/types/context";
+import type { socketContextTypes } from "@/types/context";
 //utils
 import {
   playerDisconnectedHandler,
   playerJoinedHandler,
   roomClosed,
 } from "@/utils/lobby";
-
-import { joinRoom } from "@/utils/room";
 //components
 import Chat from "./Chat";
 import PlayersDisplay from "./PlayersDisplay";
@@ -23,10 +17,13 @@ import DetailsDisplay from "./DetailsDisplay";
 import StartGameButton from "./StartGameButton";
 import Loading from "./Loading";
 import RoundWinners from "./RoundWinners";
+import JoinRoom from "./JoinRoom";
+//hooks
+import useUserData from "@/hooks/useUserData";
+import toast from "react-hot-toast";
 
 const LobbyDisplay = ({ roomId }: { roomId: string }) => {
-  const { data: session } = useSession();
-  const { user }: userContextTypes = useContext(UserContext);
+  const { playerId, name, playerAvatar } = useUserData();
   const {
     socket,
     router,
@@ -36,25 +33,24 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
   }: socketContextTypes = useContext(SocketContext);
   const [isLoading, setIsLoading] = useState(false);
 
-  const playerId = session?.user.id ?? user.id;
-  const name = session?.user?.name ?? user.name;
-  const playerAvatar = session?.user?.image ?? user.avatar;
+  const isPlayerInRoom = currentRound.players.find(
+    (player) => player.id === playerId
+  );
+
+  useEffect(() => {
+    if (
+      isPlayerInRoom &&
+      isPlayerInRoom.socketId !== socket?.id &&
+      roomIsFetched
+    ) {
+      toast.error("już jesteś w tym lobby");
+      return router.replace(`/`);
+    }
+  }, [roomIsFetched]);
 
   const startTheGameHandler = () => {
     router.replace(`/game/${roomId}`);
     setIsLoading(false);
-  };
-
-  const startTheGame = () => {
-    if (currentRound.customWord && currentRound.players.length === 1) {
-      return toast.error(
-        "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym hasłem"
-      );
-    }
-    setIsLoading(true);
-    room.inGame = true;
-    socket!.emit("room:update", room);
-    socket!.emit("startTheGame", roomId);
   };
 
   const roomHasClosed = () => roomClosed(router);
@@ -68,48 +64,16 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
       socket.on("roomHasClosed", roomHasClosed);
 
       return () => {
+        socket.off("startTheGame", startTheGameHandler);
         socket.off("room:playerJoined", playerJoinedHandler);
         socket.off("room:playerDisconnected", playerDisconnectedHandler);
         socket.off("roomHasClosed", roomHasClosed);
-        socket.off("startTheGame", startTheGameHandler);
       };
     }
-  }, [socket]);
-
-  useEffect(() => {
-    if (socket && roomIsFetched) {
-      const isPlayerInRoom = currentRound.players.find(
-        (player) => player.id === playerId
-      );
-      const playerIndex = currentRound.players.findIndex(
-        (player) => player.id === playerId
-      );
-      if (room.inGame) {
-        toast.error("Gra trwa, nie możesz teraz dołączyć");
-        return router.replace(`/`);
-      }
-      if (isPlayerInRoom && !isPlayerInRoom.connectedToRoom) {
-        currentRound.players[playerIndex].connectedToRoom = true;
-        socket.emit("room:update", room);
-        return;
-      } else if (isPlayerInRoom && isPlayerInRoom.connectedToRoom) {
-        toast.error("już jesteś w tym lobby");
-        return router.replace(`/`);
-      }
-      joinRoom({
-        players: currentRound.players,
-        playersLimit: room.playersLimit,
-        socket,
-        router,
-        name,
-        playerId,
-        playerAvatar,
-        roomId,
-      });
-    }
-  }, [socket, roomIsFetched]);
+  }, [socket, roomId]);
 
   if (!roomIsFetched) return <Loading />;
+  if (!isPlayerInRoom) return <JoinRoom roomId={roomId} />;
 
   return (
     <div className="flexCenter flex-col w-[95%]">
@@ -139,7 +103,11 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
             isLoading={isLoading}
             playerId={playerId}
             chooseWord={currentRound.wordToGuess.word === "1"}
-            startTheGame={startTheGame}
+            currentRound={currentRound}
+            room={room}
+            socket={socket!}
+            setIsLoading={setIsLoading}
+            roomId={roomId}
           />
         </div>
         <div className="self-end h-full">

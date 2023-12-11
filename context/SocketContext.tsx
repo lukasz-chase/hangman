@@ -2,7 +2,7 @@
 import { useEffect, useState, ReactNode, createContext } from "react";
 import { io } from "socket.io-client";
 import { useRouter } from "next/navigation";
-import type { Player, Room, Socket } from "@/types/socket";
+import type { Room, Socket } from "@/types/socket";
 
 export const roomDummy = {
   id: "",
@@ -30,6 +30,7 @@ export const roomDummy = {
           score: 0,
           connectedToRoom: false,
           hasChosenWord: false,
+          socketId: "",
         },
       ],
       wordToGuess: {
@@ -89,15 +90,20 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
   const errorHandler = () => {
     router.replace("/");
   };
+  const connectHandler = () => {
+    setConnected(true);
+  };
+
   useEffect(() => {
     const socket = io(socketUrl);
     setSocket(socket);
-    socket.on("connect", () => setConnected(true));
+    socket.on("connect", connectHandler);
     socket.on("room:getById", setRoomHandler);
     socket.on("error", errorHandler);
     return () => {
       socket.off("room:getById", setRoomHandler);
       socket.off("error", errorHandler);
+      socket.off("connect", connectHandler);
     };
   }, []);
   return (

@@ -2,13 +2,12 @@ import { memo, useContext } from "react";
 import { useSession } from "next-auth/react";
 //types
 import type { Player } from "@/types/socket";
-import type { socketContextTypes, userContextTypes } from "@/types/context";
+import type { socketContextTypes } from "@/types/context";
 //utils
 import { joinRoom } from "@/utils/room";
 //context
-import { UserContext } from "@/context/UserContext";
 import { SocketContext } from "@/context/SocketContext";
-import toast from "react-hot-toast";
+import useUserData from "@/hooks/useUserData";
 
 type LobbyProps = {
   roomId: string;
@@ -20,13 +19,8 @@ type LobbyProps = {
 
 const Lobby = memo(
   ({ roomId, playersLimit, players, language, customWord }: LobbyProps) => {
-    const { data: session } = useSession();
-    const { user }: userContextTypes = useContext(UserContext);
+    const { playerId, name, playerAvatar } = useUserData();
     const { socket, router }: socketContextTypes = useContext(SocketContext);
-
-    const playerId = session?.user.id ?? user.id;
-    const name = session?.user?.name ?? user.name;
-    const playerAvatar = session?.user?.image ?? user.avatar;
 
     return (
       <div

@@ -7,6 +7,7 @@ export interface Socket {
     additionalPayload?: any,
     thirdPayload?: any
   ): void;
+  id: string;
 }
 
 export type WordToGuess = {
@@ -24,6 +25,7 @@ export type Player = {
   avatar: string;
   connectedToRoom: boolean;
   hasChosenWord: boolean;
+  socketId: string;
 };
 
 export type Message = {

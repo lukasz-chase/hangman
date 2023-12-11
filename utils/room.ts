@@ -32,21 +32,26 @@ export const joinRoom = ({
   router,
 }: JoinRoomProps) => {
   const isPlayerInRoom = players.find((player) => player.id === playerId);
+
   if (isPlayerInRoom) {
     toast.error("już jesteś w tym pokoju");
-    return router.replace(`/`);
+    router.replace(`/`);
+    return;
   }
-  const player = { name, id: playerId, avatar: playerAvatar };
-
   if (players.length >= playersLimit) {
     toast.error("pokój jest pełny");
-    return router.replace(`/`);
+    router.replace(`/`);
+    return;
   }
+
+  const player = { name, id: playerId, avatar: playerAvatar };
+
   socket.emit("room:join", { roomId, player }, (err: any) => {
     if (err) {
       router.replace(`/`);
       return toast.error(err.error);
     }
+
     router.replace(`/lobby/${roomId}`);
   });
 };

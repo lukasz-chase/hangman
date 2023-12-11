@@ -1,16 +1,15 @@
 "use client";
-import { useSession } from "next-auth/react";
 import { useContext, useEffect, useRef } from "react";
 //context
 import { SocketContext } from "@/context/SocketContext";
-import { UserContext } from "@/context/UserContext";
 //types
-import type { socketContextTypes, userContextTypes } from "@/types/context";
+import type { socketContextTypes } from "@/types/context";
 //utils
 import { hasGameEnded, hasPlayerFinished } from "@/utils/game";
 //components
 import Chat from "./Chat";
 import Image from "next/image";
+import useUserData from "@/hooks/useUserData";
 
 const COUNTDOWN_INTERVAL = 1000;
 const LIME_TIME = 90;
@@ -18,15 +17,10 @@ const WHITE_TIME = 60;
 const RED_TIME = 20;
 
 const Scoreboard = () => {
-  const { data: session } = useSession();
-  const { user }: userContextTypes = useContext(UserContext);
-  const { socket, room, currentRound, setRoom }: socketContextTypes =
+  const { socket, room, currentRound }: socketContextTypes =
     useContext(SocketContext);
 
-  const playerId = session?.user.id ?? user.id;
-  const name = session?.user?.name ?? user.name;
-  const playerAvatar = session?.user?.image ?? user.avatar;
-
+  const { playerId, name, playerAvatar } = useUserData();
   const countdownRef = useRef<HTMLElement | null>(null);
   const countdownWrapperRef = useRef<HTMLDivElement | null>(null);
   const { players, wordToGuess, customWord, wordToGuessChooser, difficulty } =

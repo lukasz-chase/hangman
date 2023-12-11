@@ -1,11 +1,18 @@
-import React from "react";
+import { Room, Round, Socket } from "@/types/socket";
+import React, { Dispatch, SetStateAction } from "react";
+//libraries
+import { toast } from "react-hot-toast";
 
 type StartGameButtonType = {
   isLoading: boolean;
   creator: string;
   playerId: string;
   chooseWord: boolean;
-  startTheGame: () => void;
+  currentRound: Round;
+  room: Room;
+  socket: Socket;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  roomId: string;
 };
 
 const StartGameButton = ({
@@ -13,7 +20,11 @@ const StartGameButton = ({
   creator,
   playerId,
   chooseWord,
-  startTheGame,
+  currentRound,
+  room,
+  socket,
+  setIsLoading,
+  roomId,
 }: StartGameButtonType) => {
   const isAuthor = creator === playerId;
 
@@ -29,6 +40,19 @@ const StartGameButton = ({
     }
     return "Oczekiwanie aż gospodarz rozpocznie grę";
   };
+
+  const startTheGame = () => {
+    if (currentRound.customWord && currentRound.players.length === 1) {
+      return toast.error(
+        "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym hasłem"
+      );
+    }
+    setIsLoading(true);
+    room.inGame = true;
+    socket!.emit("room:update", room);
+    socket!.emit("startTheGame", roomId);
+  };
+
   const disabled = !isAuthor || chooseWord;
 
   return (
