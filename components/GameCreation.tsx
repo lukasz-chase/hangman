@@ -122,7 +122,7 @@ const RoomCreation = () => {
         </div>
       </div>
       <button
-        aria-label="stworz lobby"
+        aria-label="stworz pokoj"
         onClick={() => createRoom(room, socket, router, setIsLoading)}
         className="btn btn-primary  text-primary-content w-full mt-4"
       >

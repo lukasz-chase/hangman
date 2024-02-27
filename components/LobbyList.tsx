@@ -61,7 +61,7 @@ const RoomsDisplay = () => {
           {rooms.length > 0 && (
             <div>
               <div className="divider">lub</div>
-              <h1>Dołącz do czyjegoś lobby</h1>
+              <h1>Dołącz do czyjegoś pokoju</h1>
             </div>
           )}
           <div className="flex gap-2 flex-col items-center">

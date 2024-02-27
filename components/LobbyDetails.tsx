@@ -43,7 +43,7 @@ const LobbyDisplay = ({ roomId }: { roomId: string }) => {
       isPlayerInRoom.socketId !== socket?.id &&
       roomIsFetched
     ) {
-      toast.error("już jesteś w tym lobby");
+      toast.error("już jesteś w tym pokoju");
       return router.replace(`/`);
     }
   }, [roomIsFetched]);

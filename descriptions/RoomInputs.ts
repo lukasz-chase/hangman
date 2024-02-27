@@ -27,7 +27,7 @@ export type selectType = {
 
 export const checkboxes: checkboxType[] = [
   {
-    label: "Prywatne lobby",
+    label: "Prywatny pokoj",
     name: "privateRoom",
     disabledFn: () => false,
   },
