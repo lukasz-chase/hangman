@@ -78,7 +78,7 @@ export const selectInput: selectType[] = [
         name: "Angielski",
       },
       {
-        value: "hiszpański",
+        value: "hiszpanski",
         name: "Hiszpański",
       },
       {
