@@ -141,11 +141,10 @@ const Hangman = ({ roomId }: { roomId: string }) => {
           .then(({ data }) => router.replace(`/results/${data.id}`))
           .catch((err: any) => {
             console.log(err);
-            // toast.error(err);
             toast.error(
               err.response?.data?.err || "Błąd w trakcie zapisywania gry"
             );
-            // router.replace(`/`);
+            router.replace(`/`);
           });
       }
     }
