@@ -25,6 +25,7 @@ import type { socketContextTypes, userContextTypes } from "@/types/context";
 //api
 import { saveGame } from "@/api";
 import { Detail } from "./DetailsDisplay";
+import { AxiosError } from "axios";
 
 const Hangman = ({ roomId }: { roomId: string }) => {
   const { data: session } = useSession();
@@ -138,10 +139,12 @@ const Hangman = ({ roomId }: { roomId: string }) => {
         socket?.emit("room:update", room);
         saveGame(room)
           .then(({ data }) => router.replace(`/results/${data.id}`))
-          .catch((err) => {
+          .catch((err: any) => {
             console.log(err);
-            toast.error(err);
-            toast.error("Błąd w trakcie zapisywania gry");
+            // toast.error(err);
+            toast.error(
+              err.response?.data?.err || "Błąd w trakcie zapisywania gry"
+            );
             // router.replace(`/`);
           });
       }
