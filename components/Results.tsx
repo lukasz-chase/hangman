@@ -50,7 +50,7 @@ const Results = ({ roomId }: { roomId: string }) => {
     );
   const translateDifficultyToText = (difficulty: number) => {
     let difficultyText;
-    switch (difficulty) {
+    switch (Number(difficulty)) {
       case 10:
         difficultyText = "Łatwy";
         break;
