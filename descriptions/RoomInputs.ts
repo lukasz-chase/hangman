@@ -27,35 +27,34 @@ export type selectType = {
 
 export const checkboxes: checkboxType[] = [
   {
-    label: "Prywatny pokoj",
+    label: "Private room",
     name: "privateRoom",
     disabledFn: () => false,
   },
   {
-    label: "Własne hasło",
+    label: "Custorm word",
     name: "customWord",
     disabledFn: (playersLength: number) => Number(playersLength) === 1,
-    disabledLabel:
-      "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym hasłem",
+    disabledLabel: "Custorm word is available only for 2 or more players",
   },
 ];
 export const rangeInputs: rangeType[] = [
   {
-    label: "Liczba graczy",
+    label: "Players limit",
     name: "playersLimit",
     min: 1,
     max: 5,
     options: [1, 2, 3, 4, 5],
   },
   {
-    label: "Czas gry (w minutach)",
+    label: "Game time (minutes)",
     name: "roundTime",
     min: 1,
     max: 3,
     options: [1, 2, 3],
   },
   {
-    label: "Liczba rund",
+    label: "Rounds number",
     name: "roundsNumber",
     min: 1,
     max: 5,
@@ -65,119 +64,119 @@ export const rangeInputs: rangeType[] = [
 
 export const selectInput: selectType[] = [
   {
-    label: "Wybierz język hasła do odgadnięcia",
+    label: "Choose language of the word",
     name: "language",
     InvisibleFn: () => false,
     options: [
       {
-        value: "polski",
-        name: "Polski",
+        value: "polish",
+        name: "Polish",
       },
       {
-        value: "angielski",
-        name: "Angielski",
+        value: "english",
+        name: "English",
       },
       {
-        value: "hiszpanski",
-        name: "Hiszpański",
+        value: "spanish",
+        name: "Spanish",
       },
       {
-        value: "niemiecki",
-        name: "Niemiecki",
+        value: "german",
+        name: "German",
       },
       {
-        value: "francuski",
-        name: "Francuski",
+        value: "french",
+        name: "French",
       },
     ],
   },
   {
-    label: "Trudność gry",
+    label: "Choose difficulty",
     name: "difficulty",
     InvisibleFn: () => false,
     options: [
       {
         value: 6,
-        name: "Trudna",
+        name: "Hard",
       },
       {
         value: 8,
-        name: "Średnia",
+        name: "Medium",
       },
       {
         value: 10,
-        name: "Łatwa",
+        name: "Easy",
       },
     ],
   },
   {
-    label: "Kategoria hasła",
+    label: "Choose category",
     name: "category",
     InvisibleFn: (customWord: boolean) => !customWord,
     options: [
       {
-        value: "Zwierzęta",
-        name: "Zwierzęta",
+        value: "animals",
+        name: "Animals",
       },
       {
-        value: "Kraje",
-        name: "Kraje",
+        value: "country",
+        name: "Country",
       },
       {
-        value: "Jedzenie",
-        name: "Jedzenie",
+        value: "food",
+        name: "Food",
       },
       {
-        value: "Zawód",
-        name: "Zawód",
+        value: "job",
+        name: "Job",
       },
       {
-        value: "Film",
-        name: "Film",
+        value: "movie",
+        name: "Movie",
       },
       {
         value: "Sport",
         name: "Sport",
       },
       {
-        value: "Kolor",
-        name: "Kolor",
+        value: "color",
+        name: "Color",
       },
       {
-        value: "Muzyka",
-        name: "Muzyka",
+        value: "music",
+        name: "Music",
       },
       {
-        value: "Sławni ludzie",
-        name: "Sławni ludzie",
+        value: "famous people",
+        name: "Famous people",
       },
       {
-        value: "Programy teleizyjne",
-        name: "Programy telewizyjne",
+        value: "tv shows",
+        name: "Tv shows",
       },
       {
-        value: "Miasta",
-        name: "Miasta",
+        value: "city",
+        name: "City",
       },
       {
-        value: "Podróż",
-        name: "Podróż",
+        value: "travel",
+        name: "Travel",
       },
       {
-        value: "Rozrywka",
-        name: "Rozrywka",
+        value: "entertainment",
+        name: "Entertainment",
       },
       {
-        value: "Technologia",
-        name: "Technologia",
+        value: "Technology",
+        name: "technology",
       },
       {
-        value: "Rośliny",
-        name: "Rośliny",
+        value: "plants",
+        name: "Plants",
       },
       {
-        value: "Inna",
-        name: "Inna",
+        value: "other",
+        name: "Other",
       },
     ],
   },

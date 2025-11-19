@@ -96,14 +96,14 @@ const Scoreboard = () => {
           ref={countdownWrapperRef}
           className={`flex-col justify-center items-center text-primary-content hidden`}
         >
-          <span>Pozostały czas</span>
+          <span>Time remaining</span>
           <span className={`countdown font-mono text-6xl`}>
             <span ref={countdownRef}></span>
           </span>
         </div>
         <div className="bg-primary-content min-w-56 flex flex-col min-w-full md:min-w-[300px]">
           <h1 className="text-primary-content bg-neutral-focus py-2 w-full text-center self-center uppercase">
-            Gracze
+            Players
           </h1>
           {players
             .sort((a, b) => b.score - a.score)
@@ -132,10 +132,10 @@ const Scoreboard = () => {
                     width={32}
                     className="rounded-full"
                   />
-                  <span>{player.id === playerId ? "ty" : player.name}</span>
+                  <span>{player.id === playerId ? "you" : player.name}</span>
                 </div>
                 <span>
-                  <b>{player.score.toFixed(2)}</b> pkt
+                  <b>{player.score.toFixed(2)}</b> pts
                 </span>
               </div>
             ))}

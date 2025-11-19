@@ -20,8 +20,8 @@ ALTER TABLE "Round" DROP CONSTRAINT "Round_gameId_fkey";
 ALTER TABLE "Round" DROP CONSTRAINT "Round_wordToGuessId_fkey";
 
 -- AlterTable
-ALTER TABLE "Game" ADD COLUMN     "messages" JSONB[],
-ADD COLUMN     "rounds" JSONB[];
+ALTER TABLE "Game" ADD COLUMN     "messages" Json,
+ADD COLUMN     "rounds" Json;
 
 -- DropTable
 DROP TABLE "Message";

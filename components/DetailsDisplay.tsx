@@ -34,21 +34,21 @@ const DetailsDisplay = memo(
       <div className="w-full">
         <div className="flex items-center justify-evenly w-full flex-col lg:flex-row p-2 h-full gap-3 md:p-5 text-md md:text-md lg:text-lg">
           <div className="flex justify-start flex-col gap-2 text-primary-content border-2 border-white p-2 border-dotted">
-            <Detail label="Runda:" value={`${currentRound}/${roundsNumber}`} />
-            <Detail label="Język hasła:" value={`${language}`} />
+            <Detail label="Round:" value={`${currentRound}/${roundsNumber}`} />
+            <Detail label="Language:" value={`${language}`} />
             {customWord && (
-              <Detail label="hasło zostało wybrane przez gracza" value="" />
+              <Detail label="password was created by player" value="" />
             )}
-            <Detail label="Czas gry:" value={`${roundTime} s`} />
+            <Detail label="time:" value={`${roundTime} s`} />
           </div>
           <div className="flexCenter flex-col gap-2 text-primary-content text-center">
-            <b className="text-secondary uppercase">Zaproś znajomych</b>
+            <b className="text-secondary uppercase">Invite friends</b>
             <span className="text-xs md:text-md">{roomUrl}</span>
             <button
               onClick={() => copyUrl(roomUrl)}
               className="btn btn-info w-36 uppercase"
             >
-              Kopiuj
+              Copy
             </button>
           </div>
         </div>

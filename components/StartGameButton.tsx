@@ -30,22 +30,20 @@ const StartGameButton = ({
 
   const buttonText = () => {
     if (isLoading) {
-      return "Ładowanie";
+      return "Loading";
     }
     if (chooseWord) {
-      return "Oczekiwanie aż gracz wybierze hasło";
+      return "Waiting for player to choose word";
     }
     if (isAuthor) {
-      return "Graj";
+      return "Play";
     }
-    return "Oczekiwanie aż gospodarz rozpocznie grę";
+    return "Waiting for host to start the game";
   };
 
   const startTheGame = () => {
     if (currentRound.customWord && currentRound.players.length === 1) {
-      return toast.error(
-        "Potrzebujesz przynajmniej dwóch graczy aby zagrać z własnym hasłem"
-      );
+      return toast.error("You need atleast 2 players to play with custom word");
     }
     setIsLoading(true);
     room.inGame = true;

@@ -2,29 +2,41 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/prisma/client";
 
-const getRoomsByPlayerId = ({
+type RoomDb = {
+  rounds: string | any;
+  messages: string | any;
+  [key: string]: any;
+};
+
+export const getRoomsByPlayerId = ({
   playerId,
   rooms,
 }: {
-  playerId: any;
-  rooms: any[];
+  playerId: string | string[];
+  rooms: RoomDb[];
 }) => {
-  const roomsWithPlayer = [];
+  const roomsWithPlayer: any[] = [];
 
   for (const room of rooms) {
-    const rounds = JSON.parse(room.rounds[0]); // parse rounds JSON string into an array of objects
+    // bezpieczne parsowanie
+    const parsedRounds =
+      typeof room.rounds === "string" ? JSON.parse(room.rounds) : room.rounds;
 
-    for (const round of rounds) {
-      const players = round.players;
+    for (const round of parsedRounds) {
+      const players = round.players ?? [];
 
-      if (players.find((player: any) => player.id === playerId)) {
+      if (players.some((player: any) => player.id === playerId)) {
         const editedRoom = {
           ...room,
-          rounds: JSON.parse(room.rounds),
-          messages: JSON.parse(room.messages),
+          rounds: parsedRounds,
+          messages:
+            typeof room.messages === "string"
+              ? JSON.parse(room.messages)
+              : room.messages,
         };
+
         roomsWithPlayer.push(editedRoom);
-        break; // no need to check further rounds for this room
+        break; // nie sprawdzamy kolejnych rund w tym roomie
       }
     }
   }
@@ -41,8 +53,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         playerId: userId!,
         rooms: data,
       });
+      console.log({ roomsWithPlayer });
       res.status(200).json(roomsWithPlayer);
     } catch (err) {
+      console.log(err);
       res.status(403).json({ err: "error when getting games" });
     }
   }

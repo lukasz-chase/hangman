@@ -37,17 +37,17 @@ const GamesHistory = ({ userId }: { userId: string }) => {
                   id: <b>{roomId}</b>
                 </span>
                 <span className="flex gap-2">
-                  Rundy: <b>{roundsNumber}</b>
+                  Rounds: <b>{roundsNumber}</b>
                 </span>
               </div>
-              <CustomLink link={`results/${id}`} label="Szczegóły" />
+              <CustomLink link={`/results/${id}`} label="Details" />
             </div>
           ))}
         </div>
       ) : (
         <div className="flexCenter flex-col gap-4">
           <h1 className="text-2xl text-primary-content">
-            Jeszcze nie zagrałeś żadnej gry!
+            You havent play any games yet!
           </h1>
           <CustomLink link="/game" label="Zagraj teraz" />
         </div>

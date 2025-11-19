@@ -41,7 +41,7 @@ const Nav = () => {
       <h1 className="text-xl uppercase p-5">
         <div
           className="cursor-pointer"
-          aria-label="idz do strony glownej"
+          aria-label="go to main page"
           onClick={() =>
             leaveHandler({
               room,
@@ -52,24 +52,24 @@ const Nav = () => {
             })
           }
         >
-          Wisielec
+          Hangman
         </div>
       </h1>
       {(session || isLogged) && (
         <div className="flexCenter gap-6 p-5 md:p-0">
-          <Link href={`/history/${playerId}`}>Historia</Link>
+          <Link href={`/history/${playerId}`}>History</Link>
           <div
-            aria-label="wyloguj sie"
+            aria-label="sign out"
             onClick={signOutHandler}
             className="md:tooltip md:tooltip-bottom hover:tooltip-open cursor-pointer"
-            data-tip="Wyloguj się"
+            data-tip="Sign out"
           >
             <img
               className="h-5 w-5 hidden md:block lg:h-8 lg:w-8 rounded-full"
               src={session?.user?.image! ?? user.avatar}
               alt="zdjecie profilowe"
             />
-            <p className="block md:hidden">Wyloguj się</p>
+            <p className="block md:hidden">Sign out</p>
           </div>
         </div>
       )}

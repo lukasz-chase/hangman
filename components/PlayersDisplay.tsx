@@ -30,7 +30,7 @@ const PlayersDisplay = memo(
     return (
       <div className="w-full md:h-full">
         <h1 className="text-primary-content bg-primary p-2 text-center">
-          Gracze {players.length}/{playersLimit}
+          Players {players.length}/{playersLimit}
         </h1>
         <div className="grid grid-cols-1 xl:grid-cols-fluid">
           {players.map((player) => (
@@ -60,7 +60,7 @@ const PlayersDisplay = memo(
                     : player.name}
                 </span>
                 {creator === player.id && (
-                  <span className="text-info">Gospodarz</span>
+                  <span className="text-info">Host</span>
                 )}
               </div>
               {playerToChooseWord === currentPlayerId &&

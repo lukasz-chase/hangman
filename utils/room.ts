@@ -34,12 +34,12 @@ export const joinRoom = ({
   const isPlayerInRoom = players.find((player) => player.id === playerId);
 
   if (isPlayerInRoom) {
-    toast.error("już jesteś w tym pokoju");
+    toast.error("you are already in the room");
     router.replace(`/`);
     return;
   }
   if (players.length >= playersLimit) {
-    toast.error("pokój jest pełny");
+    toast.error("room is full");
     router.replace(`/`);
     return;
   }
@@ -62,7 +62,7 @@ export const customWordToGuessValidation = ({
   customCategory,
 }: WordToGuessValidationProps) => {
   const regex = /^[a-zA-Z ]+$/;
-  if (wordToGuess.category === "Inna" && !customCategory) {
+  if (wordToGuess.category === "other" && !customCategory) {
     toast.error("Musisz wpisać inną kategorie");
     return false;
   }
@@ -84,7 +84,7 @@ export const customWordToGuessValidation = ({
     );
     return false;
   }
-  if (wordToGuess.category === "Inna") {
+  if (wordToGuess.category === "other") {
     wordToGuess.category = customCategory;
   }
   wordToGuess.original = wordToGuess.word;

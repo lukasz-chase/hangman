@@ -25,7 +25,7 @@ const Lobby = memo(
     return (
       <div
         className="p-5 bg-white shadow-lg hover:shadow-black cursor-pointer rounded-md flex flex-col justify-between w-[90vw] md:w-96 text-black uppercase gap-2 transition-all duration-300"
-        aria-label="dolacz do pokoju"
+        aria-label="join the room"
         onClick={() =>
           joinRoom({
             players,
@@ -41,7 +41,7 @@ const Lobby = memo(
       >
         <div className="flex justify-between">
           <div className="flex flex-col">
-            <h5 className="text-xs">Gracze w pokoju:</h5>
+            <h5 className="text-xs">Players in room:</h5>
             {players.map((player) => (
               <span key={player.id} className="">
                 {player.name}
@@ -59,11 +59,11 @@ const Lobby = memo(
         <div className="flex flex-col">
           {customWord && (
             <span className="text-xs lowercase text-black">
-              Hasło wybieral gospodarz
+              Password chosen by host
             </span>
           )}
           <span className="text-sm text-black">
-            JĘZYK HASŁA: <b className="text-primary">{language}</b>
+            LANGUAGE: <b className="text-primary">{language}</b>
           </span>
         </div>
       </div>

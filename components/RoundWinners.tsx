@@ -16,7 +16,7 @@ const RoundWinners = ({
         <div key={round}>
           {roundWinners.length > 0 && (
             <div className="flexCenter flex-col  p-4 text-center text-[#A6ADBB]">
-              <span>zwycięzcy {round} rundy</span>
+              <span>round {round} winners</span>
               <div className="flexCenter flex-col">
                 {roundWinners.map(({ name, id }, index) => (
                   <b
@@ -30,17 +30,17 @@ const RoundWinners = ({
                 ))}
               </div>
               <span>
-                hasłem do odgadnięcia, było:{" "}
+                word to guess was:{" "}
                 <b className="text-secondary">{wordToGuess.word}</b>
               </span>
               {language !== "polski" && (
                 <>
                   <span>
-                    co znaczy:{" "}
+                    which means:{" "}
                     <b className="text-secondary">{wordToGuess.translation}</b>
                   </span>
                   <span>
-                    w języku: <b className="text-secondary">{language}</b>
+                    in language: <b className="text-secondary">{language}</b>
                   </span>
                 </>
               )}

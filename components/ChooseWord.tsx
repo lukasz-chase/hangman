@@ -36,10 +36,10 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
       word: "",
       translation: "",
       original: "",
-      category: "zwierzęta",
+      category: "animals",
     },
     customCategory: "",
-    language: "polski",
+    language: "english",
     customWord: false,
     difficulty: 6,
   });
@@ -87,7 +87,7 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
   };
   return (
     <div className="flexCenter flex-col text-sm">
-      <h1 className="text-info">Wybierz hasło do odgadniecia w tej rundzie</h1>
+      <h1 className="text-info">You are choosing word this round</h1>
       <div className="form-control grid grid-cols-1 gap-5 text-primary-content min-w-1/2">
         {customWordCheckbox.map(
           ({ label, name, disabledFn, disabledLabel }: checkboxType) => (
@@ -113,9 +113,9 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
         {word.customWord && (
           <Input
             value={word.wordToGuess.word}
-            placeholder="hasło do odgadnięcia"
-            label="hasło do odgadnięcia"
-            ariaLabel="hasło do odgadnięcia"
+            placeholder="word to guess"
+            label="word to guess"
+            ariaLabel="word to guess"
             onChange={(e) =>
               setWord({
                 ...word,
@@ -128,12 +128,12 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
             }
           />
         )}
-        {word.customWord && word.wordToGuess.category === "Inna" && (
+        {word.customWord && word.wordToGuess.category === "different" && (
           <Input
             value={word.customCategory}
-            placeholder="Inna kategoria"
-            label="Inna kategoria"
-            ariaLabel="Inna kategoria"
+            placeholder="different category"
+            label="different category"
+            ariaLabel="different category"
             maxLength={25}
             onChange={(e) =>
               setWord({
@@ -144,11 +144,11 @@ const ChooseWord = ({ playersLimit, currentPlayerId }: ChooseWord) => {
           />
         )}
         <button
-          aria-label="wybierz hasło do odgadnięcia"
+          aria-label="choose word to guess"
           onClick={setWordToGuess}
           className="btn btn-primary  text-primary-content w-full mt-4"
         >
-          Zatwierdź
+          Confirm
         </button>
       </div>
     </div>

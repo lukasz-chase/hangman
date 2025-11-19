@@ -39,21 +39,21 @@ const Login = ({ children }: { children: ReactNode }) => {
             alt="wisielec"
             className="rounded-md"
           />
-          <div>
+          <div className="uppercase">
             <h1>
-              Witaj w grzę <b className="text-sky-500">Wisielec</b> online
+              Welcome to <b className="text-sky-500">Hangman</b> online
             </h1>
-            <h2 className="">Ucz się nowych słów grając</h2>
+            <h2 className="">Learn new words by playing</h2>
             <h3>
-              <b className="text-lime-500">Zaloguj się z</b>
+              <b className="text-lime-500">Sign in with</b>
             </h3>
           </div>
           <SignButton
-            ariaLabel="zaloguj z google"
+            ariaLabel="sign in with google"
             label="google"
             onClick={() => signIn("google")}
           />
-          <div className="divider">LUB JAKO</div>
+          <div className="divider">OR AS</div>
           <GuestLogin />
         </div>
       )}

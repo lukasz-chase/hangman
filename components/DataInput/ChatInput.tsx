@@ -62,8 +62,8 @@ const ChatInput = ({
     <div className="form-control flexCenter flex-row">
       <input
         type="text"
-        aria-label="Napisz wiadomość"
-        placeholder="Napisz wiadomość"
+        aria-label="Write here"
+        placeholder="Write here"
         className="input input-bordered flex-1 text-primary-content"
         value={message.message}
         onChange={(e) => setMessage({ ...message, message: e.target.value })}
@@ -74,7 +74,7 @@ const ChatInput = ({
       <button
         disabled={!message.message}
         className="btn btn-primary"
-        aria-label="wyślij wiadomość"
+        aria-label="Send message"
         onClick={handleMessage}
       >
         <svg

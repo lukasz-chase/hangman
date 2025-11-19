@@ -8,8 +8,8 @@ import { SessionProvider } from "@/components/SessionProvider";
 import { Montserrat, Roboto_Mono } from "next/font/google";
 
 export const metadata = {
-  title: "Wisielec",
-  description: "Zagraj w wisielca ze znajomymi",
+  title: "Hangman",
+  description: "Play hangman with your friends",
 };
 
 const montserrat = Montserrat({
