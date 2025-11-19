@@ -69,8 +69,8 @@ const SocketContext = createContext({
 });
 
 const SocketContextProvider = ({ children }: { children: ReactNode }) => {
-  const socketUrl = "wss://hangman-server-1-hr6n.onrender.com";
-  // const socketUrl = "http://localhost:8080";
+  const socketUrl =
+    process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:8080";
   const [room, setRoom] = useState<Room>(roomDummy);
   const [roomIsFetched, setRoomIsFetched] = useState(false);
   const [connected, setConnected] = useState(false);

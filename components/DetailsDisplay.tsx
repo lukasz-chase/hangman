@@ -28,8 +28,9 @@ const DetailsDisplay = memo(
     currentRound,
     roomId,
   }: DetailsDisplayType) => {
-    const roomUrl = `https://wisielec-online.netlify.app/lobby/${roomId}`;
-    // const roomUrl = `http://localhost:3000/lobby/${roomId}`;
+    const roomUrl = `${
+      process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+    }/lobby/${roomId}`;
     return (
       <div className="w-full">
         <div className="flex items-center justify-evenly w-full flex-col lg:flex-row p-2 h-full gap-3 md:p-5 text-md md:text-md lg:text-lg">
